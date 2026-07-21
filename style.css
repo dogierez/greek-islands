@@ -1,0 +1,152 @@
+/* Core Variables for High-Contrast Dark Mode */
+:root {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --text-muted: #757575;
+    --accent-blue: #00d2ff;
+    --accent-green: #39ff14;
+    --accent-amber: #ffb300;
+    --btn-bg: #1e1e1e;
+    --btn-hover: #2a2a2a;
+}
+
+/* Reset and Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 600px; /* Locks the width to mimic a mobile app on desktop */
+    margin: 0 auto;
+}
+
+/* Header & Typography */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+    color: var(--accent-blue);
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Multi-Language Selector */
+#language-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.lang-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--text-muted);
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.lang-btn.active {
+    color: var(--bg-color);
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+/* Selection Menus (Islands & Base Locations) */
+.island-options, .base-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.island-options button, .base-options button {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 2px solid var(--btn-bg);
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.island-options button:hover, .base-options button:hover {
+    border-color: var(--accent-amber);
+    background-color: var(--btn-hover);
+}
+
+/* Back Button */
+.back-btn {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--text-muted);
+    padding: 12px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.back-btn:hover {
+    color: var(--text-color);
+    border-color: var(--text-color);
+}
+
+/* Utility Class (Critical for the JavaScript logic) */
+.hidden {
+    display: none !important;
+}
+
+/* Pre-styling for the Itinerary Checkboxes */
+.task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.task-item input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--accent-blue);
+}
+
+.task-item.completed span {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
