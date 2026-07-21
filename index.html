@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greek Island Itinerary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 id="app-title">Greek Island Itinerary</h1>
+        <div id="language-selector">
+            <button onclick="changeLanguage('EN')" class="lang-btn active">EN</button>
+            <button onclick="changeLanguage('DE')" class="lang-btn">DE</button>
+            <button onclick="changeLanguage('RU')" class="lang-btn">RU</button>
+            <button onclick="changeLanguage('TR')" class="lang-btn">TR</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Level 1: Choose the Island -->
+        <section id="island-screen">
+            <h2 id="island-title">Select Your Island</h2>
+            <div class="island-options">
+                <button onclick="selectIsland('chios')">Chios</button>
+                <button onclick="selectIsland('lesbos')">Lesbos</button>
+                <button onclick="selectIsland('samos')">Samos</button>
+                <button onclick="selectIsland('kos')">Kos</button>
+                <button onclick="selectIsland('rhodes')">Rhodes</button>
+                <button onclick="selectIsland('crete')">Crete</button>
+            </div>
+        </section>
+
+        <!-- Level 2: Choose Base Location (Hidden by default) -->
+        <section id="setup-screen" class="hidden">
+            <h2 id="setup-title" class="island-name-display">Select Your Base Location</h2>
+            <div class="base-options">
+                <button onclick="startApp('center')">Center</button>
+                <button onclick="startApp('north')">North</button>
+                <button onclick="startApp('south')">South</button>
+                <button onclick="startApp('east')">East</button>
+                <button onclick="startApp('west')">West</button>
+            </div>
+            <button onclick="goBack('island-screen')" class="back-btn">Back to Islands</button>
+        </section>
+
+        <!-- Level 3: The Itinerary (Hidden by default) -->
+        <section id="itinerary-container" class="hidden">
+            <!-- JavaScript will inject the daily modules here -->
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
