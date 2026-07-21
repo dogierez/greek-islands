@@ -5,56 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greek Island Itinerary</title>
     <style>
-        /* Core Variables for High-Contrast Dark Mode */
         :root {
             --bg-color: #121212;
-            --surface-color: #1e1e1e;
             --text-color: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #aaaaaa;
             --accent-blue: #00d2ff;
             --accent-green: #39ff14;
             --accent-amber: #ffb300;
-            --btn-bg: #2a2a2a;
-            --btn-hover: #3a3a3a;
-            --border-radius: 12px;
+            --btn-bg: rgba(30, 30, 30, 0.6);
+            --btn-hover: rgba(50, 50, 50, 0.8);
+            --glass-bg: rgba(20, 20, 20, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --border-radius: 16px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-color);
+            background-image: linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1498503182468-3b51cbb6cb24?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
             color: var(--text-color);
             font-family: 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
             padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
+            min-height: 100vh;
+            transition: background-image 0.5s ease-in-out;
         }
 
-        /* Header & Typography */
+        /* Preload hidden backgrounds to prevent flashing */
+        #preload-bg { display: none; }
+
+        main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+        }
+
         header {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             text-align: center;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 15px;
-            color: var(--accent-blue);
+            color: var(--text-color);
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
         }
 
         h2 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 20px;
             text-align: center;
             text-transform: uppercase;
+            color: var(--accent-blue);
         }
 
         h3 {
@@ -62,115 +78,202 @@
             margin-top: 20px;
             margin-bottom: 10px;
             font-size: 1.2rem;
-            border-bottom: 1px solid var(--surface-color);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--glass-border);
             padding-bottom: 5px;
         }
 
-        /* Multi-Language Selector */
         #language-selector {
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            background: var(--glass-bg);
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .lang-btn {
             background: transparent;
             color: var(--text-muted);
-            border: 1px solid var(--text-muted);
-            padding: 5px 12px;
+            border: none;
+            padding: 5px 10px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
         .lang-btn.active {
-            color: var(--bg-color);
+            color: #000;
             background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
         }
 
-        /* Selection Menus */
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .options-grid button {
-            background-color: var(--surface-color);
-            color: var(--text-color);
-            border: 2px solid var(--surface-color);
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .options-grid button:hover {
-            border-color: var(--accent-amber);
-            background-color: var(--btn-hover);
-        }
-
-        /* Back Button & Messages */
-        .back-btn {
-            display: block;
-            width: 100%;
-            background-color: transparent;
-            color: var(--text-muted);
-            border: 1px solid var(--text-muted);
-            padding: 12px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            margin-top: 20px;
+        /* Island Grid & Colors */
+        .island-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
             margin-bottom: 30px;
         }
 
-        .back-btn:hover {
-            color: var(--text-color);
-            border-color: var(--text-color);
+        .island-options button {
+            padding: 40px 10px; 
+            font-size: 1.5rem; 
+            font-weight: 800;
+            color: #ffffff; 
+            border-radius: 20px; 
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+        
+        .island-options button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+            filter: brightness(1.2);
+        }
+        
+        /* Dark Pastel Colors */
+        #btn-chios { background: #304D63; }
+        #btn-kos { background: #43634B; }
+        #btn-lesbos { background: #63435A; }
+        #btn-meis { background: #800080; } 
+        #btn-rhodes { background: #800000; } 
+        #btn-samos { background: #CC5500; } 
+
+        /* SVG Map Styles */
+        .map-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto 30px auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        #message-box {
-            background-color: var(--accent-amber);
-            color: var(--bg-color);
-            padding: 15px;
-            border-radius: var(--border-radius);
-            text-align: center;
+        .map-pin {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .map-pin:hover {
+            transform: scale(1.1);
+        }
+
+        .map-pin circle {
+            fill: var(--glass-bg);
+            stroke: var(--accent-amber);
+            stroke-width: 3;
+            transition: all 0.3s ease;
+        }
+
+        .map-pin:hover circle {
+            fill: var(--accent-amber);
+            stroke: #fff;
+        }
+
+        .map-pin text {
+            fill: #fff;
             font-weight: bold;
-            margin-bottom: 20px;
+            font-size: 14px;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        section {
+            position: relative;
+        }
+
+        .back-btn-top {
+            position: absolute;
+            top: -5px;
+            right: 0px;
+            background-color: var(--accent-amber);
+            color: #000;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 179, 0, 0.5);
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .back-btn-top:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 179, 0, 0.7);
+            background-color: #ffcc00;
         }
 
         .hidden { display: none !important; }
 
-        /* Itinerary Cards */
         .day-card {
-            background-color: var(--surface-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
             border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-image {
+            width: 100%;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .day-image-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(10,10,10,0.9));
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
         .day-header {
             font-size: 1.5rem;
             color: var(--accent-green);
-            margin-bottom: 5px;
-            font-weight: 900;
+            font-weight: 800;
         }
 
         .day-title {
-            color: var(--text-muted);
-            margin-bottom: 15px;
+            color: #fff;
             font-weight: bold;
+            font-size: 1.1rem;
         }
 
-        /* Tasks & Checkboxes */
+        .day-content {
+            padding: 20px;
+        }
+
         .task-list {
             list-style: none;
         }
@@ -178,16 +281,16 @@
         .task-item {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 15px;
             margin-bottom: 12px;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             cursor: pointer;
             padding: 8px;
             border-radius: 8px;
-            transition: all 0.2s ease;
+            transition: background 0.2s ease;
         }
 
-        .task-item:hover { background-color: var(--btn-bg); }
+        .task-item:hover { background: rgba(255,255,255,0.05); }
 
         .task-item input[type="checkbox"] {
             width: 22px;
@@ -205,12 +308,12 @@
             color: var(--text-muted);
         }
 
-        /* Dinner Toggle UI */
         .dinner-toggle-container {
-            margin-top: 15px;
-            background: var(--bg-color);
+            margin-top: 20px;
+            background: rgba(0,0,0,0.4);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
         }
 
         .dinner-buttons {
@@ -222,250 +325,425 @@
         .dinner-buttons button {
             flex: 1;
             padding: 10px;
-            background: var(--btn-bg);
-            color: white;
-            border: 1px solid var(--text-muted);
-            border-radius: 6px;
+            background: var(--glass-bg);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.2s ease;
         }
 
-        .dinner-buttons button:hover, .dinner-buttons button.active {
+        .dinner-buttons button:hover {
+            background: rgba(255, 179, 0, 0.2);
+        }
+
+        .dinner-buttons button.active {
             background: var(--accent-amber);
-            color: var(--bg-color);
+            color: #000;
             border-color: var(--accent-amber);
         }
 
         .restaurant-card {
-            background: var(--surface-color);
+            background: rgba(255,255,255,0.05);
             padding: 15px;
             border-radius: 8px;
             border-left: 4px solid var(--accent-amber);
         }
 
         .rest-name { font-weight: bold; font-size: 1.2rem; color: var(--accent-blue); }
-        .rest-desc { color: var(--text-muted); font-size: 0.95rem; margin-top: 5px; }
+        .rest-desc { color: var(--text-muted); margin-top: 5px; }
+
     </style>
 </head>
 <body>
 
+    <div id="preload-bg"></div>
+
     <header>
         <h1 id="app-title">Greek Island Itinerary</h1>
         <div id="language-selector">
-            <button onclick="changeLanguage('EN')" class="lang-btn active" id="btn-lang-en">EN</button>
-            <button onclick="changeLanguage('DE')" class="lang-btn" id="btn-lang-de">DE</button>
-            <button onclick="changeLanguage('RU')" class="lang-btn" id="btn-lang-ru">RU</button>
-            <button onclick="changeLanguage('TR')" class="lang-btn" id="btn-lang-tr">TR</button>
+            <button onclick="changeLanguage('EN')" class="lang-btn active" id="btn-lang-en">🇬🇧 EN</button>
+            <button onclick="changeLanguage('DE')" class="lang-btn" id="btn-lang-de">🇩🇪 DE</button>
+            <button onclick="changeLanguage('RU')" class="lang-btn" id="btn-lang-ru">🇷🇺 RU</button>
+            <button onclick="changeLanguage('TR')" class="lang-btn" id="btn-lang-tr">🇹🇷 TR</button>
         </div>
     </header>
 
     <main>
-        <div id="message-box" class="hidden"></div>
-
+        
+        <!-- Level 1: Choose the Island -->
         <section id="island-screen">
             <h2 id="island-title">Select Your Island</h2>
-            <div class="options-grid">
-                <button onclick="selectIsland('chios')">Chios</button>
-                <button onclick="selectIsland('lesbos')">Lesbos</button>
-                <button onclick="selectIsland('samos')">Samos</button>
-                <button onclick="selectIsland('kos')">Kos</button>
-                <button onclick="selectIsland('rhodes')">Rhodes</button>
-                <button onclick="selectIsland('meis')">Meis</button>
+            <div class="island-options">
+                <button id="btn-chios" onclick="selectIsland('chios')">Chios</button>
+                <button id="btn-kos" onclick="selectIsland('kos')">Kos</button>
+                <button id="btn-lesbos" onclick="selectIsland('lesbos')">Lesbos</button>
+                <button id="btn-meis" onclick="selectIsland('meis')">Meis</button>
+                <button id="btn-rhodes" onclick="selectIsland('rhodes')">Rhodes</button>
+                <button id="btn-samos" onclick="selectIsland('samos')">Samos</button>
             </div>
         </section>
 
+        <!-- Level 2: Choose Base Location (Hidden by default) -->
         <section id="setup-screen" class="hidden">
-            <h2 id="setup-title">Select Your Base Location</h2>
-            <div class="options-grid" id="base-options-container">
-                <button onclick="startApp('center')" data-i18n="center">Center</button>
-                <button onclick="startApp('north')" data-i18n="north">North</button>
-                <button onclick="startApp('south')" data-i18n="south">South</button>
-                <button onclick="startApp('east')" data-i18n="east">East</button>
-                <button onclick="startApp('west')" data-i18n="west">West</button>
+            <button onclick="goBack('island-screen')" class="back-btn-top" id="btn-back">Back to Islands</button>
+            <h2 id="setup-title" class="island-name-display" style="margin-right: 90px; text-align: left;">Select Your Base Location</h2>
+            
+            <div class="map-container" id="base-options-container">
+                <svg viewBox="0 0 300 450" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 150 20 C 200 50, 240 120, 260 200 C 280 280, 250 380, 180 420 C 120 450, 60 380, 50 300 C 40 220, 80 100, 150 20 Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+                    
+                    <g class="map-pin" onclick="startApp('north')">
+                        <circle cx="150" cy="80" r="18"/>
+                        <text x="150" y="85" text-anchor="middle" id="map-lbl-north">North</text>
+                    </g>
+                    <g class="map-pin" onclick="startApp('west')">
+                        <circle cx="80" cy="220" r="18"/>
+                        <text x="80" y="225" text-anchor="middle" id="map-lbl-west">West</text>
+                    </g>
+                    <g class="map-pin" onclick="startApp('center')">
+                        <circle cx="210" cy="200" r="18"/>
+                        <text x="210" y="205" text-anchor="middle" id="map-lbl-center">Center</text>
+                    </g>
+                    <g class="map-pin" onclick="startApp('east')">
+                        <circle cx="250" cy="280" r="18"/>
+                        <text x="250" y="285" text-anchor="middle" id="map-lbl-east">East</text>
+                    </g>
+                    <g class="map-pin" onclick="startApp('south')">
+                        <circle cx="150" cy="360" r="18"/>
+                        <text x="150" y="365" text-anchor="middle" id="map-lbl-south">South</text>
+                    </g>
+                </svg>
             </div>
-            <button onclick="goBack('island-screen')" class="back-btn" id="btn-back">Back to Islands</button>
         </section>
 
+        <!-- Level 3: The Itinerary (Hidden by default) -->
         <section id="itinerary-container" class="hidden">
-            <button onclick="goBack('setup-screen')" class="back-btn" id="btn-back-base">Back to Bases</button>
+            <div style="position: relative; margin-bottom: 40px; height: 30px;">
+                <button onclick="goBack('setup-screen')" class="back-btn-top" id="btn-back-base">Back to Bases</button>
+            </div>
             <div id="days-wrapper"></div>
         </section>
+
     </main>
 
     <script>
-        // State Management
         let currentLang = 'EN';
         let selectedIsland = '';
-        let taskHistoryStack = []; // Used for the Down-Arrow Undo function
+        let currentBaseLocation = '';
+        let taskHistoryStack = []; 
+        let completedTasks = new Set(); 
 
-        // UI Translation Dictionary
+        const islandImages = {
+            'home': 'home.jpg',
+            'chios': 'chios.jpg',
+            'kos': 'kos.jpg',
+            'lesbos': 'lesbos.jpg',
+            'meis': 'meis.jpg',
+            'rhodes': 'rhodes.jpg',
+            'samos': 'samos.jpg'
+        };
+
+        const moduleImages = {
+            arrival: "https://images.unsplash.com/photo-1544085449-3315ea011244?auto=format&fit=crop&w=800&q=80",
+            south: "https://images.unsplash.com/photo-1516483638261-f40889c28a28?auto=format&fit=crop&w=800&q=80",
+            west: "https://images.unsplash.com/photo-1507501336603-6e31db2be093?auto=format&fit=crop&w=800&q=80",
+            north: "https://images.unsplash.com/photo-1504512485720-7d83a16ee930?auto=format&fit=crop&w=800&q=80",
+            northeast: "https://images.unsplash.com/photo-1543327663-88849b25a3d4?auto=format&fit=crop&w=800&q=80",
+            east: "https://images.unsplash.com/photo-1506501139174-099022df5260?auto=format&fit=crop&w=800&q=80",
+            departure: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=800&q=80"
+        };
+
+        const nearestBeaches = {
+            'chios': { center: 'Karfas', north: 'Lefkathia', south: 'Komi', east: 'Megas Limnionas', west: 'Lithi' },
+            'kos': { center: 'Town Beach', north: 'Tigaki', south: 'Kefalos', east: 'Psalidi', west: 'Mastichari' },
+            'lesbos': { center: 'Tsamakia', north: 'Petra', south: 'Vatera', east: 'Skala', west: 'Sigri' },
+            'meis': { center: 'Megisti Waters', north: 'Mandraki Cove', south: 'Blue Cave Waters', east: 'Ro Islet', west: 'St George Beach' },
+            'rhodes': { center: 'Elli Beach', north: 'Ialysos', south: 'Prasonisi', east: 'Faliraki', west: 'Monolithos Coast' },
+            'samos': { center: 'Gagou', north: 'Kokkari', south: 'Pythagoreion Beach', east: 'Mykali', west: 'Potami' }
+        };
+
         const i18n = {
             'EN': {
-                appTitle: 'Greek Island Itinerary',
-                islandTitle: 'Select Your Island',
-                setupTitle: 'Select Your Base Location',
-                backIsland: 'Back to Islands',
-                backBase: 'Back to Bases',
-                comingSoon: 'Itinerary coming soon for this island!',
-                center: 'Center (Chios Town)',
-                north: 'North (Volissos)',
-                south: 'South (Mastic Villages)',
-                east: 'East (Karfas)',
-                west: 'West (Lithi)',
-                seafood: 'Seafood',
-                meat: 'Meat',
-                snacks: 'Snacks/Meze'
+                appTitle: 'Greek Island Itinerary', islandTitle: 'Select Your Island', setupTitle: 'Select Your Base Location',
+                backIsland: 'Back to Islands', backBase: 'Back to Bases',
+                center: 'Center', north: 'North', south: 'South', east: 'East', west: 'West',
+                seafood: 'Seafood', meat: 'Meat', snacks: 'Snacks/Meze',
+                morning: 'Morning (09:00 - 12:00)', afternoon: 'Noon/Afternoon (12:00 - 17:00)', 
+                evening: 'Evening (17:00 - 21:00)', night: 'Night (21:00 onwards)', dinnerSuggest: 'Dinner Suggestions',
+                day: 'DAY',
+                islands: { chios: 'Chios', kos: 'Kos', lesbos: 'Lesbos', meis: 'Meis', rhodes: 'Rhodes', samos: 'Samos' }
             },
             'TR': {
-                appTitle: 'Yunan Adaları Rotası',
-                islandTitle: 'Adanızı Seçin',
-                setupTitle: 'Merkez Konumunuzu Seçin',
-                backIsland: 'Adalara Dön',
-                backBase: 'Konumlara Dön',
-                comingSoon: 'Bu ada için rota çok yakında!',
-                center: 'Merkez (Sakız Şehri)',
-                north: 'Kuzey (Volissos)',
-                south: 'Güney (Mastik Köyleri)',
-                east: 'Doğu (Karfas)',
-                west: 'Batı (Lithi)',
-                seafood: 'Deniz Ürünleri',
-                meat: 'Et',
-                snacks: 'Meze/Atıştırmalık'
+                appTitle: 'Yunan Adaları Rotası', islandTitle: 'Adanızı Seçin', setupTitle: 'Merkez Konumunuzu Seçin',
+                backIsland: 'Adalara Dön', backBase: 'Konumlara Dön',
+                center: 'Merkez', north: 'Kuzey', south: 'Güney', east: 'Doğu', west: 'Batı',
+                seafood: 'Deniz Ürünleri', meat: 'Et', snacks: 'Meze/Atıştırmalık',
+                morning: 'Sabah (09:00 - 12:00)', afternoon: 'Öğle/Öğleden Sonra (12:00 - 17:00)', 
+                evening: 'Akşam (17:00 - 21:00)', night: 'Gece (21:00 ve sonrası)', dinnerSuggest: 'Akşam Yemeği Önerileri',
+                day: 'GÜN',
+                islands: { chios: 'Sakız', kos: 'Kos', lesbos: 'Midilli', meis: 'Meis', rhodes: 'Rodos', samos: 'Sisam' }
             },
             'DE': {
-                appTitle: 'Griechische Insel Route',
-                islandTitle: 'Wählen Sie Ihre Insel',
-                setupTitle: 'Wählen Sie Ihren Basisort',
-                backIsland: 'Zurück zu den Inseln',
-                backBase: 'Zurück zu den Basisorten',
-                comingSoon: 'Reiseroute für diese Insel folgt in Kürze!',
-                center: 'Zentrum (Chios-Stadt)',
-                north: 'Norden (Volissos)',
-                south: 'Süden (Mastixdörfer)',
-                east: 'Osten (Karfas)',
-                west: 'Westen (Lithi)',
-                seafood: 'Meeresfrüchte',
-                meat: 'Fleisch',
-                snacks: 'Snacks/Mezze'
+                appTitle: 'Griechische Insel Route', islandTitle: 'Wählen Sie Ihre Insel', setupTitle: 'Wählen Sie Ihren Basisort',
+                backIsland: 'Zurück zu Inseln', backBase: 'Zurück zu Basisorten',
+                center: 'Zentrum', north: 'Norden', south: 'Süden', east: 'Osten', west: 'Westen',
+                seafood: 'Meeresfrüchte', meat: 'Fleisch', snacks: 'Snacks/Mezze',
+                morning: 'Morgen (09:00 - 12:00)', afternoon: 'Nachmittag (12:00 - 17:00)', 
+                evening: 'Abend (17:00 - 21:00)', night: 'Nacht (ab 21:00)', dinnerSuggest: 'Abendessen Vorschläge',
+                day: 'TAG',
+                islands: { chios: 'Chios', kos: 'Kos', lesbos: 'Lesbos', meis: 'Kastelorizo', rhodes: 'Rhodos', samos: 'Samos' }
             },
             'RU': {
-                appTitle: 'Маршрут по Греческим Островам',
-                islandTitle: 'Выберите свой остров',
-                setupTitle: 'Выберите базовое местоположение',
-                backIsland: 'Назад к островам',
-                backBase: 'Назад к базам',
-                comingSoon: 'Маршрут для этого острова скоро появится!',
-                center: 'Центр (Город Хиос)',
-                north: 'Север (Волиссос)',
-                south: 'Юг (Мастиковые деревни)',
-                east: 'Восток (Карфас)',
-                west: 'Запад (Лити)',
-                seafood: 'Морепродукты',
-                meat: 'Мясо',
-                snacks: 'Закуски/Мезе'
+                appTitle: 'Маршрут по Островам', islandTitle: 'Выберите остров', setupTitle: 'Выберите базовое место',
+                backIsland: 'Назад к островам', backBase: 'Назад к базам',
+                center: 'Центр', north: 'Север', south: 'Юг', east: 'Восток', west: 'Запад',
+                seafood: 'Морепродукты', meat: 'Мясо', snacks: 'Закуски/Мезе',
+                morning: 'Утро (09:00 - 12:00)', afternoon: 'День (12:00 - 17:00)', 
+                evening: 'Вечер (17:00 - 21:00)', night: 'Ночь (с 21:00)', dinnerSuggest: 'Предложения на ужин',
+                day: 'ДЕНЬ',
+                islands: { chios: 'Хиос', kos: 'Кос', lesbos: 'Лесбос', meis: 'Мейсти', rhodes: 'Родос', samos: 'Самос' }
             }
         };
 
-        const chiosModules = {
-            arrival: {
-                id: 'arrival',
-                title: 'The Arrival & Citrus Mansions',
-                morning: ["Disembark at Chios Port.", "Pick up the rental car.", "Grab a quick Greek pastry at Perres Bakery.", "Drive to accommodation and drop off bags."],
-                afternoon: ["Drive through the Kampos area.", "Explore historic citrus orchards and stone walls.", "Coffee and courtyard relaxation at the Citrus Museum."],
-                evening: ["Sunset stroll along the C-shaped Chios Port promenade."],
-                dinner: {
-                    seafood: { name: "To Tsikoudo", desc: "Harbor front. Famous for sun-dried, charcoal-grilled octopus." },
-                    meat: { name: "Hotzas", desc: "Historic taverna with a garden courtyard. Known for lamb kebabs." },
-                    snacks: { name: "Kechrimbari", desc: "Vintage-style meze spot. Great for grilled calamari and mastelo cheese." }
+        // Compact Universal Data Structure for all 6 islands across 4 languages
+        const allModules = {
+            'EN': {
+                chios: {
+                    arrival: { id: 'arrival', title: 'Arrival & Center', morning: ["Disembark at Port.", "Pick up rental car."], afternoon: ["Explore Kampos orchards.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Sunset at harbor."], night: ["Walk the town square."], dinner: { seafood: {name:"To Tsikoudo", desc:"Grilled octopus."}, meat: {name:"Hotzas", desc:"Lamb kebabs."}, snacks: {name:"Kechrimbari", desc:"Meze."} } },
+                    south: { id: 'south', title: 'The Deep South', morning: ["Drive south.", "Visit Pyrgi's painted houses."], afternoon: ["Explore Mesta maze.", "Swim at Mavra Volia black beach."], evening: ["Dry off & prepare for dinner."], night: ["Walk illuminated streets."], dinner: { seafood: {name:"Meltemaki", desc:"Seaside views."}, meat: {name:"O Mesaionas", desc:"Traditional souvlaki."}, snacks: {name:"Stoa Cafe", desc:"Local cheese."} } },
+                    west: { id: 'west', title: 'Western Sunsets', morning: ["Drive up mountains.", "Visit Nea Moni."], afternoon: ["Explore Anavatos ghost village.", "Swim at Elinda bay."], evening: ["Secure sunset spot at Avgonyma."], night: ["Drive back safely."], dinner: { seafood: {name:"Galera Taverna", desc:"Beachside fish."}, meat: {name:"To Asteri", desc:"Roasted goat."}, snacks: {name:"Taverna Metoxi", desc:"Crisp salads."} } },
+                    north: { id: 'north', title: 'Wild Frontier', morning: ["Drive to Volissos.", "Climb Byzantine castle."], afternoon: ["Visit Agia Markella.", "Swim at Managros beach."], evening: ["Relax in village square."], night: ["Stargazing."], dinner: { seafood: {name:"Limenas Tavernas", desc:"Fresh catch."}, meat: {name:"Fabrika", desc:"Grilled meats."}, snacks: {name:"Makellos", desc:"Handmade pasta."} } },
+                    northeast: { id: 'northeast', title: 'Seafarers North', morning: ["Drive coastal road.", "Stop at Homer’s Rock."], afternoon: ["Swim at Nagos beach.", "Relax under trees."], evening: ["Drive to Lagkada fishing village."], night: ["Walk the promenade."], dinner: { seafood: {name:"Passas", desc:"Right on the water."}, meat: {name:"Opos Palia", desc:"Rich dishes."}, snacks: {name:"Nostos", desc:"Ouzo & meze."} } },
+                    east: { id: 'east', title: 'Eastern Riviera', morning: ["Low-stress day.", "Head to sandy beaches."], afternoon: ["Rent a sunbed.", "Visit Tampakika windmills."], evening: ["Sunset over Turkish coast."], night: ["Enjoy resort atmosphere."], dinner: { seafood: {name:"Bachari", desc:"Terrace dining."}, meat: {name:"Taverna Pinaleon", desc:"Pork souvlaki."}, snacks: {name:"Agyra", desc:"Zucchini fritters."} } },
+                    departure: { id: 'departure', title: 'Departure', morning: ["Pack bags.", "Load car."], afternoon: ["Shop at Aplotaria.", "Drop off car."], evening: ["Final harbor coffee."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Port Bakeries", desc:"Cheese pies."} } }
                 },
-                night: ["Walk through the town square.", "Rest up for the week ahead."]
+                kos: {
+                    arrival: { id: 'arrival', title: 'Arrival & Asklepieion', morning: ["Arrive at Kos Port.", "Pick up car."], afternoon: ["Visit Asklepieion ruins.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Stroll Eleftherias Square."], night: ["Drinks in Old Town."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Fresh fish."}, meat: {name:"Ali", desc:"Kebabs."}, snacks: {name:"Plaza", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Kefalos Beaches', morning: ["Drive south.", "Visit Agios Stefanos basilica."], afternoon: ["Swim at Paradise Beach.", "Water sports."], evening: ["Sunset views over the bay."], night: ["Drive back to base."], dinner: { seafood: {name:"Limionas", desc:"Seafood."}, meat: {name:"Kastri", desc:"Grill."}, snacks: {name:"Kefalos Cafe", desc:"Snacks."} } },
+                    west: { id: 'west', title: 'Castle & Coast', morning: ["Drive to Antimachia.", "See Venetian Castle."], afternoon: ["Explore Mastichari.", "Swim in the waves."], evening: ["Sunset over Kalymnos."], night: ["Relaxed evening."], dinner: { seafood: {name:"O Pserimos", desc:"Fish."}, meat: {name:"Traditional Taverna", desc:"Meat."}, snacks: {name:"Beach Bar", desc:"Drinks."} } },
+                    north: { id: 'north', title: 'Salt Lake & Sand', morning: ["Drive to Tigaki.", "Visit Alikes Salt Lake."], afternoon: ["Watch flamingos.", "Long sandy beach swim."], evening: ["Cocktails by the beach."], night: ["Lively resort night."], dinner: { seafood: {name:"Marmari Fish", desc:"Fresh."}, meat: {name:"Tigaki Grill", desc:"Souvlaki."}, snacks: {name:"Oasis", desc:"Meze."} } },
+                    northeast: { id: 'northeast', title: 'Mountain & Spa', morning: ["Explore Zia village.", "Hike Mount Dikaios."], afternoon: ["Relax at Therma Hot Springs.", "Natural spa soak."], evening: ["Mountain sunset view."], night: ["Buy local honey/syrup."], dinner: { seafood: {name:"Oromedon", desc:"Views."}, meat: {name:"Zia Taverna", desc:"Roast."}, snacks: {name:"Watermill", desc:"Sweets."} } },
+                    east: { id: 'east', title: 'Psalidi Coast', morning: ["Drive to Psalidi.", "Coastal cycling."], afternoon: ["Windsurfing.", "Relaxing by the water."], evening: ["Visit ancient ruins nearby."], night: ["Kos town nightlife."], dinner: { seafood: {name:"Agios Fokas", desc:"Seafood."}, meat: {name:"Meat Bar", desc:"Grill."}, snacks: {name:"Lounge", desc:"Tapas."} } },
+                    departure: { id: 'departure', title: 'Departure', morning: ["Pack bags.", "Load car."], afternoon: ["Visit Tree of Hippocrates.", "Drop off car."], evening: ["Final coffee."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Port Cafe", desc:"Pastries."} } }
+                },
+                lesbos: {
+                    arrival: { id: 'arrival', title: 'Mytilene Arrival', morning: ["Arrive at Mytilene.", "Get rental car."], afternoon: ["Visit Mytilene Castle.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Walk the harbor."], night: ["Drinks on Ermou street."], dinner: { seafood: {name:"Ermis", desc:"Historic."}, meat: {name:"Kalderimi", desc:"Meats."}, snacks: {name:"Ouzo Bar", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Ouzo & Bays', morning: ["Drive to Plomari.", "Visit Ouzo Museum."], afternoon: ["Swim at Agios Isidoros.", "Explore narrow streets."], evening: ["Relax by the sea."], night: ["Ouzo tasting."], dinner: { seafood: {name:"Tarsanas", desc:"Seafood."}, meat: {name:"Plaza", desc:"Grill."}, snacks: {name:"Barbayanni Cafe", desc:"Ouzo plates."} } },
+                    west: { id: 'west', title: 'Petrified Forest', morning: ["Drive to Sigri.", "Visit Petrified Forest."], afternoon: ["Natural History Museum.", "Swim in the remote west."], evening: ["Sunset in the west."], night: ["Drive back carefully."], dinner: { seafood: {name:"Cavo Doro", desc:"Fish."}, meat: {name:"Sigri Taverna", desc:"Meat."}, snacks: {name:"Port Cafe", desc:"Snacks."} } },
+                    north: { id: 'north', title: 'Molyvos Magic', morning: ["Drive to Molyvos.", "Walk cobbled streets."], afternoon: ["Visit Molyvos Castle.", "Swim at Petra beach."], evening: ["Enjoy the picturesque harbor."], night: ["Vibrant nightlife."], dinner: { seafood: {name:"Captain's Table", desc:"Seafood."}, meat: {name:"Women's Coop", desc:"Local dishes."}, snacks: {name:"Congas", desc:"Drinks."} } },
+                    northeast: { id: 'northeast', title: 'Monasteries & Cheese', morning: ["Visit Mandamados.", "Taste local cheeses."], afternoon: ["See Taxiarchis Monastery.", "Relax in the village."], evening: ["Drive through olive groves."], night: ["Quiet evening."], dinner: { seafood: {name:"Skala Taverna", desc:"Fish."}, meat: {name:"Pedion", desc:"Meats."}, snacks: {name:"Dairy Cafe", desc:"Cheese plate."} } },
+                    east: { id: 'east', title: 'Gera Gulf', morning: ["Drive around Gera Bay.", "Visit olive presses."], afternoon: ["Soak in hot springs.", "Swim in the calm gulf."], evening: ["Enjoy local cafes."], night: ["Relaxed dining."], dinner: { seafood: {name:"Panagiouda", desc:"Seafood."}, meat: {name:"Gera Grill", desc:"Souvlaki."}, snacks: {name:"Gulf Cafe", desc:"Meze."} } },
+                    departure: { id: 'departure', title: 'Departure', morning: ["Pack up.", "Load car."], afternoon: ["Walk Sappho square.", "Drop off car."], evening: ["Final ouzo."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Port Kiosk", desc:"Pita."} } }
+                },
+                meis: {
+                    arrival: { id: 'arrival', title: 'Welcome to Kastellorizo', morning: ["Arrive at port.", "Check into room."], afternoon: ["Walk the colorful harbor.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Sunset by the mosque."], night: ["Drinks by the water."], dinner: { seafood: {name:"Lazarakis", desc:"Fresh catch."}, meat: {name:"Athena", desc:"Greek grill."}, snacks: {name:"Faros", desc:"Meze."} } },
+                    south: { id: 'south', title: 'The Blue Cave', morning: ["Take small boat.", "Enter the Blue Cave."], afternoon: ["Swim in glowing waters.", "Return to port."], evening: ["Relax at a harbor cafe."], night: ["Quiet evening stroll."], dinner: { seafood: {name:"Alexandra", desc:"Seafood."}, meat: {name:"Platania", desc:"Meats."}, snacks: {name:"Port Cafe", desc:"Snacks."} } },
+                    west: { id: 'west', title: 'St. George Islet', morning: ["Boat to St. George.", "Snorkel in clear waters."], afternoon: ["Enjoy the island chapel.", "Relax on sunbeds."], evening: ["Return for sunset."], night: ["Dine by the boats."], dinner: { seafood: {name:"Sydney", desc:"Fish."}, meat: {name:"Grill House", desc:"Souvlaki."}, snacks: {name:"Island Bar", desc:"Drinks."} } },
+                    north: { id: 'north', title: 'Mandraki Walk', morning: ["Walk the coastal path.", "Visit Mandraki harbor."], afternoon: ["See the Lycian tomb.", "Swim in the cove."], evening: ["Evening stroll."], night: ["Chat with locals."], dinner: { seafood: {name:"Mandraki Taverna", desc:"Seafood."}, meat: {name:"Old Town", desc:"Meat."}, snacks: {name:"Kiosk", desc:"Pita."} } },
+                    northeast: { id: 'northeast', title: 'Paleokastro Climb', morning: ["Climb to Paleokastro.", "Explore ancient ruins."], afternoon: ["Enjoy panoramic views.", "Walk back down."], evening: ["Rest tired legs."], night: ["Hearty dinner."], dinner: { seafood: {name:"Billy's", desc:"Fish."}, meat: {name:"Castle Grill", desc:"Meats."}, snacks: {name:"Square Cafe", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Lady of Ro', morning: ["Boat to Ro island.", "Learn local history."], afternoon: ["Swim by the islet.", "Return to Kastellorizo."], evening: ["Reflect on the trip."], night: ["Farewell drinks."], dinner: { seafood: {name:"Aegean", desc:"Seafood."}, meat: {name:"Traditional", desc:"Roast."}, snacks: {name:"Harbor Bar", desc:"Tapas."} } },
+                    departure: { id: 'departure', title: 'Departure', morning: ["Pack bags.", "Check out."], afternoon: ["Visit Megisti Museum.", "Final harbor coffee."], evening: ["Wait for ferry."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Bakery", desc:"Cheese pie."} } }
+                },
+                rhodes: {
+                    arrival: { id: 'arrival', title: 'Mandraki & Old Town', morning: ["Arrive at Mandraki.", "Pick up car."], afternoon: ["Explore Old Town.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Walk the moat."], night: ["Old town nightlife."], dinner: { seafood: {name:"Nireas", desc:"Seafood."}, meat: {name:"Marco Polo", desc:"Meats."}, snacks: {name:"Ronda", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Prasonisi Point', morning: ["Drive south.", "Arrive at Prasonisi."], afternoon: ["See where two seas meet.", "Watch kite surfers."], evening: ["Relax on the sand."], night: ["Long drive back."], dinner: { seafood: {name:"Lighthouse", desc:"Fish."}, meat: {name:"South Grill", desc:"Souvlaki."}, snacks: {name:"Surf Bar", desc:"Drinks."} } },
+                    west: { id: 'west', title: 'Monolithos Castle', morning: ["Drive west coast.", "Climb to castle ruins."], afternoon: ["Amazing coastal views.", "Swim at Fourni."], evening: ["Sunset dinner."], night: ["Drive through forests."], dinner: { seafood: {name:"Old Monolithos", desc:"Seafood."}, meat: {name:"Castle Taverna", desc:"Goat."}, snacks: {name:"View Cafe", desc:"Snacks."} } },
+                    north: { id: 'north', title: 'Ancient Kamiros', morning: ["Visit Kamiros ruins.", "Walk ancient streets."], afternoon: ["Drive northern coast.", "Swim at Ialysos."], evening: ["Watch windsurfers."], night: ["Vibrant evening."], dinner: { seafood: {name:"Kymata", desc:"Fish."}, meat: {name:"Pita Grill", desc:"Meats."}, snacks: {name:"Beach Club", desc:"Meze."} } },
+                    northeast: { id: 'northeast', title: 'Lindos Acropolis', morning: ["Drive to Lindos.", "Visit Acropolis early."], afternoon: ["Walk white alleys.", "Swim at St. Paul's Bay."], evening: ["Rooftop sunset."], night: ["Romantic dinner."], dinner: { seafood: {name:"Mavrikos", desc:"Seafood."}, meat: {name:"Lindos Taverna", desc:"Roast."}, snacks: {name:"Courtyard", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Anthony Quinn Bay', morning: ["Explore the bay.", "Snorkeling in clear water."], afternoon: ["Visit Kalithea Springs.", "Relax in Italian baths."], evening: ["Coastal drive."], night: ["Faliraki or Town."], dinner: { seafood: {name:"Tasos", desc:"Fish."}, meat: {name:"Elias", desc:"Grill."}, snacks: {name:"Oasis", desc:"Drinks."} } },
+                    departure: { id: 'departure', title: 'Departure', morning: ["Pack bags.", "Load car."], afternoon: ["Palace of Grand Master.", "Drop off car."], evening: ["Final stroll."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Port Bakery", desc:"Pita."} } }
+                },
+                samos: {
+                    arrival: { id: 'arrival', title: 'Vathy Arrival', morning: ["Arrive at port.", "Get rental car."], afternoon: ["Visit Samos Town.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Walk the promenade."], night: ["Drinks by the water."], dinner: { seafood: {name:"Zen", desc:"Seafood."}, meat: {name:"To Steki", desc:"Meats."}, snacks: {name:"Cafe Marina", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Pythagoreion History', morning: ["Drive to Pythagoreion.", "Visit the Heraion."], afternoon: ["Walk Tunnel of Eupalinos.", "Swim nearby."], evening: ["Evening at the marina."], night: ["Lively town walk."], dinner: { seafood: {name:"Remataki", desc:"Fish."}, meat: {name:"Elia", desc:"Grill."}, snacks: {name:"Corner Bar", desc:"Snacks."} } },
+                    west: { id: 'west', title: 'Karlovasi Waterfalls', morning: ["Drive to Karlovasi.", "Hike to Potami Falls."], afternoon: ["Swim at Potami beach.", "Explore old tanneries."], evening: ["Sunset views."], night: ["Relaxed dinner."], dinner: { seafood: {name:"Hippocrates", desc:"Seafood."}, meat: {name:"Karlovasi Grill", desc:"Souvlaki."}, snacks: {name:"Waterfall Cafe", desc:"Meze."} } },
+                    north: { id: 'north', title: 'Kokkari Village', morning: ["Visit Kokkari.", "Walk picturesque harbor."], afternoon: ["Swim at Lemonakia.", "Relax at Tsamadou."], evening: ["Watch the waves."], night: ["Taverna hopping."], dinner: { seafood: {name:"Meltemi", desc:"Fish."}, meat: {name:"Tarsanas", desc:"Meats."}, snacks: {name:"Surf Club", desc:"Drinks."} } },
+                    northeast: { id: 'northeast', title: 'Mountain Wines', morning: ["Explore Vourliotes.", "Visit local wineries."], afternoon: ["Taste sweet Muscat wine.", "Enjoy mountain views."], evening: ["Drive down safely."], night: ["Quiet evening."], dinner: { seafood: {name:"Blue Chair", desc:"Seafood."}, meat: {name:"Pera Vrisi", desc:"Roast."}, snacks: {name:"Village Square", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Mykali Coast', morning: ["Drive to Mykali.", "Relax on the long beach."], afternoon: ["View of Turkish coast.", "Swim in calm waters."], evening: ["Evening in Psili Ammos."], night: ["Farewell dinner."], dinner: { seafood: {name:"Fish Bone", desc:"Fish."}, meat: {name:"East Taverna", desc:"Grill."}, snacks: {name:"Sand Cafe", desc:"Snacks."} } },
+                    departure: { id: 'departure', title: 'Departure', morning: ["Pack bags.", "Load car."], afternoon: ["Archaeological Museum.", "Drop off car."], evening: ["Final coffee."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Port Kiosk", desc:"Pies."} } }
+                }
             },
-            south: {
-                id: 'south',
-                title: 'The Deep South (Mastic Villages)',
-                morning: ["Load the car with swim gear.", "Drive south toward Mastichochoria.", "Arrive in Pyrgi, the 'painted village'.", "Explore geometric 'xysta' patterns on facades.", "Grab coffees at the central square."],
-                afternoon: ["Drive to Mesta.", "Navigate windowless maze-like alleys built to confuse pirates.", "Head to Mavra Volia beach.", "Relax on dramatic black volcanic pebbles."],
-                evening: ["Dry off and prepare for the evening meal."],
-                dinner: {
-                    seafood: { name: "Meltemaki (Katarraktis)", desc: "Famous seaside restaurant. Exceptional grilled octopus." },
-                    meat: { name: "O Mesaionas (Mesta)", desc: "Main medieval square. Traditional souvlaki and Greek salads." },
-                    snacks: { name: "Stoa Cafe (Pyrgi)", desc: "Casual local cheese, olives, and drinks." }
+            'TR': {
+                chios: {
+                    arrival: { id: 'arrival', title: 'Varış & Merkez', morning: ["Limana varış.", "Aracı teslim al."], afternoon: ["Kampos bahçelerini gez.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Limanda gün batımı."], night: ["Meydanda yürüyüş."], dinner: { seafood: {name:"To Tsikoudo", desc:"Izgara ahtapot."}, meat: {name:"Hotzas", desc:"Kuzu kebap."}, snacks: {name:"Kechrimbari", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Derin Güney', morning: ["Güneye sür.", "Pyrgi'yi gez."], afternoon: ["Mesta labirentini keşfet.", "Mavra Volia'da yüz."], evening: ["Kurulan ve hazırlan."], night: ["Işıklı sokaklarda yürü."], dinner: { seafood: {name:"Meltemaki", desc:"Deniz manzaralı."}, meat: {name:"O Mesaionas", desc:"Geleneksel souvlaki."}, snacks: {name:"Stoa Cafe", desc:"Yerel peynir."} } },
+                    west: { id: 'west', title: 'Batı Günbatımı', morning: ["Dağlara çık.", "Nea Moni'yi gör."], afternoon: ["Anavatos hayalet köyü.", "Elinda koyunda yüz."], evening: ["Avgonyma'da gün batımı."], night: ["Güvenle geri dön."], dinner: { seafood: {name:"Galera Taverna", desc:"Sahilde balık."}, meat: {name:"To Asteri", desc:"Fırın keçi."}, snacks: {name:"Taverna Metoxi", desc:"Çıtır salata."} } },
+                    north: { id: 'north', title: 'Vahşi Kuzey', morning: ["Volissos'a sür.", "Bizans kalesine çık."], afternoon: ["Agia Markella'yı gör.", "Managros'ta yüz."], evening: ["Köy meydanında dinlen."], night: ["Yıldızları izle."], dinner: { seafood: {name:"Limenas Tavernas", desc:"Taze av."}, meat: {name:"Fabrika", desc:"Izgara et."}, snacks: {name:"Makellos", desc:"El yapımı makarna."} } },
+                    northeast: { id: 'northeast', title: 'Denizci Kuzeyi', morning: ["Sahil yolundan git.", "Homer'in Kayası'nda dur."], afternoon: ["Nagos plajında yüz.", "Ağaç altında dinlen."], evening: ["Lagkada'ya sür."], night: ["Kordonda yürü."], dinner: { seafood: {name:"Passas", desc:"Su kenarında."}, meat: {name:"Opos Palia", desc:"Zengin tabaklar."}, snacks: {name:"Nostos", desc:"Uzo & meze."} } },
+                    east: { id: 'east', title: 'Doğu Rivierası', morning: ["Stressiz bir gün.", "Kumlu plajlara git."], afternoon: ["Şezlong kirala.", "Tampakika değirmenleri."], evening: ["Türk kıyısına karşı gün batımı."], night: ["Resort havası."], dinner: { seafood: {name:"Bachari", desc:"Teras yemeği."}, meat: {name:"Taverna Pinaleon", desc:"Domuz souvlaki."}, snacks: {name:"Agyra", desc:"Kabak mücver."} } },
+                    departure: { id: 'departure', title: 'Ayrılış', morning: ["Çantaları topla.", "Aracı yükle."], afternoon: ["Aplotaria'da alışveriş.", "Aracı teslim et."], evening: ["Son kahve."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Liman Fırını", desc:"Peynirli börek."} } }
                 },
-                night: ["Digestive walk through illuminated medieval streets.", "Drive back to base."]
+                kos: {
+                    arrival: { id: 'arrival', title: 'Varış & Asklepieion', morning: ["Limana varış.", "Aracı al."], afternoon: ["Asklepieion'u gez.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Eleftherias Meydanı."], night: ["Eski Şehir'de içki."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Taze balık."}, meat: {name:"Ali", desc:"Kebap."}, snacks: {name:"Plaza", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Kefalos Plajları', morning: ["Güneye sür.", "Agios Stefanos bazilikası."], afternoon: ["Paradise Beach'te yüz.", "Su sporları."], evening: ["Körfezde gün batımı."], night: ["Merkeze dön."], dinner: { seafood: {name:"Limionas", desc:"Deniz ürünleri."}, meat: {name:"Kastri", desc:"Izgara."}, snacks: {name:"Kefalos Cafe", desc:"Atıştırmalık."} } },
+                    west: { id: 'west', title: 'Kale & Sahil', morning: ["Antimachia'ya sür.", "Venedik Kalesi."], afternoon: ["Mastichari'yi gez.", "Dalgalarda yüz."], evening: ["Kalimnos'a karşı gün batımı."], night: ["Rahat akşam."], dinner: { seafood: {name:"O Pserimos", desc:"Balık."}, meat: {name:"Geleneksel Taverna", desc:"Et."}, snacks: {name:"Plaj Barı", desc:"İçecekler."} } },
+                    north: { id: 'north', title: 'Tuz Gölü', morning: ["Tigaki'ye sür.", "Tuz Gölü'nü (Alikes) gör."], afternoon: ["Flamingoları izle.", "Uzun plajda yüz."], evening: ["Sahilde kokteyl."], night: ["Canlı gece hayatı."], dinner: { seafood: {name:"Marmari Fish", desc:"Taze."}, meat: {name:"Tigaki Grill", desc:"Souvlaki."}, snacks: {name:"Oasis", desc:"Meze."} } },
+                    northeast: { id: 'northeast', title: 'Dağ & Spa', morning: ["Zia köyünü gez.", "Dikaios Dağı'na çık."], afternoon: ["Therma Kaplıcaları.", "Doğal spa."], evening: ["Dağ manzarası."], night: ["Yerel bal al."], dinner: { seafood: {name:"Oromedon", desc:"Manzara."}, meat: {name:"Zia Taverna", desc:"Fırın et."}, snacks: {name:"Su Değirmeni", desc:"Tatlı."} } },
+                    east: { id: 'east', title: 'Psalidi Sahili', morning: ["Psalidi'ye sür.", "Sahil bisikleti."], afternoon: ["Rüzgar sörfü.", "Dinlenme."], evening: ["Antik kalıntıları gez."], night: ["Kos gece hayatı."], dinner: { seafood: {name:"Agios Fokas", desc:"Deniz ürünleri."}, meat: {name:"Meat Bar", desc:"Izgara."}, snacks: {name:"Lounge", desc:"Tapas."} } },
+                    departure: { id: 'departure', title: 'Ayrılış', morning: ["Çantaları topla.", "Aracı yükle."], afternoon: ["Hipokrat Ağacı.", "Aracı teslim et."], evening: ["Son kahve."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Liman Cafe", desc:"Hamur işi."} } }
+                },
+                lesbos: {
+                    arrival: { id: 'arrival', title: 'Midilli Varış', morning: ["Midilli'ye varış.", "Aracı al."], afternoon: ["Midilli Kalesi.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Limanda yürü."], night: ["Ermou caddesi."], dinner: { seafood: {name:"Ermis", desc:"Tarihi."}, meat: {name:"Kalderimi", desc:"Etler."}, snacks: {name:"Ouzo Bar", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Uzo & Koylar', morning: ["Plomari'ye sür.", "Uzo Müzesi."], afternoon: ["Agios Isidoros'ta yüz.", "Dar sokaklar."], evening: ["Deniz kenarı dinlenme."], night: ["Uzo tadımı."], dinner: { seafood: {name:"Tarsanas", desc:"Deniz ürünleri."}, meat: {name:"Plaza", desc:"Izgara."}, snacks: {name:"Barbayanni Cafe", desc:"Meze."} } },
+                    west: { id: 'west', title: 'Taşlaşmış Orman', morning: ["Sigri'ye sür.", "Taşlaşmış Orman'ı gez."], afternoon: ["Doğa Tarihi Müzesi.", "Uzak batıda yüz."], evening: ["Batıda gün batımı."], night: ["Dikkatli sür."], dinner: { seafood: {name:"Cavo Doro", desc:"Balık."}, meat: {name:"Sigri Taverna", desc:"Et."}, snacks: {name:"Liman Cafe", desc:"Atıştırmalık."} } },
+                    north: { id: 'north', title: 'Molyvos Büyüsü', morning: ["Molyvos'a sür.", "Arnavut kaldırımları."], afternoon: ["Molyvos Kalesi.", "Petra plajında yüz."], evening: ["Pitoresk liman."], night: ["Canlı gece hayatı."], dinner: { seafood: {name:"Captain's Table", desc:"Deniz ürünleri."}, meat: {name:"Kadın Koop.", desc:"Yerel yemekler."}, snacks: {name:"Congas", desc:"İçecekler."} } },
+                    northeast: { id: 'northeast', title: 'Manastır & Peynir', morning: ["Mandamados'a git.", "Yerel peynir tat."], afternoon: ["Taxiarchis Manastırı.", "Köyde dinlen."], evening: ["Zeytinliklerde sürüş."], night: ["Sessiz akşam."], dinner: { seafood: {name:"Skala Taverna", desc:"Balık."}, meat: {name:"Pedion", desc:"Etler."}, snacks: {name:"Süt Cafe", desc:"Peynir tabağı."} } },
+                    east: { id: 'east', title: 'Gera Körfezi', morning: ["Gera etrafında sür.", "Zeytin presleri."], afternoon: ["Kaplıcalara gir.", "Sakin körfezde yüz."], evening: ["Yerel kafeler."], night: ["Rahat akşam yemeği."], dinner: { seafood: {name:"Panagiouda", desc:"Deniz ürünleri."}, meat: {name:"Gera Grill", desc:"Souvlaki."}, snacks: {name:"Körfez Cafe", desc:"Meze."} } },
+                    departure: { id: 'departure', title: 'Ayrılış', morning: ["Toplan.", "Aracı yükle."], afternoon: ["Sappho meydanı.", "Aracı teslim et."], evening: ["Son uzo."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Büfe", desc:"Pita."} } }
+                },
+                meis: {
+                    arrival: { id: 'arrival', title: 'Meis\'e Hoşgeldiniz', morning: ["Limana varış.", "Odaya yerleş."], afternoon: ["Renkli limanı gez.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Cami yanında gün batımı."], night: ["Su kenarında içki."], dinner: { seafood: {name:"Lazarakis", desc:"Taze av."}, meat: {name:"Athena", desc:"Yunan ızgara."}, snacks: {name:"Faros", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Mavi Mağara', morning: ["Küçük tekneye bin.", "Mavi Mağara'ya gir."], afternoon: ["Parlayan suda yüz.", "Limana dön."], evening: ["Kafede dinlen."], night: ["Sakin yürüyüş."], dinner: { seafood: {name:"Alexandra", desc:"Deniz ürünleri."}, meat: {name:"Platania", desc:"Etler."}, snacks: {name:"Liman Cafe", desc:"Atıştırmalık."} } },
+                    west: { id: 'west', title: 'Aya Yorgi Adası', morning: ["Aya Yorgi'ye tekne.", "Berrak suda şnorkel."], afternoon: ["Ada şapeli.", "Şezlongda dinlen."], evening: ["Gün batımı için dön."], night: ["Tekneler yanında akşam yemeği."], dinner: { seafood: {name:"Sydney", desc:"Balık."}, meat: {name:"Grill House", desc:"Souvlaki."}, snacks: {name:"Ada Barı", desc:"İçecekler."} } },
+                    north: { id: 'north', title: 'Mandraki Yürüyüşü', morning: ["Sahil yolunda yürü.", "Mandraki limanını gez."], afternoon: ["Likya mezarını gör.", "Koyda yüz."], evening: ["Akşam gezintisi."], night: ["Yerlilerle sohbet."], dinner: { seafood: {name:"Mandraki Taverna", desc:"Deniz ürünleri."}, meat: {name:"Eski Şehir", desc:"Et."}, snacks: {name:"Büfe", desc:"Pita."} } },
+                    northeast: { id: 'northeast', title: 'Paleokastro Tırmanışı', morning: ["Paleokastro'ya çık.", "Antik kalıntıları gez."], afternoon: ["Panoramik manzara.", "Aşağı yürü."], evening: ["Dinlenme."], night: ["Doyurucu akşam yemeği."], dinner: { seafood: {name:"Billy's", desc:"Balık."}, meat: {name:"Castle Grill", desc:"Etler."}, snacks: {name:"Meydan Cafe", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Ro Hanımı', morning: ["Ro adasına tekne.", "Yerel tarihi öğren."], afternoon: ["Adacıkta yüz.", "Meis'e dön."], evening: ["Geziyi düşün."], night: ["Veda içkileri."], dinner: { seafood: {name:"Aegean", desc:"Deniz ürünleri."}, meat: {name:"Geleneksel", desc:"Fırın et."}, snacks: {name:"Liman Barı", desc:"Tapas."} } },
+                    departure: { id: 'departure', title: 'Ayrılış', morning: ["Çantaları topla.", "Çıkış yap."], afternoon: ["Megisti Müzesi.", "Son kahve."], evening: ["Feribotu bekle."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Fırın", desc:"Peynirli börek."} } }
+                },
+                rhodes: {
+                    arrival: { id: 'arrival', title: 'Mandraki & Eski Şehir', morning: ["Mandraki'ye varış.", "Aracı al."], afternoon: ["Eski Şehir'i gez.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Hendekte yürü."], night: ["Eski şehir gece hayatı."], dinner: { seafood: {name:"Nireas", desc:"Deniz ürünleri."}, meat: {name:"Marco Polo", desc:"Etler."}, snacks: {name:"Ronda", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Prasonisi Burnu', morning: ["Güneye sür.", "Prasonisi'ye var."], afternoon: ["İki denizin birleştiği yer.", "Uçurtma sörfçüleri."], evening: ["Kumda dinlen."], night: ["Uzun dönüş yolu."], dinner: { seafood: {name:"Lighthouse", desc:"Balık."}, meat: {name:"South Grill", desc:"Souvlaki."}, snacks: {name:"Surf Bar", desc:"İçecekler."} } },
+                    west: { id: 'west', title: 'Monolithos Kalesi', morning: ["Batı sahilinde sür.", "Kale kalıntılarına çık."], afternoon: ["Harika sahil manzarası.", "Fourni'de yüz."], evening: ["Gün batımı yemeği."], night: ["Ormanlardan sürüş."], dinner: { seafood: {name:"Old Monolithos", desc:"Deniz ürünleri."}, meat: {name:"Castle Taverna", desc:"Keçi."}, snacks: {name:"Manzara Cafe", desc:"Atıştırmalık."} } },
+                    north: { id: 'north', title: 'Antik Kamiros', morning: ["Kamiros kalıntıları.", "Antik sokaklarda yürü."], afternoon: ["Kuzey sahilinde sür.", "Ialysos'ta yüz."], evening: ["Rüzgar sörfçülerini izle."], night: ["Canlı akşam."], dinner: { seafood: {name:"Kymata", desc:"Balık."}, meat: {name:"Pita Grill", desc:"Etler."}, snacks: {name:"Beach Club", desc:"Meze."} } },
+                    northeast: { id: 'northeast', title: 'Lindos Akropolü', morning: ["Lindos'a sür.", "Akropolü erken gez."], afternoon: ["Beyaz sokaklarda yürü.", "St. Paul Koyunda yüz."], evening: ["Çatıda gün batımı."], night: ["Romantik akşam yemeği."], dinner: { seafood: {name:"Mavrikos", desc:"Deniz ürünleri."}, meat: {name:"Lindos Taverna", desc:"Fırın et."}, snacks: {name:"Avlu", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Anthony Quinn Koyu', morning: ["Koyu gez.", "Berrak suda şnorkel."], afternoon: ["Kalithea Kaplıcaları.", "İtalyan hamamları."], evening: ["Sahil sürüşü."], night: ["Faliraki veya Merkez."], dinner: { seafood: {name:"Tasos", desc:"Balık."}, meat: {name:"Elias", desc:"Izgara."}, snacks: {name:"Oasis", desc:"İçecekler."} } },
+                    departure: { id: 'departure', title: 'Ayrılış', morning: ["Çantaları topla.", "Aracı yükle."], afternoon: ["Büyük Üstat Sarayı.", "Aracı teslim et."], evening: ["Son gezinti."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Liman Fırını", desc:"Pita."} } }
+                },
+                samos: {
+                    arrival: { id: 'arrival', title: 'Vathy Varış', morning: ["Limana varış.", "Aracı al."], afternoon: ["Sisam Şehri'ni gez.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Kordonda yürü."], night: ["Su kenarında içki."], dinner: { seafood: {name:"Zen", desc:"Deniz ürünleri."}, meat: {name:"To Steki", desc:"Etler."}, snacks: {name:"Cafe Marina", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Pythagoreion Tarihi', morning: ["Pythagoreion'a sür.", "Heraion'u gez."], afternoon: ["Eupalinos Tüneli.", "Yakında yüz."], evening: ["Marinada akşam."], night: ["Canlı şehir yürüyüşü."], dinner: { seafood: {name:"Remataki", desc:"Balık."}, meat: {name:"Elia", desc:"Izgara."}, snacks: {name:"Corner Bar", desc:"Atıştırmalık."} } },
+                    west: { id: 'west', title: 'Karlovasi Şelaleleri', morning: ["Karlovasi'ye sür.", "Potami Şelalelerine yürü."], afternoon: ["Potami plajında yüz.", "Eski tabakhaneler."], evening: ["Gün batımı manzarası."], night: ["Rahat akşam yemeği."], dinner: { seafood: {name:"Hippocrates", desc:"Deniz ürünleri."}, meat: {name:"Karlovasi Grill", desc:"Souvlaki."}, snacks: {name:"Şelale Cafe", desc:"Meze."} } },
+                    north: { id: 'north', title: 'Kokkari Köyü', morning: ["Kokkari'yi gez.", "Pitoresk limanda yürü."], afternoon: ["Lemonakia'da yüz.", "Tsamadou'da dinlen."], evening: ["Dalgaları izle."], night: ["Taverna gezmecesi."], dinner: { seafood: {name:"Meltemi", desc:"Balık."}, meat: {name:"Tarsanas", desc:"Etler."}, snacks: {name:"Surf Club", desc:"İçecekler."} } },
+                    northeast: { id: 'northeast', title: 'Dağ Şarapları', morning: ["Vourliotes'i keşfet.", "Yerel şaraphaneler."], afternoon: ["Tatlı Misket şarabı.", "Dağ manzarası."], evening: ["Güvenle aşağı sür."], night: ["Sessiz akşam."], dinner: { seafood: {name:"Blue Chair", desc:"Deniz ürünleri."}, meat: {name:"Pera Vrisi", desc:"Fırın et."}, snacks: {name:"Meydan", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Mykali Sahili', morning: ["Mykali'ye sür.", "Uzun plajda dinlen."], afternoon: ["Türk kıyısı manzarası.", "Sakin suda yüz."], evening: ["Psili Ammos'ta akşam."], night: ["Veda yemeği."], dinner: { seafood: {name:"Fish Bone", desc:"Balık."}, meat: {name:"East Taverna", desc:"Izgara."}, snacks: {name:"Kum Cafe", desc:"Atıştırmalık."} } },
+                    departure: { id: 'departure', title: 'Ayrılış', morning: ["Çantaları topla.", "Aracı yükle."], afternoon: ["Arkeoloji Müzesi.", "Aracı teslim et."], evening: ["Son kahve."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Liman Büfesi", desc:"Börek."} } }
+                }
             },
-            west: {
-                id: 'west',
-                title: 'Ghost Village & Western Sunsets',
-                morning: ["Drive up into the central mountains.", "Visit Nea Moni (UNESCO World Heritage mosaics).", "Continue to Anavatos, the cliffside 'ghost village'."],
-                afternoon: ["Hike around the abandoned ruins of Anavatos.", "Drive down to Elinda Bay for a remote swim.", "Enjoy the pristine, cool western waters."],
-                evening: ["Drive to Avgonyma or Lithi to secure a sunset viewing spot."],
-                dinner: {
-                    seafood: { name: "Galera Taverna (Lithi)", desc: "Right on the sand. Seafood supplied daily by local fishermen." },
-                    meat: { name: "To Asteri (Avgonyma)", desc: "Mountain views. Famous for slow-roasted goat baked with lemon and thyme." },
-                    snacks: { name: "Taverna Metoxi (Metochi Bay)", desc: "Boiled marinated octopus and crisp Greek salads." }
+            'DE': {
+                chios: {
+                    arrival: { id: 'arrival', title: 'Ankunft & Zentrum', morning: ["Ausschiffung.", "Mietwagen abholen."], afternoon: ["Kampos Gärten.", "Sonnenbaden am {beach}."], evening: ["Sonnenuntergang am Hafen."], night: ["Spaziergang im Zentrum."], dinner: { seafood: {name:"To Tsikoudo", desc:"Oktopus."}, meat: {name:"Hotzas", desc:"Lammkebab."}, snacks: {name:"Kechrimbari", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Der tiefe Süden', morning: ["Fahrt nach Süden.", "Pyrgi bemalte Häuser."], afternoon: ["Mesta Labyrinth.", "Schwimmen am schwarzen Strand."], evening: ["Trocknen & vorbereiten."], night: ["Beleuchtete Gassen."], dinner: { seafood: {name:"Meltemaki", desc:"Meerblick."}, meat: {name:"O Mesaionas", desc:"Souvlaki."}, snacks: {name:"Stoa Cafe", desc:"Lokaler Käse."} } },
+                    west: { id: 'west', title: 'Westliche Sonnenuntergänge', morning: ["Bergfahrt.", "Nea Moni."], afternoon: ["Anavatos Geisterdorf.", "Schwimmen in Elinda."], evening: ["Sonnenuntergang in Avgonyma."], night: ["Rückfahrt."], dinner: { seafood: {name:"Galera Taverna", desc:"Fisch am Strand."}, meat: {name:"To Asteri", desc:"Ziegenbraten."}, snacks: {name:"Taverna Metoxi", desc:"Salate."} } },
+                    north: { id: 'north', title: 'Wilde Grenze', morning: ["Fahrt nach Volissos.", "Byzantinische Burg."], afternoon: ["Agia Markella.", "Managros Strand."], evening: ["Dorfplatz."], night: ["Sternegucken."], dinner: { seafood: {name:"Limenas Tavernas", desc:"Frischer Fisch."}, meat: {name:"Fabrika", desc:"Grillfleisch."}, snacks: {name:"Makellos", desc:"Pasta."} } },
+                    northeast: { id: 'northeast', title: 'Norden der Seefahrer', morning: ["Küstenstraße.", "Homers Felsen."], afternoon: ["Schwimmen in Nagos.", "Entspannen im Schatten."], evening: ["Fischerdorf Lagkada."], night: ["Spaziergang."], dinner: { seafood: {name:"Passas", desc:"Direkt am Wasser."}, meat: {name:"Opos Palia", desc:"Traditionell."}, snacks: {name:"Nostos", desc:"Ouzo & Meze."} } },
+                    east: { id: 'east', title: 'Östliche Riviera', morning: ["Entspannter Tag.", "Sandstrände."], afternoon: ["Sonnenliege.", "Tampakika Windmühlen."], evening: ["Blick auf die türkische Küste."], night: ["Resort Atmosphäre."], dinner: { seafood: {name:"Bachari", desc:"Terrasse."}, meat: {name:"Taverna Pinaleon", desc:"Souvlaki."}, snacks: {name:"Agyra", desc:"Zucchinipuffer."} } },
+                    departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auto beladen."], afternoon: ["Shopping Aplotaria.", "Auto abgeben."], evening: ["Letzter Kaffee."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Bäckerei", desc:"Käsekuchen."} } }
                 },
-                night: ["Watch the best sunset on the island.", "Navigate the mountain road back to base."]
+                kos: {
+                    arrival: { id: 'arrival', title: 'Ankunft & Asklepieion', morning: ["Ankunft Hafen.", "Mietwagen."], afternoon: ["Asklepieion Ruinen.", "Sonnenbaden am {beach}."], evening: ["Eleftherias Platz."], night: ["Drinks in der Altstadt."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Frischer Fisch."}, meat: {name:"Ali", desc:"Kebabs."}, snacks: {name:"Plaza", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Kefalos Strände', morning: ["Fahrt nach Süden.", "Agios Stefanos."], afternoon: ["Paradise Beach.", "Wassersport."], evening: ["Sonnenuntergang."], night: ["Rückfahrt."], dinner: { seafood: {name:"Limionas", desc:"Meeresfrüchte."}, meat: {name:"Kastri", desc:"Grill."}, snacks: {name:"Kefalos Cafe", desc:"Snacks."} } },
+                    west: { id: 'west', title: 'Burg & Küste', morning: ["Fahrt Antimachia.", "Venezianische Burg."], afternoon: ["Mastichari erkunden.", "Schwimmen."], evening: ["Blick auf Kalymnos."], night: ["Entspannter Abend."], dinner: { seafood: {name:"O Pserimos", desc:"Fisch."}, meat: {name:"Traditionelle Taverna", desc:"Fleisch."}, snacks: {name:"Strandbar", desc:"Drinks."} } },
+                    north: { id: 'north', title: 'Salzsee & Sand', morning: ["Fahrt Tigaki.", "Salzsee Alikes."], afternoon: ["Flamingos sehen.", "Sandstrand."], evening: ["Cocktails am Strand."], night: ["Lebhaftes Resort."], dinner: { seafood: {name:"Marmari Fish", desc:"Frisch."}, meat: {name:"Tigaki Grill", desc:"Souvlaki."}, snacks: {name:"Oasis", desc:"Meze."} } },
+                    northeast: { id: 'northeast', title: 'Berg & Spa', morning: ["Zia Dorf.", "Wanderung Mount Dikaios."], afternoon: ["Therma Heiße Quellen.", "Natürliches Spa."], evening: ["Bergblick Sonnenuntergang."], night: ["Lokaler Honig."], dinner: { seafood: {name:"Oromedon", desc:"Aussicht."}, meat: {name:"Zia Taverna", desc:"Braten."}, snacks: {name:"Wassermühle", desc:"Süßes."} } },
+                    east: { id: 'east', title: 'Psalidi Küste', morning: ["Fahrt Psalidi.", "Küstenradweg."], afternoon: ["Windsurfen.", "Entspannen am Wasser."], evening: ["Antike Ruinen."], night: ["Kos Stadt Nachtleben."], dinner: { seafood: {name:"Agios Fokas", desc:"Meeresfrüchte."}, meat: {name:"Meat Bar", desc:"Grill."}, snacks: {name:"Lounge", desc:"Tapas."} } },
+                    departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auto beladen."], afternoon: ["Baum des Hippokrates.", "Auto abgeben."], evening: ["Letzter Kaffee."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Hafen Cafe", desc:"Gebäck."} } }
+                },
+                lesbos: {
+                    arrival: { id: 'arrival', title: 'Mytilene Ankunft', morning: ["Ankunft Mytilene.", "Mietwagen."], afternoon: ["Mytilene Burg.", "Sonnenbaden am {beach}."], evening: ["Hafenrundgang."], night: ["Drinks Ermou Straße."], dinner: { seafood: {name:"Ermis", desc:"Historisch."}, meat: {name:"Kalderimi", desc:"Fleisch."}, snacks: {name:"Ouzo Bar", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Ouzo & Buchten', morning: ["Fahrt Plomari.", "Ouzo Museum."], afternoon: ["Schwimmen Agios Isidoros.", "Enge Gassen."], evening: ["Entspannen am Meer."], night: ["Ouzo Verkostung."], dinner: { seafood: {name:"Tarsanas", desc:"Meeresfrüchte."}, meat: {name:"Plaza", desc:"Grill."}, snacks: {name:"Barbayanni", desc:"Ouzo Teller."} } },
+                    west: { id: 'west', title: 'Versteinerter Wald', morning: ["Fahrt Sigri.", "Versteinerter Wald."], afternoon: ["Naturhistorisches Museum.", "Schwimmen."], evening: ["Sonnenuntergang West."], night: ["Vorsichtige Rückfahrt."], dinner: { seafood: {name:"Cavo Doro", desc:"Fisch."}, meat: {name:"Sigri Taverna", desc:"Fleisch."}, snacks: {name:"Hafen Cafe", desc:"Snacks."} } },
+                    north: { id: 'north', title: 'Molyvos Magie', morning: ["Fahrt Molyvos.", "Kopfsteinpflaster."], afternoon: ["Molyvos Burg.", "Schwimmen Petra."], evening: ["Malerischer Hafen."], night: ["Nachtleben."], dinner: { seafood: {name:"Captain's Table", desc:"Meeresfrüchte."}, meat: {name:"Frauenkooperative", desc:"Lokal."}, snacks: {name:"Congas", desc:"Drinks."} } },
+                    northeast: { id: 'northeast', title: 'Kloster & Käse', morning: ["Mandamados.", "Lokaler Käse."], afternoon: ["Taxiarchis Kloster.", "Entspannen im Dorf."], evening: ["Fahrt durch Olivenhaine."], night: ["Ruhiger Abend."], dinner: { seafood: {name:"Skala Taverna", desc:"Fisch."}, meat: {name:"Pedion", desc:"Fleisch."}, snacks: {name:"Milch Cafe", desc:"Käseplatte."} } },
+                    east: { id: 'east', title: 'Gera Golf', morning: ["Fahrt Gera Golf.", "Olivenpressen."], afternoon: ["Heiße Quellen.", "Schwimmen im ruhigen Golf."], evening: ["Lokale Cafes."], night: ["Entspanntes Essen."], dinner: { seafood: {name:"Panagiouda", desc:"Meeresfrüchte."}, meat: {name:"Gera Grill", desc:"Souvlaki."}, snacks: {name:"Golf Cafe", desc:"Meze."} } },
+                    departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auto beladen."], afternoon: ["Sappho Platz.", "Auto abgeben."], evening: ["Letzter Ouzo."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Kiosk", desc:"Pita."} } }
+                },
+                meis: {
+                    arrival: { id: 'arrival', title: 'Willkommen auf Kastelorizo', morning: ["Ankunft Hafen.", "Einchecken."], afternoon: ["Bunter Hafen.", "Sonnenbaden am {beach}."], evening: ["Sonnenuntergang Moschee."], night: ["Drinks am Wasser."], dinner: { seafood: {name:"Lazarakis", desc:"Frischer Fang."}, meat: {name:"Athena", desc:"Griechischer Grill."}, snacks: {name:"Faros", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Die Blaue Grotte', morning: ["Kleines Boot.", "Blaue Grotte."], afternoon: ["Schwimmen im leuchtenden Wasser.", "Rückkehr Hafen."], evening: ["Cafe am Hafen."], night: ["Ruhiger Spaziergang."], dinner: { seafood: {name:"Alexandra", desc:"Meeresfrüchte."}, meat: {name:"Platania", desc:"Fleisch."}, snacks: {name:"Hafen Cafe", desc:"Snacks."} } },
+                    west: { id: 'west', title: 'St. George Insel', morning: ["Boot nach St. George.", "Schnorcheln."], afternoon: ["Inselkapelle.", "Sonnenliegen."], evening: ["Rückkehr Sonnenuntergang."], night: ["Essen bei den Booten."], dinner: { seafood: {name:"Sydney", desc:"Fisch."}, meat: {name:"Grill House", desc:"Souvlaki."}, snacks: {name:"Insel Bar", desc:"Drinks."} } },
+                    north: { id: 'north', title: 'Mandraki Spaziergang', morning: ["Küstenweg.", "Mandraki Hafen."], afternoon: ["Lykisches Grab.", "Schwimmen in der Bucht."], evening: ["Abendspaziergang."], night: ["Plaudern mit Einheimischen."], dinner: { seafood: {name:"Mandraki Taverna", desc:"Meeresfrüchte."}, meat: {name:"Altstadt", desc:"Fleisch."}, snacks: {name:"Kiosk", desc:"Pita."} } },
+                    northeast: { id: 'northeast', title: 'Paleokastro Aufstieg', morning: ["Aufstieg Paleokastro.", "Antike Ruinen."], afternoon: ["Panoramablick.", "Abstieg."], evening: ["Ausruhen."], night: ["Herzhaftes Essen."], dinner: { seafood: {name:"Billy's", desc:"Fisch."}, meat: {name:"Castle Grill", desc:"Fleisch."}, snacks: {name:"Platz Cafe", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Dame von Ro', morning: ["Boot nach Ro.", "Lokale Geschichte."], afternoon: ["Schwimmen.", "Rückkehr Kastelorizo."], evening: ["Reise reflektieren."], night: ["Abschiedsgetränke."], dinner: { seafood: {name:"Aegean", desc:"Meeresfrüchte."}, meat: {name:"Traditionell", desc:"Braten."}, snacks: {name:"Hafen Bar", desc:"Tapas."} } },
+                    departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auschecken."], afternoon: ["Megisti Museum.", "Letzter Kaffee."], evening: ["Warten auf Fähre."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Bäckerei", desc:"Käsekuchen."} } }
+                },
+                rhodes: {
+                    arrival: { id: 'arrival', title: 'Mandraki & Altstadt', morning: ["Ankunft Mandraki.", "Mietwagen."], afternoon: ["Altstadt erkunden.", "Sonnenbaden am {beach}."], evening: ["Spaziergang Burggraben."], night: ["Altstadt Nachtleben."], dinner: { seafood: {name:"Nireas", desc:"Meeresfrüchte."}, meat: {name:"Marco Polo", desc:"Fleisch."}, snacks: {name:"Ronda", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Prasonisi Spitze', morning: ["Fahrt nach Süden.", "Prasonisi."], afternoon: ["Treffen der zwei Meere.", "Kitesurfer beobachten."], evening: ["Entspannen am Sand."], night: ["Lange Rückfahrt."], dinner: { seafood: {name:"Lighthouse", desc:"Fisch."}, meat: {name:"South Grill", desc:"Souvlaki."}, snacks: {name:"Surf Bar", desc:"Drinks."} } },
+                    west: { id: 'west', title: 'Monolithos Burg', morning: ["Fahrt Westküste.", "Aufstieg Burgruine."], afternoon: ["Tolle Küstenansicht.", "Schwimmen Fourni."], evening: ["Sonnenuntergang Essen."], night: ["Fahrt durch Wälder."], dinner: { seafood: {name:"Old Monolithos", desc:"Meeresfrüchte."}, meat: {name:"Castle Taverna", desc:"Ziege."}, snacks: {name:"Aussicht Cafe", desc:"Snacks."} } },
+                    north: { id: 'north', title: 'Antikes Kamiros', morning: ["Kamiros Ruinen.", "Antike Straßen."], afternoon: ["Fahrt Nordküste.", "Schwimmen Ialysos."], evening: ["Windsurfer beobachten."], night: ["Lebhafter Abend."], dinner: { seafood: {name:"Kymata", desc:"Fisch."}, meat: {name:"Pita Grill", desc:"Fleisch."}, snacks: {name:"Beach Club", desc:"Meze."} } },
+                    northeast: { id: 'northeast', title: 'Lindos Akropolis', morning: ["Fahrt Lindos.", "Akropolis früh besuchen."], afternoon: ["Weiße Gassen.", "Schwimmen St. Paul's Bay."], evening: ["Dachterrasse Sonnenuntergang."], night: ["Romantisches Essen."], dinner: { seafood: {name:"Mavrikos", desc:"Meeresfrüchte."}, meat: {name:"Lindos Taverna", desc:"Braten."}, snacks: {name:"Innenhof", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Anthony Quinn Bucht', morning: ["Bucht erkunden.", "Schnorcheln."], afternoon: ["Kalithea Quellen.", "Italienische Bäder."], evening: ["Küstenfahrt."], night: ["Faliraki oder Stadt."], dinner: { seafood: {name:"Tasos", desc:"Fisch."}, meat: {name:"Elias", desc:"Grill."}, snacks: {name:"Oasis", desc:"Drinks."} } },
+                    departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auto beladen."], afternoon: ["Großmeisterpalast.", "Auto abgeben."], evening: ["Letzter Spaziergang."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Hafen Bäckerei", desc:"Pita."} } }
+                },
+                samos: {
+                    arrival: { id: 'arrival', title: 'Vathy Ankunft', morning: ["Ankunft Hafen.", "Mietwagen."], afternoon: ["Samos Stadt.", "Sonnenbaden am {beach}."], evening: ["Promenade."], night: ["Drinks am Wasser."], dinner: { seafood: {name:"Zen", desc:"Meeresfrüchte."}, meat: {name:"To Steki", desc:"Fleisch."}, snacks: {name:"Cafe Marina", desc:"Meze."} } },
+                    south: { id: 'south', title: 'Pythagoreion Geschichte', morning: ["Fahrt Pythagoreion.", "Heraion besuchen."], afternoon: ["Tunnel des Eupalinos.", "Schwimmen."], evening: ["Abend an der Marina."], night: ["Lebhafter Spaziergang."], dinner: { seafood: {name:"Remataki", desc:"Fisch."}, meat: {name:"Elia", desc:"Grill."}, snacks: {name:"Corner Bar", desc:"Snacks."} } },
+                    west: { id: 'west', title: 'Karlovasi Wasserfälle', morning: ["Fahrt Karlovasi.", "Wanderung Potami Wasserfälle."], afternoon: ["Schwimmen Potami Strand.", "Alte Gerbereien."], evening: ["Sonnenuntergang."], night: ["Entspanntes Essen."], dinner: { seafood: {name:"Hippocrates", desc:"Meeresfrüchte."}, meat: {name:"Karlovasi Grill", desc:"Souvlaki."}, snacks: {name:"Wasserfall Cafe", desc:"Meze."} } },
+                    north: { id: 'north', title: 'Kokkari Dorf', morning: ["Besuch Kokkari.", "Malerischer Hafen."], afternoon: ["Schwimmen Lemonakia.", "Entspannen Tsamadou."], evening: ["Wellen beobachten."], night: ["Tavernen Hopping."], dinner: { seafood: {name:"Meltemi", desc:"Fisch."}, meat: {name:"Tarsanas", desc:"Fleisch."}, snacks: {name:"Surf Club", desc:"Drinks."} } },
+                    northeast: { id: 'northeast', title: 'Bergweine', morning: ["Vourliotes erkunden.", "Lokale Weingüter."], afternoon: ["Süßer Muskatwein.", "Bergblick."], evening: ["Sichere Rückfahrt."], night: ["Ruhiger Abend."], dinner: { seafood: {name:"Blue Chair", desc:"Meeresfrüchte."}, meat: {name:"Pera Vrisi", desc:"Braten."}, snacks: {name:"Dorfplatz", desc:"Meze."} } },
+                    east: { id: 'east', title: 'Mykali Küste', morning: ["Fahrt Mykali.", "Entspannen am Strand."], afternoon: ["Blick türkische Küste.", "Schwimmen."], evening: ["Abend in Psili Ammos."], night: ["Abschiedsessen."], dinner: { seafood: {name:"Fish Bone", desc:"Fisch."}, meat: {name:"East Taverna", desc:"Grill."}, snacks: {name:"Sand Cafe", desc:"Snacks."} } },
+                    departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auto beladen."], afternoon: ["Archäologisches Museum.", "Auto abgeben."], evening: ["Letzter Kaffee."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Kiosk", desc:"Kuchen."} } }
+                }
             },
-            north: {
-                id: 'north',
-                title: 'The Wild Frontier (Northwest)',
-                morning: ["Start the long, scenic drive up to the Northwest.", "Arrive in Volissos village.", "Climb to the ruined Byzantine castle."],
-                afternoon: ["Drive down to Agia Markella monastery.", "Swim at the long, uncrowded Managros beach.", "Enjoy the untamed, rugged coastline."],
-                evening: ["Head back towards Volissos square for evening atmosphere."],
-                dinner: {
-                    seafood: { name: "Limenas Tavernas (Limnia)", desc: "Fresh fish right at the small Volissos port." },
-                    meat: { name: "Fabrika (Volissos)", desc: "Set inside a restored olive press. Fantastic grilled local meats." },
-                    snacks: { name: "Makellos (Pityos)", desc: "High altitude mountain village. Authentic small plates and handmade pasta." }
+            'RU': {
+                chios: {
+                    arrival: { id: 'arrival', title: 'Прибытие и Центр', morning: ["Высадка в порту.", "Аренда авто."], afternoon: ["Сады Кампоса.", "Позагорайте на пляже {beach}."], evening: ["Закат в гавани."], night: ["Прогулка по площади."], dinner: { seafood: {name:"To Tsikoudo", desc:"Осьминог."}, meat: {name:"Hotzas", desc:"Кебаб."}, snacks: {name:"Kechrimbari", desc:"Мезе."} } },
+                    south: { id: 'south', title: 'Глубокий Юг', morning: ["Поездка на юг.", "Пирги."], afternoon: ["Лабиринт Места.", "Пляж Мавра Волия."], evening: ["Отдых и ужин."], night: ["Вечерние улицы."], dinner: { seafood: {name:"Meltemaki", desc:"У моря."}, meat: {name:"O Mesaionas", desc:"Сувлаки."}, snacks: {name:"Stoa Cafe", desc:"Сыр."} } },
+                    west: { id: 'west', title: 'Западный Закат', morning: ["Поездка в горы.", "Неа Мони."], afternoon: ["Деревня Анаватос.", "Пляж Элинда."], evening: ["Закат в Авгониме."], night: ["Возвращение."], dinner: { seafood: {name:"Galera Taverna", desc:"Рыба."}, meat: {name:"To Asteri", desc:"Козлятина."}, snacks: {name:"Taverna Metoxi", desc:"Салаты."} } },
+                    north: { id: 'north', title: 'Дикий Север', morning: ["Поездка в Волиссос.", "Замок."], afternoon: ["Агия Маркелла.", "Пляж Манагрос."], evening: ["Отдых на площади."], night: ["Звезды."], dinner: { seafood: {name:"Limenas Tavernas", desc:"Свежий улов."}, meat: {name:"Fabrika", desc:"Мясо."}, snacks: {name:"Makellos", desc:"Паста."} } },
+                    northeast: { id: 'northeast', title: 'Север Моряков', morning: ["Поездка по берегу.", "Скала Гомера."], afternoon: ["Пляж Нагос.", "Отдых."], evening: ["Деревня Лагкада."], night: ["Прогулка."], dinner: { seafood: {name:"Passas", desc:"У воды."}, meat: {name:"Opos Palia", desc:"Мясо."}, snacks: {name:"Nostos", desc:"Узо и мезе."} } },
+                    east: { id: 'east', title: 'Восточная Ривьера', morning: ["Отдых.", "Песчаные пляжи."], afternoon: ["Шезлонги.", "Мельницы."], evening: ["Вид на Турцию."], night: ["Курорт."], dinner: { seafood: {name:"Bachari", desc:"Терраса."}, meat: {name:"Taverna Pinaleon", desc:"Сувлаки."}, snacks: {name:"Agyra", desc:"Кабачки."} } },
+                    departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор вещей.", "Погрузка."], afternoon: ["Шоппинг.", "Сдача авто."], evening: ["Кофе."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Пекарня", desc:"Пироги."} } }
                 },
-                night: ["Stargazing in the dark northern skies.", "Long drive back to base."]
-            },
-            northeast: {
-                id: 'northeast',
-                title: 'The Seafarer\'s North',
-                morning: ["Drive the eastern coastal road up to Kardamyla.", "Stop at Daskalopetra (Homer’s Rock).", "Explore the quiet, less touristy upper east coast."],
-                afternoon: ["Swim at Giosonas or Nagos beach.", "Relax under the trees by the crystal clear water."],
-                evening: ["Drive down to the picturesque fishing village of Lagkada."],
-                dinner: {
-                    seafood: { name: "Passas (Lagkada)", desc: "The undisputed seafood capital of the north. Sit right on the water." },
-                    meat: { name: "Opos Palia (Kardamyla)", desc: "Cozy spot for rich, traditional meat dishes." },
-                    snacks: { name: "Nostos (Lagkada)", desc: "Ouzo and highly fresh, salty meze by the boats." }
+                kos: {
+                    arrival: { id: 'arrival', title: 'Прибытие и Асклепион', morning: ["Прибытие в Кос.", "Аренда авто."], afternoon: ["Асклепион.", "Позагорайте на пляже {beach}."], evening: ["Площадь Элефтериас."], night: ["Старый город."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Свежая рыба."}, meat: {name:"Ali", desc:"Кебабы."}, snacks: {name:"Plaza", desc:"Мезе."} } },
+                    south: { id: 'south', title: 'Пляжи Кефалоса', morning: ["Поездка на юг.", "Агиос Стефанос."], afternoon: ["Paradise Beach.", "Спорт."], evening: ["Закат над заливом."], night: ["Возвращение."], dinner: { seafood: {name:"Limionas", desc:"Морепродукты."}, meat: {name:"Kastri", desc:"Гриль."}, snacks: {name:"Kefalos Cafe", desc:"Закуски."} } },
+                    west: { id: 'west', title: 'Замок и Берег', morning: ["Антимахия.", "Замок."], afternoon: ["Мастихари.", "Купание."], evening: ["Вид на Калимнос."], night: ["Отдых."], dinner: { seafood: {name:"O Pserimos", desc:"Рыба."}, meat: {name:"Taverna", desc:"Мясо."}, snacks: {name:"Бар", desc:"Напитки."} } },
+                    north: { id: 'north', title: 'Соленое Озеро', morning: ["Тигаки.", "Озеро Аликес."], afternoon: ["Фламинго.", "Пляж."], evening: ["Коктейли."], night: ["Курорт."], dinner: { seafood: {name:"Marmari Fish", desc:"Рыба."}, meat: {name:"Tigaki Grill", desc:"Сувлаки."}, snacks: {name:"Oasis", desc:"Мезе."} } },
+                    northeast: { id: 'northeast', title: 'Горы и Спа', morning: ["Деревня Зия.", "Гора Дикеос."], afternoon: ["Термальные источники.", "Спа."], evening: ["Закат в горах."], night: ["Местный мед."], dinner: { seafood: {name:"Oromedon", desc:"Виды."}, meat: {name:"Zia Taverna", desc:"Мясо."}, snacks: {name:"Watermill", desc:"Сладости."} } },
+                    east: { id: 'east', title: 'Берег Псалиди', morning: ["Псалиди.", "Велосипеды."], afternoon: ["Виндсерфинг.", "Отдых."], evening: ["Руины."], night: ["Ночной Кос."], dinner: { seafood: {name:"Agios Fokas", desc:"Морепродукты."}, meat: {name:"Meat Bar", desc:"Гриль."}, snacks: {name:"Lounge", desc:"Тапас."} } },
+                    departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор вещей.", "Погрузка."], afternoon: ["Дерево Гиппократа.", "Сдача авто."], evening: ["Кофе."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Кафе", desc:"Выпечка."} } }
                 },
-                night: ["Walk the Lagkada promenade.", "Drive down the coastal road to base."]
-            },
-            east: {
-                id: 'east',
-                title: 'The Eastern Riviera',
-                morning: ["Sleep in. A low-stress, low-driving day.", "Head to the sandy beaches south of Chios Town (Karfas or Megas Limnionas)."],
-                afternoon: ["Rent a sunbed and relax by the shallow, warm water.", "Visit the Tampakika windmills for a great photo op.", "Enjoy beachside coffees and frappes."],
-                evening: ["Stay in the eastern resort area as the sun sets over the Turkish coast opposite."],
-                dinner: {
-                    seafood: { name: "Bachari (Agia Ermioni)", desc: "Terrace over the water. Perfectly grilled catch-of-the-day." },
-                    meat: { name: "Taverna Pinaleon (Karfas)", desc: "Straightforward, high-protein pork or chicken souvlaki." },
-                    snacks: { name: "Agyra (Megas Limnionas)", desc: "Garden setting. Fantastic zucchini fritters and light plates." }
+                lesbos: {
+                    arrival: { id: 'arrival', title: 'Прибытие Митилини', morning: ["Прибытие.", "Аренда авто."], afternoon: ["Замок.", "Позагорайте на пляже {beach}."], evening: ["Гавань."], night: ["Улица Эрму."], dinner: { seafood: {name:"Ermis", desc:"Исторический."}, meat: {name:"Kalderimi", desc:"Мясо."}, snacks: {name:"Ouzo Bar", desc:"Мезе."} } },
+                    south: { id: 'south', title: 'Узо и Заливы', morning: ["Пломари.", "Музей Узо."], afternoon: ["Агиос Исидорос.", "Узкие улицы."], evening: ["Отдых у моря."], night: ["Дегустация узо."], dinner: { seafood: {name:"Tarsanas", desc:"Морепродукты."}, meat: {name:"Plaza", desc:"Гриль."}, snacks: {name:"Barbayanni", desc:"Закуски."} } },
+                    west: { id: 'west', title: 'Окаменелый Лес', morning: ["Сигри.", "Окаменелый лес."], afternoon: ["Музей.", "Купание."], evening: ["Закат."], night: ["Возвращение."], dinner: { seafood: {name:"Cavo Doro", desc:"Рыба."}, meat: {name:"Sigri Taverna", desc:"Мясо."}, snacks: {name:"Кафе", desc:"Закуски."} } },
+                    north: { id: 'north', title: 'Магия Моливос', morning: ["Моливос.", "Улицы."], afternoon: ["Замок.", "Пляж Петра."], evening: ["Гавань."], night: ["Жизнь."], dinner: { seafood: {name:"Captain's Table", desc:"Морепродукты."}, meat: {name:"Women's Coop", desc:"Местное."}, snacks: {name:"Congas", desc:"Напитки."} } },
+                    northeast: { id: 'northeast', title: 'Монастыри', morning: ["Мандамадос.", "Сыры."], afternoon: ["Монастырь.", "Отдых."], evening: ["Оливковые рощи."], night: ["Тихий вечер."], dinner: { seafood: {name:"Skala Taverna", desc:"Рыба."}, meat: {name:"Pedion", desc:"Мясо."}, snacks: {name:"Кафе", desc:"Сыры."} } },
+                    east: { id: 'east', title: 'Залив Гера', morning: ["Залив.", "Маслобойни."], afternoon: ["Горячие источники.", "Купание."], evening: ["Кафе."], night: ["Ужин."], dinner: { seafood: {name:"Panagiouda", desc:"Морепродукты."}, meat: {name:"Gera Grill", desc:"Сувлаки."}, snacks: {name:"Кафе", desc:"Мезе."} } },
+                    departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор.", "Погрузка."], afternoon: ["Площадь Сапфо.", "Сдача авто."], evening: ["Последний узо."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Киоск", desc:"Пита."} } }
                 },
-                night: ["Enjoy the lively resort atmosphere.", "Short trip back to base."]
-            },
-            departure: {
-                id: 'departure',
-                title: 'Departure & The Final Stroll',
-                morning: ["Pack bags and load the rental car.", "Drive back towards Chios Town."],
-                afternoon: ["Walk along Aplotaria (main shopping street).", "Buy pure mastic tears, cosmetics, or spices.", "Drop off the rental car at the port."],
-                evening: ["Grab a final coffee at the harbor.", "Board the afternoon ferry."],
-                dinner: {
-                    seafood: { name: "N/A", desc: "Ferry Departure" },
-                    meat: { name: "N/A", desc: "Ferry Departure" },
-                    snacks: { name: "Port Bakeries", desc: "Grab cheese pies for the ferry ride." }
+                meis: {
+                    arrival: { id: 'arrival', title: 'Кастелоризо', morning: ["Прибытие.", "Заселение."], afternoon: ["Гавань.", "Позагорайте на пляже {beach}."], evening: ["Мечеть."], night: ["У воды."], dinner: { seafood: {name:"Lazarakis", desc:"Улов."}, meat: {name:"Athena", desc:"Гриль."}, snacks: {name:"Faros", desc:"Мезе."} } },
+                    south: { id: 'south', title: 'Голубая Пещера', morning: ["Лодка.", "Голубая пещера."], afternoon: ["Купание.", "Возврат."], evening: ["Кафе."], night: ["Прогулка."], dinner: { seafood: {name:"Alexandra", desc:"Морепродукты."}, meat: {name:"Platania", desc:"Мясо."}, snacks: {name:"Кафе", desc:"Закуски."} } },
+                    west: { id: 'west', title: 'Остров Св. Георгия', morning: ["Лодка.", "Снорклинг."], afternoon: ["Часовня.", "Шезлонги."], evening: ["Закат."], night: ["Ужин."], dinner: { seafood: {name:"Sydney", desc:"Рыба."}, meat: {name:"Grill House", desc:"Сувлаки."}, snacks: {name:"Бар", desc:"Напитки."} } },
+                    north: { id: 'north', title: 'Мандраки', morning: ["Тропа.", "Гавань Мандраки."], afternoon: ["Ликийская гробница.", "Купание."], evening: ["Прогулка."], night: ["Общение."], dinner: { seafood: {name:"Mandraki Taverna", desc:"Морепродукты."}, meat: {name:"Old Town", desc:"Мясо."}, snacks: {name:"Киоск", desc:"Пита."} } },
+                    northeast: { id: 'northeast', title: 'Палеокастро', morning: ["Подъем.", "Руины."], afternoon: ["Панорама.", "Спуск."], evening: ["Отдых."], night: ["Ужин."], dinner: { seafood: {name:"Billy's", desc:"Рыба."}, meat: {name:"Castle Grill", desc:"Мясо."}, snacks: {name:"Кафе", desc:"Мезе."} } },
+                    east: { id: 'east', title: 'Остров Ро', morning: ["Лодка на Ро.", "История."], afternoon: ["Купание.", "Возврат."], evening: ["Отдых."], night: ["Напитки."], dinner: { seafood: {name:"Aegean", desc:"Морепродукты."}, meat: {name:"Traditional", desc:"Жаркое."}, snacks: {name:"Бар", desc:"Тапас."} } },
+                    departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор.", "Выселение."], afternoon: ["Музей.", "Кофе."], evening: ["Ожидание."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Пекарня", desc:"Пироги."} } }
                 },
-                night: ["Sailing home."]
+                rhodes: {
+                    arrival: { id: 'arrival', title: 'Мандраки и Старый город', morning: ["Прибытие.", "Аренда авто."], afternoon: ["Старый город.", "Позагорайте на пляже {beach}."], evening: ["Ров."], night: ["Ночная жизнь."], dinner: { seafood: {name:"Nireas", desc:"Морепродукты."}, meat: {name:"Marco Polo", desc:"Мясо."}, snacks: {name:"Ronda", desc:"Мезе."} } },
+                    south: { id: 'south', title: 'Прасониси', morning: ["Поездка на юг.", "Прасониси."], afternoon: ["Слияние морей.", "Кайтсерферы."], evening: ["Песок."], night: ["Долгая дорога."], dinner: { seafood: {name:"Lighthouse", desc:"Рыба."}, meat: {name:"South Grill", desc:"Сувлаки."}, snacks: {name:"Surf Bar", desc:"Напитки."} } },
+                    west: { id: 'west', title: 'Замок Монолитос', morning: ["Западное побережье.", "Замок."], afternoon: ["Виды.", "Купание."], evening: ["Ужин на закате."], night: ["Леса."], dinner: { seafood: {name:"Old Monolithos", desc:"Морепродукты."}, meat: {name:"Castle Taverna", desc:"Козлятина."}, snacks: {name:"Кафе", desc:"Закуски."} } },
+                    north: { id: 'north', title: 'Камирос', morning: ["Камирос.", "Античные улицы."], afternoon: ["Северное побережье.", "Ялисос."], evening: ["Серферы."], night: ["Отдых."], dinner: { seafood: {name:"Kymata", desc:"Рыба."}, meat: {name:"Pita Grill", desc:"Мясо."}, snacks: {name:"Beach Club", desc:"Мезе."} } },
+                    northeast: { id: 'northeast', title: 'Акрополь Линдос', morning: ["Линдос.", "Акрополь."], afternoon: ["Белые аллеи.", "Бухта Св. Павла."], evening: ["Закат."], night: ["Романтика."], dinner: { seafood: {name:"Mavrikos", desc:"Морепродукты."}, meat: {name:"Lindos Taverna", desc:"Жаркое."}, snacks: {name:"Двор", desc:"Мезе."} } },
+                    east: { id: 'east', title: 'Бухта Энтони Куинна', morning: ["Бухта.", "Снорклинг."], afternoon: ["Источники Калифея.", "Термы."], evening: ["Поездка."], night: ["Фалираки."], dinner: { seafood: {name:"Tasos", desc:"Рыба."}, meat: {name:"Elias", desc:"Гриль."}, snacks: {name:"Oasis", desc:"Напитки."} } },
+                    departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор.", "Погрузка."], afternoon: ["Дворец Магистров.", "Сдача авто."], evening: ["Прогулка."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Пекарня", desc:"Пита."} } }
+                },
+                samos: {
+                    arrival: { id: 'arrival', title: 'Прибытие', morning: ["Прибытие.", "Аренда авто."], afternoon: ["Город Самос.", "Позагорайте на пляже {beach}."], evening: ["Набережная."], night: ["Напитки."], dinner: { seafood: {name:"Zen", desc:"Морепродукты."}, meat: {name:"To Steki", desc:"Мясо."}, snacks: {name:"Cafe Marina", desc:"Мезе."} } },
+                    south: { id: 'south', title: 'Пифагорея', morning: ["Пифагорея.", "Гереон."], afternoon: ["Тоннель.", "Купание."], evening: ["Марина."], night: ["Прогулка."], dinner: { seafood: {name:"Remataki", desc:"Рыба."}, meat: {name:"Elia", desc:"Гриль."}, snacks: {name:"Corner Bar", desc:"Закуски."} } },
+                    west: { id: 'west', title: 'Водопады', morning: ["Карловаси.", "Водопады Потами."], afternoon: ["Пляж.", "Старые кожевенные заводы."], evening: ["Закат."], night: ["Ужин."], dinner: { seafood: {name:"Hippocrates", desc:"Морепродукты."}, meat: {name:"Karlovasi Grill", desc:"Сувлаки."}, snacks: {name:"Кафе", desc:"Мезе."} } },
+                    north: { id: 'north', title: 'Деревня Коккари', morning: ["Коккари.", "Гавань."], afternoon: ["Купание.", "Отдых."], evening: ["Волны."], night: ["Таверны."], dinner: { seafood: {name:"Meltemi", desc:"Рыба."}, meat: {name:"Tarsanas", desc:"Мясо."}, snacks: {name:"Surf Club", desc:"Напитки."} } },
+                    northeast: { id: 'northeast', title: 'Горные Вина', morning: ["Вурлиотес.", "Винодельни."], afternoon: ["Мускат.", "Горы."], evening: ["Спуск."], night: ["Тихий вечер."], dinner: { seafood: {name:"Blue Chair", desc:"Морепродукты."}, meat: {name:"Pera Vrisi", desc:"Жаркое."}, snacks: {name:"Площадь", desc:"Мезе."} } },
+                    east: { id: 'east', title: 'Микали', morning: ["Микали.", "Пляж."], afternoon: ["Вид на Турцию.", "Купание."], evening: ["Псили Аммос."], night: ["Прощальный ужин."], dinner: { seafood: {name:"Fish Bone", desc:"Рыба."}, meat: {name:"East Taverna", desc:"Гриль."}, snacks: {name:"Кафе", desc:"Закуски."} } },
+                    departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор.", "Погрузка."], afternoon: ["Музей.", "Сдача авто."], evening: ["Кофе."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Киоск", desc:"Пироги."} } }
+                }
             }
         };
 
-        function showMessage(msg) {
-            const box = document.getElementById('message-box');
-            box.textContent = msg;
-            box.classList.remove('hidden');
-            setTimeout(() => { box.classList.add('hidden'); }, 3000);
-        }
+        // --- JavaScript Logic ---
+
+        // Preload images
+        const preloader = document.getElementById('preload-bg');
+        Object.values(islandImages).forEach(url => {
+            const img = new Image();
+            img.src = url;
+            preloader.appendChild(img);
+        });
 
         function hideAll() {
             document.getElementById('island-screen').classList.add('hidden');
@@ -476,113 +754,115 @@
         function goBack(targetId) {
             hideAll();
             document.getElementById(targetId).classList.remove('hidden');
-            taskHistoryStack = []; // Reset undo history on navigation
+            taskHistoryStack = []; 
+            if(targetId === 'island-screen') {
+                document.body.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('${islandImages['home']}')`;
+            }
         }
 
         function selectIsland(island) {
-            if (island !== 'chios') {
-                showMessage(i18n[currentLang].comingSoon);
-                return;
-            }
             selectedIsland = island;
+            document.body.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('${islandImages[island]}')`;
             hideAll();
             document.getElementById('setup-screen').classList.remove('hidden');
         }
 
         function startApp(baseLocation) {
+            currentBaseLocation = baseLocation;
             hideAll();
             document.getElementById('itinerary-container').classList.remove('hidden');
+            renderItinerary();
+        }
+
+        function renderItinerary() {
+            const wrapper = document.getElementById('days-wrapper');
+            wrapper.innerHTML = ''; 
+
+            const data = allModules[currentLang][selectedIsland];
+            if(!data) {
+                wrapper.innerHTML = `<h2 style="color:white;text-align:center;">Error Loading Island Data</h2>`;
+                return;
+            }
             
-            // The Middle Modules that will be rotated
-            const middleModules = [
-                chiosModules.south,
-                chiosModules.west,
-                chiosModules.north,
-                chiosModules.northeast,
-                chiosModules.east
-            ];
+            // Middle Modules to be rotated
+            const middleModules = [data.south, data.west, data.north, data.northeast, data.east];
 
-            // Determine starting index based on user choice
             let startIndex = 0;
-            if (baseLocation === 'south') startIndex = 0;
-            else if (baseLocation === 'west') startIndex = 1;
-            else if (baseLocation === 'north') startIndex = 2;
-            else if (baseLocation === 'northeast') startIndex = 3;
-            else if (baseLocation === 'east') startIndex = 4;
-            // If center, it just defaults to 0 (South first)
+            if (currentBaseLocation === 'south') startIndex = 0;
+            else if (currentBaseLocation === 'west') startIndex = 1;
+            else if (currentBaseLocation === 'north') startIndex = 2;
+            else if (currentBaseLocation === 'east') startIndex = 3; 
+            else if (currentBaseLocation === 'center') startIndex = 4; // Shifted logic for universal circle
 
-            // Build the rotated array
             let rotatedMiddle = [];
             for (let i = 0; i < 5; i++) {
                 let pointer = (startIndex + i) % 5;
                 rotatedMiddle.push(middleModules[pointer]);
             }
 
-            // Assemble the final 7 days (Arrival + Rotated + Departure)
-            let finalItinerary = [
-                chiosModules.arrival,
-                ...rotatedMiddle,
-                chiosModules.departure
-            ];
+            let finalItinerary = [data.arrival, ...rotatedMiddle, data.departure];
 
-            renderItinerary(finalItinerary);
-        }
-
-        function renderItinerary(days) {
-            const wrapper = document.getElementById('days-wrapper');
-            wrapper.innerHTML = ''; // Clear previous
-
-            days.forEach((day, index) => {
+            finalItinerary.forEach((day, index) => {
                 let dayNum = index + 1;
+                let imageUrl = moduleImages[day.id];
                 
-                // Construct Tasks HTML
                 let tasksHTML = '';
                 const periods = [
-                    { title: 'Morning (09:00 - 12:00)', items: day.morning },
-                    { title: 'Noon/Afternoon (12:00 - 17:00)', items: day.afternoon },
-                    { title: 'Evening (17:00 - 21:00)', items: day.evening },
-                    { title: 'Night (21:00 onwards)', items: day.night }
+                    { title: i18n[currentLang].morning, items: day.morning },
+                    { title: i18n[currentLang].afternoon, items: day.afternoon },
+                    { title: i18n[currentLang].evening, items: day.evening },
+                    { title: i18n[currentLang].night, items: day.night }
                 ];
 
-                periods.forEach(p => {
+                periods.forEach((p, periodIndex) => {
                     tasksHTML += `<h3>${p.title}</h3><ul class="task-list">`;
-                    p.items.forEach(task => {
-                        let taskId = `task-${day.id}-${Math.random().toString(36).substr(2, 9)}`;
+                    p.items.forEach((task, taskIndex) => {
+                        let taskText = task;
+                        if (day.id === 'arrival' && taskText.includes('{beach}')) {
+                            // Smart logic pulls exact beach for this island AND this specific base
+                            taskText = taskText.replace('{beach}', nearestBeaches[selectedIsland][currentBaseLocation]);
+                        }
+
+                        let taskId = `task-${selectedIsland}-${day.id}-${periodIndex}-${taskIndex}`;
+                        let isChecked = completedTasks.has(taskId) ? 'checked' : '';
+                        let completedClass = completedTasks.has(taskId) ? 'completed' : '';
+
                         tasksHTML += `
-                            <li class="task-item" id="${taskId}" onclick="toggleTask('${taskId}')">
-                                <input type="checkbox" id="check-${taskId}">
-                                <span class="task-text">${task}</span>
+                            <li class="task-item ${completedClass}" id="${taskId}" onclick="toggleTask('${taskId}')">
+                                <input type="checkbox" id="check-${taskId}" ${isChecked}>
+                                <span class="task-text">${taskText}</span>
                             </li>
                         `;
                     });
                     tasksHTML += `</ul>`;
                 });
 
-                // Construct Dinner Toggle HTML
-                let dinnerId = `dinner-${day.id}`;
-                let strSeafood = i18n[currentLang].seafood;
-                let strMeat = i18n[currentLang].meat;
-                let strSnacks = i18n[currentLang].snacks;
-
+                let dinnerId = `dinner-${selectedIsland}-${day.id}`;
+                
                 let dinnerHTML = `
                     <div class="dinner-toggle-container">
-                        <h3>Dinner Suggestions</h3>
+                        <h3 style="margin-top: 0; border: none; color: #fff;">${i18n[currentLang].dinnerSuggest}</h3>
                         <div class="dinner-buttons">
-                            <button onclick="showDinner('${dinnerId}', 'seafood', '${day.id}')">${strSeafood}</button>
-                            <button onclick="showDinner('${dinnerId}', 'meat', '${day.id}')">${strMeat}</button>
-                            <button onclick="showDinner('${dinnerId}', 'snacks', '${day.id}')">${strSnacks}</button>
+                            <button onclick="showDinner(event, '${dinnerId}', 'seafood', '${day.id}')">${i18n[currentLang].seafood}</button>
+                            <button onclick="showDinner(event, '${dinnerId}', 'meat', '${day.id}')">${i18n[currentLang].meat}</button>
+                            <button onclick="showDinner(event, '${dinnerId}', 'snacks', '${day.id}')">${i18n[currentLang].snacks}</button>
                         </div>
                         <div id="${dinnerId}-display" class="restaurant-card hidden"></div>
                     </div>
                 `;
 
-                // Assemble Card
                 let cardHTML = `
                     <div class="day-card">
-                        <div class="day-header">DAY ${dayNum}</div>
-                        <div class="day-title">${day.title}</div>
-                        ${tasksHTML}
-                        ${dinnerHTML}
+                        <div class="day-image" style="background-image: url('${imageUrl}');">
+                            <div class="day-image-overlay">
+                                <div class="day-header">${i18n[currentLang].day} ${dayNum}</div>
+                                <div class="day-title">${day.title}</div>
+                            </div>
+                        </div>
+                        <div class="day-content">
+                            ${tasksHTML}
+                            ${dinnerHTML}
+                        </div>
                     </div>
                 `;
                 
@@ -595,24 +875,21 @@
             const checkbox = document.getElementById(`check-${taskId}`);
             
             if (li.classList.contains('completed')) {
-                // Unchecking manually
                 li.classList.remove('completed');
                 checkbox.checked = false;
-                // Remove from history stack
+                completedTasks.delete(taskId);
                 taskHistoryStack = taskHistoryStack.filter(id => id !== taskId);
             } else {
-                // Checking
                 li.classList.add('completed');
                 checkbox.checked = true;
-                // Add to history stack for down-arrow undo
+                completedTasks.add(taskId);
                 taskHistoryStack.push(taskId);
             }
         }
 
-        // Down-Arrow Undo Logic
         document.addEventListener('keydown', (e) => {
             if(e.key === 'ArrowDown') {
-                e.preventDefault(); // Stop page scroll
+                e.preventDefault(); 
                 if(taskHistoryStack.length > 0) {
                     let lastTaskId = taskHistoryStack.pop();
                     const li = document.getElementById(lastTaskId);
@@ -620,22 +897,21 @@
                     if(li && checkbox) {
                         li.classList.remove('completed');
                         checkbox.checked = false;
-                        showMessage("Task undone.");
+                        completedTasks.delete(lastTaskId);
+                    } else {
+                        completedTasks.delete(lastTaskId);
                     }
                 }
             }
         });
 
-        function showDinner(displayId, type, dayId) {
+        function showDinner(event, displayId, type, dayId) {
             const displayDiv = document.getElementById(`${displayId}-display`);
-            
-            // Highlight active button visually (optional improvement)
-            const parentBtns = displayDiv.previousElementSibling.querySelectorAll('button');
+            const parentBtns = event.target.parentElement.querySelectorAll('button');
             parentBtns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // Find data
-            const dayData = Object.values(chiosModules).find(d => d.id === dayId);
+            const dayData = allModules[currentLang][selectedIsland][dayId];
             const restData = dayData.dinner[type];
 
             displayDiv.innerHTML = `
@@ -648,28 +924,32 @@
         function changeLanguage(lang) {
             currentLang = lang;
             
-            // Update active button styling
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-lang-${lang.toLowerCase()}`).classList.add('active');
 
-            // Update UI Elements
             document.getElementById('app-title').textContent = i18n[lang].appTitle;
             document.getElementById('island-title').textContent = i18n[lang].islandTitle;
             document.getElementById('setup-title').textContent = i18n[lang].setupTitle;
             document.getElementById('btn-back').textContent = i18n[lang].backIsland;
             document.getElementById('btn-back-base').textContent = i18n[lang].backBase;
 
-            // Update Base Location Buttons
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                let key = el.getAttribute('data-i18n');
-                el.textContent = i18n[lang][key];
-            });
+            document.getElementById('btn-chios').textContent = i18n[lang].islands.chios;
+            document.getElementById('btn-kos').textContent = i18n[lang].islands.kos;
+            document.getElementById('btn-lesbos').textContent = i18n[lang].islands.lesbos;
+            document.getElementById('btn-meis').textContent = i18n[lang].islands.meis;
+            document.getElementById('btn-rhodes').textContent = i18n[lang].islands.rhodes;
+            document.getElementById('btn-samos').textContent = i18n[lang].islands.samos;
 
-            // If itinerary is currently visible, re-render it to update dinner button text
+            if(document.getElementById('map-lbl-center')) {
+                document.getElementById('map-lbl-center').textContent = i18n[lang].center;
+                document.getElementById('map-lbl-north').textContent = i18n[lang].north;
+                document.getElementById('map-lbl-south').textContent = i18n[lang].south;
+                document.getElementById('map-lbl-east').textContent = i18n[lang].east;
+                document.getElementById('map-lbl-west').textContent = i18n[lang].west;
+            }
+
             if (!document.getElementById('itinerary-container').classList.contains('hidden')) {
-                // To properly re-render without losing the ring buffer, we simulate a click on the base.
-                // In a production app, we would store the generated array in state.
-                // For now, this translates the dynamic elements upon next load.
+                renderItinerary();
             }
         }
     </script>
