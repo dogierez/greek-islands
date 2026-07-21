@@ -4,24 +4,267 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Greek Island Itinerary</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Core Variables for High-Contrast Dark Mode */
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #ffffff;
+            --text-muted: #888888;
+            --accent-blue: #00d2ff;
+            --accent-green: #39ff14;
+            --accent-amber: #ffb300;
+            --btn-bg: #2a2a2a;
+            --btn-hover: #3a3a3a;
+            --border-radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Header & Typography */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: var(--accent-blue);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            color: var(--accent-amber);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--surface-color);
+            padding-bottom: 5px;
+        }
+
+        /* Multi-Language Selector */
+        #language-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            color: var(--bg-color);
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        /* Selection Menus */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .options-grid button {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border: 2px solid var(--surface-color);
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .options-grid button:hover {
+            border-color: var(--accent-amber);
+            background-color: var(--btn-hover);
+        }
+
+        /* Back Button & Messages */
+        .back-btn {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            padding: 12px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            color: var(--text-color);
+            border-color: var(--text-color);
+        }
+
+        #message-box {
+            background-color: var(--accent-amber);
+            color: var(--bg-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Itinerary Cards */
+        .day-card {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .day-header {
+            font-size: 1.5rem;
+            color: var(--accent-green);
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+
+        .day-title {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* Tasks & Checkboxes */
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .task-item:hover { background-color: var(--btn-bg); }
+
+        .task-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        .task-text { transition: all 0.2s ease; }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* Dinner Toggle UI */
+        .dinner-toggle-container {
+            margin-top: 15px;
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .dinner-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .dinner-buttons button {
+            flex: 1;
+            padding: 10px;
+            background: var(--btn-bg);
+            color: white;
+            border: 1px solid var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .dinner-buttons button:hover, .dinner-buttons button.active {
+            background: var(--accent-amber);
+            color: var(--bg-color);
+            border-color: var(--accent-amber);
+        }
+
+        .restaurant-card {
+            background: var(--surface-color);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .rest-name { font-weight: bold; font-size: 1.2rem; color: var(--accent-blue); }
+        .rest-desc { color: var(--text-muted); font-size: 0.95rem; margin-top: 5px; }
+    </style>
 </head>
 <body>
+
     <header>
         <h1 id="app-title">Greek Island Itinerary</h1>
         <div id="language-selector">
-            <button onclick="changeLanguage('EN')" class="lang-btn active">EN</button>
-            <button onclick="changeLanguage('DE')" class="lang-btn">DE</button>
-            <button onclick="changeLanguage('RU')" class="lang-btn">RU</button>
-            <button onclick="changeLanguage('TR')" class="lang-btn">TR</button>
+            <button onclick="changeLanguage('EN')" class="lang-btn active" id="btn-lang-en">EN</button>
+            <button onclick="changeLanguage('DE')" class="lang-btn" id="btn-lang-de">DE</button>
+            <button onclick="changeLanguage('RU')" class="lang-btn" id="btn-lang-ru">RU</button>
+            <button onclick="changeLanguage('TR')" class="lang-btn" id="btn-lang-tr">TR</button>
         </div>
     </header>
 
     <main>
-        <!-- Level 1: Choose the Island -->
+        <div id="message-box" class="hidden"></div>
+
         <section id="island-screen">
             <h2 id="island-title">Select Your Island</h2>
-            <div class="island-options">
+            <div class="options-grid">
                 <button onclick="selectIsland('chios')">Chios</button>
                 <button onclick="selectIsland('lesbos')">Lesbos</button>
                 <button onclick="selectIsland('samos')">Samos</button>
@@ -31,25 +274,404 @@
             </div>
         </section>
 
-        <!-- Level 2: Choose Base Location (Hidden by default) -->
         <section id="setup-screen" class="hidden">
-            <h2 id="setup-title" class="island-name-display">Select Your Base Location</h2>
-            <div class="base-options">
-                <button onclick="startApp('center')">Center</button>
-                <button onclick="startApp('north')">North</button>
-                <button onclick="startApp('south')">South</button>
-                <button onclick="startApp('east')">East</button>
-                <button onclick="startApp('west')">West</button>
+            <h2 id="setup-title">Select Your Base Location</h2>
+            <div class="options-grid" id="base-options-container">
+                <button onclick="startApp('center')" data-i18n="center">Center</button>
+                <button onclick="startApp('north')" data-i18n="north">North</button>
+                <button onclick="startApp('south')" data-i18n="south">South</button>
+                <button onclick="startApp('east')" data-i18n="east">East</button>
+                <button onclick="startApp('west')" data-i18n="west">West</button>
             </div>
-            <button onclick="goBack('island-screen')" class="back-btn">Back to Islands</button>
+            <button onclick="goBack('island-screen')" class="back-btn" id="btn-back">Back to Islands</button>
         </section>
 
-        <!-- Level 3: The Itinerary (Hidden by default) -->
         <section id="itinerary-container" class="hidden">
-            <!-- JavaScript will inject the daily modules here -->
+            <button onclick="goBack('setup-screen')" class="back-btn" id="btn-back-base">Back to Bases</button>
+            <div id="days-wrapper"></div>
         </section>
     </main>
 
-    <script src="app.js"></script>
+    <script>
+        // State Management
+        let currentLang = 'EN';
+        let selectedIsland = '';
+        let taskHistoryStack = []; // Used for the Down-Arrow Undo function
+
+        // UI Translation Dictionary
+        const i18n = {
+            'EN': {
+                appTitle: 'Greek Island Itinerary',
+                islandTitle: 'Select Your Island',
+                setupTitle: 'Select Your Base Location',
+                backIsland: 'Back to Islands',
+                backBase: 'Back to Bases',
+                comingSoon: 'Itinerary coming soon for this island!',
+                center: 'Center (Chios Town)',
+                north: 'North (Volissos)',
+                south: 'South (Mastic Villages)',
+                east: 'East (Karfas)',
+                west: 'West (Lithi)',
+                seafood: 'Seafood',
+                meat: 'Meat',
+                snacks: 'Snacks/Meze'
+            },
+            'TR': {
+                appTitle: 'Yunan Adaları Rotası',
+                islandTitle: 'Adanızı Seçin',
+                setupTitle: 'Merkez Konumunuzu Seçin',
+                backIsland: 'Adalara Dön',
+                backBase: 'Konumlara Dön',
+                comingSoon: 'Bu ada için rota çok yakında!',
+                center: 'Merkez (Sakız Şehri)',
+                north: 'Kuzey (Volissos)',
+                south: 'Güney (Mastik Köyleri)',
+                east: 'Doğu (Karfas)',
+                west: 'Batı (Lithi)',
+                seafood: 'Deniz Ürünleri',
+                meat: 'Et',
+                snacks: 'Meze/Atıştırmalık'
+            },
+            'DE': {
+                appTitle: 'Griechische Insel Route',
+                islandTitle: 'Wählen Sie Ihre Insel',
+                setupTitle: 'Wählen Sie Ihren Basisort',
+                backIsland: 'Zurück zu den Inseln',
+                backBase: 'Zurück zu den Basisorten',
+                comingSoon: 'Reiseroute für diese Insel folgt in Kürze!',
+                center: 'Zentrum (Chios-Stadt)',
+                north: 'Norden (Volissos)',
+                south: 'Süden (Mastixdörfer)',
+                east: 'Osten (Karfas)',
+                west: 'Westen (Lithi)',
+                seafood: 'Meeresfrüchte',
+                meat: 'Fleisch',
+                snacks: 'Snacks/Mezze'
+            },
+            'RU': {
+                appTitle: 'Маршрут по Греческим Островам',
+                islandTitle: 'Выберите свой остров',
+                setupTitle: 'Выберите базовое местоположение',
+                backIsland: 'Назад к островам',
+                backBase: 'Назад к базам',
+                comingSoon: 'Маршрут для этого острова скоро появится!',
+                center: 'Центр (Город Хиос)',
+                north: 'Север (Волиссос)',
+                south: 'Юг (Мастиковые деревни)',
+                east: 'Восток (Карфас)',
+                west: 'Запад (Лити)',
+                seafood: 'Морепродукты',
+                meat: 'Мясо',
+                snacks: 'Закуски/Мезе'
+            }
+        };
+
+        const chiosModules = {
+            arrival: {
+                id: 'arrival',
+                title: 'The Arrival & Citrus Mansions',
+                morning: ["Disembark at Chios Port.", "Pick up the rental car.", "Grab a quick Greek pastry at Perres Bakery.", "Drive to accommodation and drop off bags."],
+                afternoon: ["Drive through the Kampos area.", "Explore historic citrus orchards and stone walls.", "Coffee and courtyard relaxation at the Citrus Museum."],
+                evening: ["Sunset stroll along the C-shaped Chios Port promenade."],
+                dinner: {
+                    seafood: { name: "To Tsikoudo", desc: "Harbor front. Famous for sun-dried, charcoal-grilled octopus." },
+                    meat: { name: "Hotzas", desc: "Historic taverna with a garden courtyard. Known for lamb kebabs." },
+                    snacks: { name: "Kechrimbari", desc: "Vintage-style meze spot. Great for grilled calamari and mastelo cheese." }
+                },
+                night: ["Walk through the town square.", "Rest up for the week ahead."]
+            },
+            south: {
+                id: 'south',
+                title: 'The Deep South (Mastic Villages)',
+                morning: ["Load the car with swim gear.", "Drive south toward Mastichochoria.", "Arrive in Pyrgi, the 'painted village'.", "Explore geometric 'xysta' patterns on facades.", "Grab coffees at the central square."],
+                afternoon: ["Drive to Mesta.", "Navigate windowless maze-like alleys built to confuse pirates.", "Head to Mavra Volia beach.", "Relax on dramatic black volcanic pebbles."],
+                evening: ["Dry off and prepare for the evening meal."],
+                dinner: {
+                    seafood: { name: "Meltemaki (Katarraktis)", desc: "Famous seaside restaurant. Exceptional grilled octopus." },
+                    meat: { name: "O Mesaionas (Mesta)", desc: "Main medieval square. Traditional souvlaki and Greek salads." },
+                    snacks: { name: "Stoa Cafe (Pyrgi)", desc: "Casual local cheese, olives, and drinks." }
+                },
+                night: ["Digestive walk through illuminated medieval streets.", "Drive back to base."]
+            },
+            west: {
+                id: 'west',
+                title: 'Ghost Village & Western Sunsets',
+                morning: ["Drive up into the central mountains.", "Visit Nea Moni (UNESCO World Heritage mosaics).", "Continue to Anavatos, the cliffside 'ghost village'."],
+                afternoon: ["Hike around the abandoned ruins of Anavatos.", "Drive down to Elinda Bay for a remote swim.", "Enjoy the pristine, cool western waters."],
+                evening: ["Drive to Avgonyma or Lithi to secure a sunset viewing spot."],
+                dinner: {
+                    seafood: { name: "Galera Taverna (Lithi)", desc: "Right on the sand. Seafood supplied daily by local fishermen." },
+                    meat: { name: "To Asteri (Avgonyma)", desc: "Mountain views. Famous for slow-roasted goat baked with lemon and thyme." },
+                    snacks: { name: "Taverna Metoxi (Metochi Bay)", desc: "Boiled marinated octopus and crisp Greek salads." }
+                },
+                night: ["Watch the best sunset on the island.", "Navigate the mountain road back to base."]
+            },
+            north: {
+                id: 'north',
+                title: 'The Wild Frontier (Northwest)',
+                morning: ["Start the long, scenic drive up to the Northwest.", "Arrive in Volissos village.", "Climb to the ruined Byzantine castle."],
+                afternoon: ["Drive down to Agia Markella monastery.", "Swim at the long, uncrowded Managros beach.", "Enjoy the untamed, rugged coastline."],
+                evening: ["Head back towards Volissos square for evening atmosphere."],
+                dinner: {
+                    seafood: { name: "Limenas Tavernas (Limnia)", desc: "Fresh fish right at the small Volissos port." },
+                    meat: { name: "Fabrika (Volissos)", desc: "Set inside a restored olive press. Fantastic grilled local meats." },
+                    snacks: { name: "Makellos (Pityos)", desc: "High altitude mountain village. Authentic small plates and handmade pasta." }
+                },
+                night: ["Stargazing in the dark northern skies.", "Long drive back to base."]
+            },
+            northeast: {
+                id: 'northeast',
+                title: 'The Seafarer\'s North',
+                morning: ["Drive the eastern coastal road up to Kardamyla.", "Stop at Daskalopetra (Homer’s Rock).", "Explore the quiet, less touristy upper east coast."],
+                afternoon: ["Swim at Giosonas or Nagos beach.", "Relax under the trees by the crystal clear water."],
+                evening: ["Drive down to the picturesque fishing village of Lagkada."],
+                dinner: {
+                    seafood: { name: "Passas (Lagkada)", desc: "The undisputed seafood capital of the north. Sit right on the water." },
+                    meat: { name: "Opos Palia (Kardamyla)", desc: "Cozy spot for rich, traditional meat dishes." },
+                    snacks: { name: "Nostos (Lagkada)", desc: "Ouzo and highly fresh, salty meze by the boats." }
+                },
+                night: ["Walk the Lagkada promenade.", "Drive down the coastal road to base."]
+            },
+            east: {
+                id: 'east',
+                title: 'The Eastern Riviera',
+                morning: ["Sleep in. A low-stress, low-driving day.", "Head to the sandy beaches south of Chios Town (Karfas or Megas Limnionas)."],
+                afternoon: ["Rent a sunbed and relax by the shallow, warm water.", "Visit the Tampakika windmills for a great photo op.", "Enjoy beachside coffees and frappes."],
+                evening: ["Stay in the eastern resort area as the sun sets over the Turkish coast opposite."],
+                dinner: {
+                    seafood: { name: "Bachari (Agia Ermioni)", desc: "Terrace over the water. Perfectly grilled catch-of-the-day." },
+                    meat: { name: "Taverna Pinaleon (Karfas)", desc: "Straightforward, high-protein pork or chicken souvlaki." },
+                    snacks: { name: "Agyra (Megas Limnionas)", desc: "Garden setting. Fantastic zucchini fritters and light plates." }
+                },
+                night: ["Enjoy the lively resort atmosphere.", "Short trip back to base."]
+            },
+            departure: {
+                id: 'departure',
+                title: 'Departure & The Final Stroll',
+                morning: ["Pack bags and load the rental car.", "Drive back towards Chios Town."],
+                afternoon: ["Walk along Aplotaria (main shopping street).", "Buy pure mastic tears, cosmetics, or spices.", "Drop off the rental car at the port."],
+                evening: ["Grab a final coffee at the harbor.", "Board the afternoon ferry."],
+                dinner: {
+                    seafood: { name: "N/A", desc: "Ferry Departure" },
+                    meat: { name: "N/A", desc: "Ferry Departure" },
+                    snacks: { name: "Port Bakeries", desc: "Grab cheese pies for the ferry ride." }
+                },
+                night: ["Sailing home."]
+            }
+        };
+
+        function showMessage(msg) {
+            const box = document.getElementById('message-box');
+            box.textContent = msg;
+            box.classList.remove('hidden');
+            setTimeout(() => { box.classList.add('hidden'); }, 3000);
+        }
+
+        function hideAll() {
+            document.getElementById('island-screen').classList.add('hidden');
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('itinerary-container').classList.add('hidden');
+        }
+
+        function goBack(targetId) {
+            hideAll();
+            document.getElementById(targetId).classList.remove('hidden');
+            taskHistoryStack = []; // Reset undo history on navigation
+        }
+
+        function selectIsland(island) {
+            if (island !== 'chios') {
+                showMessage(i18n[currentLang].comingSoon);
+                return;
+            }
+            selectedIsland = island;
+            hideAll();
+            document.getElementById('setup-screen').classList.remove('hidden');
+        }
+
+        function startApp(baseLocation) {
+            hideAll();
+            document.getElementById('itinerary-container').classList.remove('hidden');
+            
+            // The Middle Modules that will be rotated
+            const middleModules = [
+                chiosModules.south,
+                chiosModules.west,
+                chiosModules.north,
+                chiosModules.northeast,
+                chiosModules.east
+            ];
+
+            // Determine starting index based on user choice
+            let startIndex = 0;
+            if (baseLocation === 'south') startIndex = 0;
+            else if (baseLocation === 'west') startIndex = 1;
+            else if (baseLocation === 'north') startIndex = 2;
+            else if (baseLocation === 'northeast') startIndex = 3;
+            else if (baseLocation === 'east') startIndex = 4;
+            // If center, it just defaults to 0 (South first)
+
+            // Build the rotated array
+            let rotatedMiddle = [];
+            for (let i = 0; i < 5; i++) {
+                let pointer = (startIndex + i) % 5;
+                rotatedMiddle.push(middleModules[pointer]);
+            }
+
+            // Assemble the final 7 days (Arrival + Rotated + Departure)
+            let finalItinerary = [
+                chiosModules.arrival,
+                ...rotatedMiddle,
+                chiosModules.departure
+            ];
+
+            renderItinerary(finalItinerary);
+        }
+
+        function renderItinerary(days) {
+            const wrapper = document.getElementById('days-wrapper');
+            wrapper.innerHTML = ''; // Clear previous
+
+            days.forEach((day, index) => {
+                let dayNum = index + 1;
+                
+                // Construct Tasks HTML
+                let tasksHTML = '';
+                const periods = [
+                    { title: 'Morning (09:00 - 12:00)', items: day.morning },
+                    { title: 'Noon/Afternoon (12:00 - 17:00)', items: day.afternoon },
+                    { title: 'Evening (17:00 - 21:00)', items: day.evening },
+                    { title: 'Night (21:00 onwards)', items: day.night }
+                ];
+
+                periods.forEach(p => {
+                    tasksHTML += `<h3>${p.title}</h3><ul class="task-list">`;
+                    p.items.forEach(task => {
+                        let taskId = `task-${day.id}-${Math.random().toString(36).substr(2, 9)}`;
+                        tasksHTML += `
+                            <li class="task-item" id="${taskId}" onclick="toggleTask('${taskId}')">
+                                <input type="checkbox" id="check-${taskId}">
+                                <span class="task-text">${task}</span>
+                            </li>
+                        `;
+                    });
+                    tasksHTML += `</ul>`;
+                });
+
+                // Construct Dinner Toggle HTML
+                let dinnerId = `dinner-${day.id}`;
+                let strSeafood = i18n[currentLang].seafood;
+                let strMeat = i18n[currentLang].meat;
+                let strSnacks = i18n[currentLang].snacks;
+
+                let dinnerHTML = `
+                    <div class="dinner-toggle-container">
+                        <h3>Dinner Suggestions</h3>
+                        <div class="dinner-buttons">
+                            <button onclick="showDinner('${dinnerId}', 'seafood', '${day.id}')">${strSeafood}</button>
+                            <button onclick="showDinner('${dinnerId}', 'meat', '${day.id}')">${strMeat}</button>
+                            <button onclick="showDinner('${dinnerId}', 'snacks', '${day.id}')">${strSnacks}</button>
+                        </div>
+                        <div id="${dinnerId}-display" class="restaurant-card hidden"></div>
+                    </div>
+                `;
+
+                // Assemble Card
+                let cardHTML = `
+                    <div class="day-card">
+                        <div class="day-header">DAY ${dayNum}</div>
+                        <div class="day-title">${day.title}</div>
+                        ${tasksHTML}
+                        ${dinnerHTML}
+                    </div>
+                `;
+                
+                wrapper.innerHTML += cardHTML;
+            });
+        }
+
+        function toggleTask(taskId) {
+            const li = document.getElementById(taskId);
+            const checkbox = document.getElementById(`check-${taskId}`);
+            
+            if (li.classList.contains('completed')) {
+                // Unchecking manually
+                li.classList.remove('completed');
+                checkbox.checked = false;
+                // Remove from history stack
+                taskHistoryStack = taskHistoryStack.filter(id => id !== taskId);
+            } else {
+                // Checking
+                li.classList.add('completed');
+                checkbox.checked = true;
+                // Add to history stack for down-arrow undo
+                taskHistoryStack.push(taskId);
+            }
+        }
+
+        // Down-Arrow Undo Logic
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowDown') {
+                e.preventDefault(); // Stop page scroll
+                if(taskHistoryStack.length > 0) {
+                    let lastTaskId = taskHistoryStack.pop();
+                    const li = document.getElementById(lastTaskId);
+                    const checkbox = document.getElementById(`check-${lastTaskId}`);
+                    if(li && checkbox) {
+                        li.classList.remove('completed');
+                        checkbox.checked = false;
+                        showMessage("Task undone.");
+                    }
+                }
+            }
+        });
+
+        function showDinner(displayId, type, dayId) {
+            const displayDiv = document.getElementById(`${displayId}-display`);
+            
+            // Highlight active button visually (optional improvement)
+            const parentBtns = displayDiv.previousElementSibling.querySelectorAll('button');
+            parentBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Find data
+            const dayData = Object.values(chiosModules).find(d => d.id === dayId);
+            const restData = dayData.dinner[type];
+
+            displayDiv.innerHTML = `
+                <div class="rest-name">${restData.name}</div>
+                <div class="rest-desc">${restData.desc}</div>
+            `;
+            displayDiv.classList.remove('hidden');
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Update active button styling
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-lang-${lang.toLowerCase()}`).classList.add('active');
+
+            // Update UI Elements
+            document.getElementById('app-title').textContent = i18n[lang].appTitle;
+            document.getElementById('island-title').textContent = i18n[lang].islandTitle;
+            document.getElementById('setup-title').textContent = i18n[lang].setupTitle;
+            document.getElementById('btn-back').textContent = i18n[lang].backIsland;
+            document.getElementById('btn-back-base').textContent = i18n[lang].backBase;
+
+            // Update Base Location Buttons
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                let key = el.getAttribute('data-i18n');
+                el.textContent = i18n[lang][key];
+            });
+
+            // If itinerary is currently visible, re-render it to update dinner button text
+            if (!document.getElementById('itinerary-container').classList.contains('hidden')) {
+                // To properly re-render without losing the ring buffer, we simulate a click on the base.
+                // In a production app, we would store the generated array in state.
+                // For now, this translates the dynamic elements upon next load.
+            }
+        }
+    </script>
 </body>
 </html>
