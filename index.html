@@ -34,6 +34,7 @@
             transition: background-image 0.5s ease-in-out;
         }
 
+
         #preload-bg { display: none; }
 
         main {
@@ -89,6 +90,7 @@
             border-bottom: 1px solid var(--glass-border);
             padding-bottom: 5px;
         }
+
 
         #language-selector {
             display: flex;
@@ -159,6 +161,7 @@
         .bg-btn-greek { background: linear-gradient(135deg, #1e3c72, #2a5298); }
         .bg-btn-ce { background: linear-gradient(135deg, #8e2de2, #4a00e0); }
         .bg-btn-balkans { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .bg-btn-central-balkans { background: linear-gradient(135deg, #e55d87, #5fc3e4); }
         .bg-btn-adriatic { background: linear-gradient(135deg, #ff9966, #ff5e62); }
 
         #btn-chios { background: #304D63; }
@@ -167,6 +170,7 @@
         #btn-meis { background: #800080; } 
         #btn-rhodes { background: #800000; } 
         #btn-samos { background: #CC5500; } 
+
 
         .map-container {
             position: relative;
@@ -245,6 +249,7 @@
 
         .hidden { display: none !important; }
 
+
         .day-card {
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
@@ -313,6 +318,7 @@
             text-shadow: 0 3px 6px rgba(0,0,0,0.9);
         }
 
+
         .day-content { padding: 20px; }
         .task-list { list-style: none; }
 
@@ -378,6 +384,7 @@
         </div>
     </header>
 
+
     <main>
         <!-- Level 0: Choose the Region -->
         <section id="region-screen">
@@ -385,6 +392,7 @@
             <div class="menu-options">
                 <button class="bg-btn-greek" onclick="selectRegion('greek')">🇬🇷 Yunan Adaları</button>
                 <button class="bg-btn-ce" onclick="selectRegion('central-europe')">🏰 Orta Avrupa</button>
+                <button class="bg-btn-central-balkans" onclick="selectRegion('central-balkans')">⛰️ Orta Balkanlar</button>
                 <button class="bg-btn-balkans" onclick="selectRegion('balkans')">🌄 Doğu Balkanlar</button>
                 <button class="bg-btn-adriatic" onclick="selectRegion('adriatic')">🌊 Adriyatik</button>
             </div>
@@ -423,6 +431,7 @@
 
     </main>
 
+
     <script>
         let currentLang = 'TR'; 
         let selectedRegion = '';
@@ -437,6 +446,7 @@
             'home': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Europe_1890_map.jpg/1280px-Europe_1890_map.jpg',
             'central-europe': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Central_Europe_%28orthographic_projection%29.svg/1024px-Central_Europe_%28orthographic_projection%29.svg.png',
             'balkans': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Balkans_topographic_map-fr.svg/1024px-Balkans_topographic_map-fr.svg.png',
+            'central-balkans': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Balkans_topographic_map-fr.svg/1024px-Balkans_topographic_map-fr.svg.png',
             'adriatic': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Balkans_topographic_map-fr.svg/1024px-Balkans_topographic_map-fr.svg.png',
             'chios': 'https://dogierez.github.io/greek-islands/chios.jpg',
             'kos': 'https://dogierez.github.io/greek-islands/kos.jpg',
@@ -460,20 +470,32 @@
                     munich: {top: '60%', left: '30%'}, 
                     salzburg: {top: '65%', left: '50%'}, 
                     vienna: {top: '50%', left: '65%'}, 
-                    bratislava: {top: '40%', left: '72%'},
+                    bratislava: {top: '40%', left: '72%'}, // Moved up
                     budapest: {top: '60%', left: '80%'} 
+                } 
+            },
+            'central-balkans': { 
+                mapUrl: backgroundImages['central-balkans'], 
+                pins: { 
+                    belgrade: {top: '25%', left: '55%'},
+                    sarajevo: {top: '40%', left: '35%'},
+                    mostar: {top: '55%', left: '30%'},
+                    kotor: {top: '65%', left: '20%'}, // Moved left
+                    budva: {top: '75%', left: '32%'},
+                    podgorica: {top: '85%', left: '45%'}, // Moved underneath
+                    nis: {top: '45%', left: '70%'}
                 } 
             },
             'balkans': { 
                 mapUrl: backgroundImages['balkans'], 
                 pins: { 
                     tirana: {top: '60%', left: '25%'}, 
-                    shkoder: {top: '30%', left: '15%'}, 
-                    prizren: {top: '15%', left: '45%'}, 
+                    shkoder: {top: '30%', left: '15%'}, // Moved left
+                    prizren: {top: '15%', left: '45%'}, // Moved above shkoder near pristina
                     pristina: {top: '20%', left: '65%'}, 
                     skopje: {top: '50%', left: '75%'}, 
                     ohrid: {top: '80%', left: '60%'},
-                    elbasan: {top: '75%', left: '40%'}
+                    elbasan: {top: '75%', left: '40%'} // Moved down
                 } 
             }
         };
@@ -497,6 +519,7 @@
             'samos': { center: 'Gagou', north: 'Kokkari', south: 'Pythagoreion Beach', east: 'Mykali', west: 'Potami' }
         };
 
+
         const i18n = {
             'EN': {
                 appTitle: 'Europe Itineraries', regionTitle: 'Select Your Route', islandTitle: 'Select Your Island', setupTitle: 'Select Starting Point',
@@ -507,9 +530,10 @@
                 evening: 'Evening (17:00 - 21:00)', night: 'Night (21:00 onwards)', dinnerSuggest: 'Dinner Suggestions',
                 day: 'DAY',
                 islands: { chios: 'Chios', kos: 'Kos', lesbos: 'Lesbos', meis: 'Meis', rhodes: 'Rhodes', samos: 'Samos' },
-                regions: { 'greek': 'Greek Islands Itinerary', 'central-europe': 'Central Europe Itinerary', 'balkans': 'East Balkans Itinerary', 'adriatic': 'Adriatic Itinerary' },
+                regions: { 'greek': 'Greek Islands Itinerary', 'central-europe': 'Central Europe Itinerary', 'central-balkans': 'Central Balkans Itinerary', 'balkans': 'East Balkans Itinerary', 'adriatic': 'Adriatic Itinerary' },
                 cities: { 
                     prague: 'Prague', munich: 'Munich', salzburg: 'Salzburg', vienna: 'Vienna', bratislava: 'Bratislava', budapest: 'Budapest', 
+                    belgrade: 'Belgrade', sarajevo: 'Sarajevo', mostar: 'Mostar', kotor: 'Kotor', budva: 'Budva', nis: 'Niš', podgorica: 'Podgorica',
                     tirana: 'Tirana', shkoder: 'Shkodër', prizren: 'Prizren', pristina: 'Pristina', skopje: 'Skopje', ohrid: 'Ohrid', elbasan: 'Elbasan' 
                 }
             },
@@ -522,9 +546,10 @@
                 evening: 'Akşam (17:00 - 21:00)', night: 'Gece (21:00 ve sonrası)', dinnerSuggest: 'Akşam Yemeği Önerileri',
                 day: 'GÜN',
                 islands: { chios: 'Sakız', kos: 'Kos', lesbos: 'Midilli', meis: 'Meis', rhodes: 'Rodos', samos: 'Sisam' },
-                regions: { 'greek': 'Yunan Adaları Rotası', 'central-europe': 'Orta Avrupa Rotası', 'balkans': 'Doğu Balkanlar Rotası', 'adriatic': 'Adriyatik Rotası' },
+                regions: { 'greek': 'Yunan Adaları Rotası', 'central-europe': 'Orta Avrupa Rotası', 'central-balkans': 'Orta Balkanlar Rotası', 'balkans': 'Doğu Balkanlar Rotası', 'adriatic': 'Adriyatik Rotası' },
                 cities: { 
                     prague: 'Prag', munich: 'Münih', salzburg: 'Salzburg', vienna: 'Viyana', bratislava: 'Bratislava', budapest: 'Budapeşte', 
+                    belgrade: 'Belgrad', sarajevo: 'Saraybosna', mostar: 'Mostar', kotor: 'Kotor', budva: 'Budva', nis: 'Niş', podgorica: 'Podgoriça',
                     tirana: 'Tiran', shkoder: 'İşkodra', prizren: 'Prizren', pristina: 'Priştine', skopje: 'Üsküp', ohrid: 'Ohri', elbasan: 'Elbasan' 
                 }
             },
@@ -537,9 +562,10 @@
                 evening: 'Abend (17:00 - 21:00)', night: 'Nacht (ab 21:00)', dinnerSuggest: 'Abendessen Vorschläge',
                 day: 'TAG',
                 islands: { chios: 'Chios', kos: 'Kos', lesbos: 'Lesbos', meis: 'Kastelorizo', rhodes: 'Rhodos', samos: 'Samos' },
-                regions: { 'greek': 'Griechische Inseln Route', 'central-europe': 'Mitteleuropa Route', 'balkans': 'Ostbalkan Route', 'adriatic': 'Adria Route' },
+                regions: { 'greek': 'Griechische Inseln Route', 'central-europe': 'Mitteleuropa Route', 'central-balkans': 'Zentralbalkan Route', 'balkans': 'Ostbalkan Route', 'adriatic': 'Adria Route' },
                 cities: { 
                     prague: 'Prag', munich: 'München', salzburg: 'Salzburg', vienna: 'Wien', bratislava: 'Bratislava', budapest: 'Budapest', 
+                    belgrade: 'Belgrad', sarajevo: 'Sarajevo', mostar: 'Mostar', kotor: 'Kotor', budva: 'Budva', nis: 'Niš', podgorica: 'Podgorica',
                     tirana: 'Tirana', shkoder: 'Shkodra', prizren: 'Prizren', pristina: 'Pristina', skopje: 'Skopje', ohrid: 'Ohrid', elbasan: 'Elbasan' 
                 }
             },
@@ -552,13 +578,15 @@
                 evening: 'Вечер (17:00 - 21:00)', night: 'Ночь (с 21:00)', dinnerSuggest: 'Ужин',
                 day: 'ДЕНЬ',
                 islands: { chios: 'Хиос', kos: 'Кос', lesbos: 'Лесбос', meis: 'Мейсти', rhodes: 'Родос', samos: 'Самос' },
-                regions: { 'greek': 'Маршрут: Греческие Острова', 'central-europe': 'Маршрут: Центральная Европа', 'balkans': 'Маршрут: Восточные Балканы', 'adriatic': 'Маршрут: Адриатика' },
+                regions: { 'greek': 'Маршрут: Греческие Острова', 'central-europe': 'Маршрут: Центральная Европа', 'central-balkans': 'Маршрут: Центральные Балканы', 'balkans': 'Маршрут: Восточные Балканы', 'adriatic': 'Маршрут: Адриатика' },
                 cities: { 
                     prague: 'Прага', munich: 'Мюнхен', salzburg: 'Зальцбург', vienna: 'Вена', bratislava: 'Братислава', budapest: 'Будапешт', 
+                    belgrade: 'Белград', sarajevo: 'Сараево', mostar: 'Мостар', kotor: 'Котор', budva: 'Будва', nis: 'Ниш', podgorica: 'Подгорица',
                     tirana: 'Тирана', shkoder: 'Шкодер', prizren: 'Призрен', pristina: 'Приштина', skopje: 'Скопье', ohrid: 'Охрид', elbasan: 'Эльбасан' 
                 }
             }
         };
+
 
         const allModules = {
             'EN': {
@@ -640,6 +668,29 @@
                     munich: [
                         { id: 'munich-1', title: 'Munich (Germany)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Marienplatz_Munich.jpg/800px-Marienplatz_Munich.jpg', morning: ['Marienplatz.', 'Glockenspiel.'], afternoon: ['Viktualienmarkt.', 'English Garden.'], evening: ['Hofbräuhaus.'], night: ['Bavarian beer night.'], dinner: { seafood: {name:'Austernkeller', desc:'Oysters.'}, meat: {name:'Augustiner-Keller', desc:'Bavarian pork roast.'}, snacks: {name:'Bratwurstherzl', desc:'Sausages.'} } },
                         { id: 'munich-2', title: 'Munich (Germany)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Nymphenburg_Palace_Munich.jpg/800px-Nymphenburg_Palace_Munich.jpg', morning: ['Nymphenburg Palace.', 'BMW Museum.'], afternoon: ['Olympiapark.', 'Residenz.'], evening: ['Schwabing district.'], night: ['Farewell drinks.'], dinner: { seafood: {name:'Pescheria', desc:'Mediterranean.'}, meat: {name:'Haxnbauer', desc:'Pork knuckle.'}, snacks: {name:'Viktualienmarkt Stalls', desc:'Local bites.'} } }
+                    ]
+                },
+                'central-balkans': {
+                    belgrade: [
+                        { id: 'belgrade-1', title: 'Belgrade (Serbia)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Belgrade_Fortress_and_Confluence.jpg/800px-Belgrade_Fortress_and_Confluence.jpg', morning: ['Kalemegdan Fortress.'], afternoon: ['Knez Mihailova Street.'], evening: ['Skadarlija Bohemian Quarter.'], night: ['Belgrade nightlife.'], dinner: { seafood: {name: 'Ambar', desc: 'Balkan tapas & seafood.'}, meat: {name: 'Tri Sesira', desc: 'Traditional meat.'}, snacks: {name: 'Manufaktura', desc: 'Balkan meze.'} } },
+                        { id: 'belgrade-2', title: 'Novi Sad (Serbia)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Novi_Sad_-_panoramio_%283%29.jpg/800px-Novi_Sad_-_panoramio_%283%29.jpg', morning: ['Drive to Novi Sad.'], afternoon: ['Petrovaradin Fortress.'], evening: ['Return to Belgrade.'], night: ['Relaxing evening.'], dinner: { seafood: {name: 'Fish & Zelenis', desc: 'Fresh seafood.'}, meat: {name: 'Veliki', desc: 'Meat dishes.'}, snacks: {name: 'Project 72', desc: 'Modern snacks.'} } }
+                    ],
+                    sarajevo: [
+                        { id: 'sarajevo-1', title: 'Sarajevo (Bosnia)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg/800px-Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg', morning: ['Sebilj and Baščaršija.'], afternoon: ['Gazi Husrev-beg Mosque.'], evening: ['Latin Bridge walk.'], night: ['Old town cafes.'], dinner: { seafood: {name: 'Luka Sarajevo', desc: 'Seafood.'}, meat: {name: 'Cevabdzinica Zeljo', desc: 'Best Cevapi.'}, snacks: {name: 'Inat Kuca', desc: 'Traditional bites.'} } },
+                        { id: 'sarajevo-2', title: 'Sarajevo (Bosnia)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Latin_bridge_in_Sarajevo.jpg/800px-Latin_bridge_in_Sarajevo.jpg', morning: ['Tunnel of Hope.'], afternoon: ['Yellow Fortress view.'], evening: ['City center dining.'], night: ['Explore Ferhadija.'], dinner: { seafood: {name: 'N/A', desc: 'Inland.'}, meat: {name: 'Dveri', desc: 'Meat stews.'}, snacks: {name: 'Cajdzinica Dzirlo', desc: 'Tea & snacks.'} } }
+                    ],
+                    mostar: [
+                        { id: 'mostar-1', title: 'Mostar (Bosnia)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Stari_Most_in_Mostar.jpg/800px-Stari_Most_in_Mostar.jpg', morning: ['Stari Most (Old Bridge).'], afternoon: ['Koski Mehmed Pasha Mosque.'], evening: ['Old Bazaar walk.'], night: ['River views.'], dinner: { seafood: {name: 'Hindin Han', desc: 'Fish & meat.'}, meat: {name: 'Sadrvan', desc: 'Traditional meat.'}, snacks: {name: 'Cafe de Alma', desc: 'Coffee & bites.'} } }
+                    ],
+                    kotor: [
+                        { id: 'kotor-1', title: 'Kotor (Montenegro)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kotor_bay_from_fortress.jpg/800px-Kotor_bay_from_fortress.jpg', morning: ['Kotor Old Town.'], afternoon: ['Climb San Giovanni Fortress.'], evening: ['Marina walk.'], night: ['Old town squares.'], dinner: { seafood: {name: 'Galion', desc: 'Upscale seafood.'}, meat: {name: 'Tanjga', desc: 'Meat grill.'}, snacks: {name: 'Scala Santa', desc: 'Meze.'} } }
+                    ],
+                    budva: [
+                        { id: 'budva-1', title: 'Budva (Montenegro)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budva_old_town.jpg/800px-Budva_old_town.jpg', morning: ['Budva Old Town.'], afternoon: ['Mogren Beach.'], evening: ['Nightlife by the sea.'], night: ['Beach bars.'], dinner: { seafood: {name: 'Jadran', desc: 'Famous seafood.'}, meat: {name: 'Kuzina', desc: 'Local meats.'}, snacks: {name: 'Casper Bar', desc: 'Snacks & drinks.'} } },
+                        { id: 'budva-2', title: 'Budva (Montenegro)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sveti_Stefan_Montenegro.jpg/800px-Sveti_Stefan_Montenegro.jpg', morning: ['Sveti Stefan view.'], afternoon: ['Relax on Adriatic coast.'], evening: ['Seafood dinner.'], night: ['Promenade walk.'], dinner: { seafood: {name: 'Porto', desc: 'Seafood.'}, meat: {name: 'Zeleni Gaj', desc: 'Roast meat.'}, snacks: {name: 'Astoria', desc: 'Light bites.'} } }
+                    ],
+                    nis: [
+                        { id: 'nis-1', title: 'Niš (Serbia)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ni%C5%A1_Fortress_1.jpg/800px-Ni%C5%A1_Fortress_1.jpg', morning: ['Niš Fortress.'], afternoon: ['Skull Tower (Ćele Kula).'], evening: ['Tinkers Alley.'], night: ['Local kafana.'], dinner: { seafood: {name: 'Mrak', desc: 'Local flavors.'}, meat: {name: 'Kafana Galija', desc: 'Meat & grill.'}, snacks: {name: 'Pleasure Cafe', desc: 'Modern snacks.'} } }
                     ]
                 },
                 'balkans': {
@@ -733,6 +784,29 @@
                         { id: 'munich-2', title: 'Münih (Almanya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Nymphenburg_Palace_Munich.jpg/800px-Nymphenburg_Palace_Munich.jpg', morning: ['Nymphenburg Sarayı.', 'BMW Müzesi.'], afternoon: ['Olympiapark.', 'Residenz.'], evening: ['Schwabing bölgesi.'], night: ['Veda içkileri.'], dinner: { seafood: {name:'Pescheria', desc:'Akdeniz.'}, meat: {name:'Haxnbauer', desc:'Domuz incik.'}, snacks: {name:'Viktualienmarkt Stalls', desc:'Yerel atıştırmalıklar.'} } }
                     ]
                 },
+                'central-balkans': {
+                    belgrade: [
+                        { id: 'belgrade-1', title: 'Belgrad (Sırbistan)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Belgrade_Fortress_and_Confluence.jpg/800px-Belgrade_Fortress_and_Confluence.jpg', morning: ['Kalemegdan Kalesi.'], afternoon: ['Knez Mihailova Caddesi.'], evening: ['Skadarlija Bohem Mahallesi.'], night: ['Belgrad gece hayatı.'], dinner: { seafood: {name: 'Ambar', desc: 'Balkan meze ve deniz ürünleri.'}, meat: {name: 'Tri Sesira', desc: 'Geleneksel et.'}, snacks: {name: 'Manufaktura', desc: 'Balkan mezeleri.'} } },
+                        { id: 'belgrade-2', title: 'Novi Sad (Sırbistan)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Novi_Sad_-_panoramio_%283%29.jpg/800px-Novi_Sad_-_panoramio_%283%29.jpg', morning: ['Novi Sad\'a sürüş.'], afternoon: ['Petrovaradin Kalesi.'], evening: ['Belgrad\'a dönüş.'], night: ['Dinlendirici akşam.'], dinner: { seafood: {name: 'Fish & Zelenis', desc: 'Taze deniz ürünleri.'}, meat: {name: 'Veliki', desc: 'Et yemekleri.'}, snacks: {name: 'Project 72', desc: 'Modern atıştırmalıklar.'} } }
+                    ],
+                    sarajevo: [
+                        { id: 'sarajevo-1', title: 'Saraybosna (Bosna-Hersek)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg/800px-Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg', morning: ['Sebil ve Başçarşı.'], afternoon: ['Gazi Hüsrev Bey Camii.'], evening: ['Latin Köprüsü yürüyüşü.'], night: ['Eski şehir kafeleri.'], dinner: { seafood: {name: 'Luka Sarajevo', desc: 'Deniz ürünleri.'}, meat: {name: 'Cevabdzinica Zeljo', desc: 'En iyi Cevapi.'}, snacks: {name: 'Inat Kuca', desc: 'Geleneksel lezzetler.'} } },
+                        { id: 'sarajevo-2', title: 'Saraybosna (Bosna-Hersek)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Latin_bridge_in_Sarajevo.jpg/800px-Latin_bridge_in_Sarajevo.jpg', morning: ['Umut Tüneli.'], afternoon: ['Sarı Tabya manzarası.'], evening: ['Şehir merkezinde akşam yemeği.'], night: ['Ferhadiye caddesi.'], dinner: { seafood: {name: 'N/A', desc: 'İç kesim.'}, meat: {name: 'Dveri', desc: 'Et güveçleri.'}, snacks: {name: 'Cajdzinica Dzirlo', desc: 'Çay ve atıştırmalık.'} } }
+                    ],
+                    mostar: [
+                        { id: 'mostar-1', title: 'Mostar (Bosna-Hersek)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Stari_Most_in_Mostar.jpg/800px-Stari_Most_in_Mostar.jpg', morning: ['Mostar Köprüsü (Stari Most).'], afternoon: ['Koski Mehmed Paşa Camii.'], evening: ['Eski Çarşı yürüyüşü.'], night: ['Nehir manzarası.'], dinner: { seafood: {name: 'Hindin Han', desc: 'Balık ve et.'}, meat: {name: 'Sadrvan', desc: 'Geleneksel et.'}, snacks: {name: 'Cafe de Alma', desc: 'Kahve ve atıştırmalık.'} } }
+                    ],
+                    kotor: [
+                        { id: 'kotor-1', title: 'Kotor (Karadağ)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kotor_bay_from_fortress.jpg/800px-Kotor_bay_from_fortress.jpg', morning: ['Kotor Eski Şehri.'], afternoon: ['San Giovanni Kalesine tırmanış.'], evening: ['Marina yürüyüşü.'], night: ['Eski şehir meydanları.'], dinner: { seafood: {name: 'Galion', desc: 'Kaliteli deniz ürünleri.'}, meat: {name: 'Tanjga', desc: 'Et ızgara.'}, snacks: {name: 'Scala Santa', desc: 'Meze.'} } }
+                    ],
+                    budva: [
+                        { id: 'budva-1', title: 'Budva (Karadağ)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budva_old_town.jpg/800px-Budva_old_town.jpg', morning: ['Budva Eski Şehri.'], afternoon: ['Mogren Plajı.'], evening: ['Deniz kenarı gece hayatı.'], night: ['Plaj barları.'], dinner: { seafood: {name: 'Jadran', desc: 'Meşhur deniz ürünleri.'}, meat: {name: 'Kuzina', desc: 'Yerel etler.'}, snacks: {name: 'Casper Bar', desc: 'Atıştırmalık ve içecek.'} } },
+                        { id: 'budva-2', title: 'Budva (Karadağ)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sveti_Stefan_Montenegro.jpg/800px-Sveti_Stefan_Montenegro.jpg', morning: ['Sveti Stefan manzarası.'], afternoon: ['Adriyatik kıyısında dinlenme.'], evening: ['Deniz ürünleri.'], night: ['Kordon yürüyüşü.'], dinner: { seafood: {name: 'Porto', desc: 'Deniz ürünleri.'}, meat: {name: 'Zeleni Gaj', desc: 'Izgara et.'}, snacks: {name: 'Astoria', desc: 'Hafif lezzetler.'} } }
+                    ],
+                    nis: [
+                        { id: 'nis-1', title: 'Niş (Sırbistan)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ni%C5%A1_Fortress_1.jpg/800px-Ni%C5%A1_Fortress_1.jpg', morning: ['Niş Kalesi.'], afternoon: ['Kelle Kulesi (Ćele Kula).'], evening: ['Tinkers Sokağı.'], night: ['Yerel kafana.'], dinner: { seafood: {name: 'Mrak', desc: 'Yerel lezzetler.'}, meat: {name: 'Kafana Galija', desc: 'Et ve ızgara.'}, snacks: {name: 'Pleasure Cafe', desc: 'Modern atıştırmalıklar.'} } }
+                    ]
+                },
                 'balkans': {
                     tirana: [ { id: 'tirana-1', title: 'Tiran (Arnavutluk)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Skanderbeg_Square_Tirana_2016.jpg/800px-Skanderbeg_Square_Tirana_2016.jpg', morning: ['Tiran merkez turu.'], afternoon: ['Bunk\'Art 1 veya 2 ziyareti.'], evening: ['Skanderbeg Meydanı.'], night: ['Blloku bölgesinde gece hayatı.'], dinner: { seafood: {name: 'Fishekja', desc: 'Deniz ürünleri.'}, meat: {name: 'Oda', desc: 'Geleneksel Arnavut mutfağı.'}, snacks: {name: 'Komiteti', desc: 'Atıştırmalık ve içecekler.'} } } ],
                     shkoder: [ { id: 'shkoder-1', title: 'İşkodra (Arnavutluk)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg/800px-Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg', morning: ['Rozafa Kalesi.'], afternoon: ['İşkodra Gölü kıyısı.'], evening: ['Pedonale (Kole Idromeno) caddesi.'], night: ['Kafelerde dinlenme.'], dinner: { seafood: {name: 'Shiroka', desc: 'Göl balığı.'}, meat: {name: 'Peja', desc: 'Et yemekleri.'}, snacks: {name: 'Tradita', desc: 'Meze tabağı.'} } } ],
@@ -802,36 +876,59 @@
                 },
                 'central-europe': {
                     prague: [
-                        { id: 'prague-1', title: 'Prag (Çekya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Prague_Charles_Bridge_dusk.jpg/800px-Prague_Charles_Bridge_dusk.jpg', morning: ['Charles Köprüsü yürüyüşü.', 'Eski Şehir Meydanı.'], afternoon: ['Astronomik Saat.', 'Yerel pubda öğle yemeği.'], evening: ['Vltava nehir turu.'], night: ['Bira tadımı.'], dinner: { seafood: {name:'Zdenek\'s Oyster Bar', desc:'Taze deniz ürünleri.'}, meat: {name:'Kantyna', desc:'Et ve bira.'}, snacks: {name:'Lokal', desc:'Çek atıştırmalıkları.'} } },
-                        { id: 'prague-2', title: 'Prag (Çekya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Prague_Castle_from_Vltava.jpg/800px-Prague_Castle_from_Vltava.jpg', morning: ['Prag Kalesi.', 'St. Vitus Katedrali.'], afternoon: ['Altın Yol.', 'Mala Strana.'], evening: ['Petrin Tepesi gün batımı.'], night: ['Pub gezintisi.'], dinner: { seafood: {name:'Kampa Park', desc:'Nehir kenarı yemek.'}, meat: {name:'Pork\'s', desc:'Domuz incik.'}, snacks: {name:'U Fleku', desc:'Ünlü tarihi pub.'} } }
+                        { id: 'prague-1', title: 'Prag (Tschechien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Prague_Charles_Bridge_dusk.jpg/800px-Prague_Charles_Bridge_dusk.jpg', morning: ['Charles Köprüsü yürüyüşü.', 'Eski Şehir Meydanı.'], afternoon: ['Astronomik Saat.', 'Yerel pubda öğle yemeği.'], evening: ['Vltava nehir turu.'], night: ['Bira tadımı.'], dinner: { seafood: {name:'Zdenek\'s Oyster Bar', desc:'Taze deniz ürünleri.'}, meat: {name:'Kantyna', desc:'Et ve bira.'}, snacks: {name:'Lokal', desc:'Çek atıştırmalıkları.'} } },
+                        { id: 'prague-2', title: 'Prag (Tschechien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Prague_Castle_from_Vltava.jpg/800px-Prague_Castle_from_Vltava.jpg', morning: ['Prag Kalesi.', 'St. Vitus Katedrali.'], afternoon: ['Altın Yol.', 'Mala Strana.'], evening: ['Petrin Tepesi gün batımı.'], night: ['Pub gezintisi.'], dinner: { seafood: {name:'Kampa Park', desc:'Nehir kenarı yemek.'}, meat: {name:'Pork\'s', desc:'Domuz incik.'}, snacks: {name:'U Fleku', desc:'Ünlü tarihi pub.'} } }
                     ],
                     bratislava: [
-                        { id: 'bratislava-1', title: 'Bratislava (Slovakya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Bratislava_castle_from_UFO.jpg/800px-Bratislava_castle_from_UFO.jpg', morning: ['Bratislava Kalesi.', 'Eski Şehir keşfi.'], afternoon: ['Michael Kapısı.', 'Mavi Kilise.'], evening: ['UFO Gözlem Terası.'], night: ['Tuna nehri yürüyüşü.'], dinner: { seafood: {name:'Zylinder', desc:'Manzara ve balık.'}, meat: {name:'Slovak Pub', desc:'Geleneksel menü.'}, snacks: {name:'Urban House', desc:'Modern atıştırmalıklar.'} } }
+                        { id: 'bratislava-1', title: 'Bratislava (Slowakei)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Bratislava_castle_from_UFO.jpg/800px-Bratislava_castle_from_UFO.jpg', morning: ['Bratislava Kalesi.', 'Eski Şehir keşfi.'], afternoon: ['Michael Kapısı.', 'Mavi Kilise.'], evening: ['UFO Gözlem Terası.'], night: ['Tuna nehri yürüyüşü.'], dinner: { seafood: {name:'Zylinder', desc:'Manzara ve balık.'}, meat: {name:'Slovak Pub', desc:'Geleneksel menü.'}, snacks: {name:'Urban House', desc:'Modern atıştırmalıklar.'} } }
                     ],
                     budapest: [
-                        { id: 'budapest-1', title: 'Budapeşte (Macaristan)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Budapest_Parliament_Illuminated.jpg/800px-Budapest_Parliament_Illuminated.jpg', morning: ['Macar Parlamentosu.', 'Tuna Kıyısındaki Ayakkabılar.'], afternoon: ['St. Stephen Bazilikası.', 'Büyük Merkez Pazarı.'], evening: ['Tuna akşam tekne turu.'], night: ['Harabe barlar (Ruin bars).'], dinner: { seafood: {name:'Horgásztanya', desc:'Balık çorbası.'}, meat: {name:'Rosenstein', desc:'Klasik Macar yemekleri.'}, snacks: {name:'Szimpla Kert', desc:'Harabe bar ortamı.'} } },
-                        { id: 'budapest-2', title: 'Budapeşte (Macaristan)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Fisherman%27s_Bastion_Budapest.jpg/800px-Fisherman%27s_Bastion_Budapest.jpg', morning: ['Buda Kalesi.', 'Balıkçı Tabyası.'], afternoon: ['Matthias Kilisesi.', 'Széchenyi Termal Hamamı.'], evening: ['Gellért Tepesi gün batımı.'], night: ['Yahudi Mahallesi.'], dinner: { seafood: {name:'Halászbástya', desc:'Harika manzara.'}, meat: {name:'Gundel', desc:'Efsanevi restoran.'}, snacks: {name:'Mazel Tov', desc:'Trend meze mekanı.'} } }
+                        { id: 'budapest-1', title: 'Budapest (Ungarn)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Budapest_Parliament_Illuminated.jpg/800px-Budapest_Parliament_Illuminated.jpg', morning: ['Macar Parlamentosu.', 'Tuna Kıyısındaki Ayakkabılar.'], afternoon: ['St. Stephen Bazilikası.', 'Büyük Merkez Pazarı.'], evening: ['Tuna akşam tekne turu.'], night: ['Harabe barlar (Ruin bars).'], dinner: { seafood: {name:'Horgásztanya', desc:'Balık çorbası.'}, meat: {name:'Rosenstein', desc:'Klasik Macar yemekleri.'}, snacks: {name:'Szimpla Kert', desc:'Harabe bar ortamı.'} } },
+                        { id: 'budapest-2', title: 'Budapest (Ungarn)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Fisherman%27s_Bastion_Budapest.jpg/800px-Fisherman%27s_Bastion_Budapest.jpg', morning: ['Buda Kalesi.', 'Balıkçı Tabyası.'], afternoon: ['Matthias Kilisesi.', 'Széchenyi Termal Hamamı.'], evening: ['Gellért Tepesi gün batımı.'], night: ['Yahudi Mahallesi.'], dinner: { seafood: {name:'Halászbástya', desc:'Harika manzara.'}, meat: {name:'Gundel', desc:'Efsanevi restoran.'}, snacks: {name:'Mazel Tov', desc:'Trend meze mekanı.'} } }
                     ],
                     vienna: [
-                        { id: 'vienna-1', title: 'Viyana (Avusturya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Hofburg_Vienna.jpg/800px-Hofburg_Vienna.jpg', morning: ['Hofburg Sarayı.', 'Stephansplatz.'], afternoon: ['St. Stephen Katedrali.', 'Cafe Central.'], evening: ['Viyana Devlet Operası.'], night: ['Graben yürüyüşü.'], dinner: { seafood: {name:'Kornat', desc:'Dalmaçya deniz ürünleri.'}, meat: {name:'Figlmüller', desc:'Ünlü şnitzel.'}, snacks: {name:'Palmenhaus', desc:'Kahve ve pasta.'} } },
-                        { id: 'vienna-2', title: 'Viyana (Avusturya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sch%C3%B6nbrunn_Palace%2C_Vienna.jpg/800px-Sch%C3%B6nbrunn_Palace%2C_Vienna.jpg', morning: ['Schönbrunn Sarayı.', 'Gloriette.'], afternoon: ['Belvedere Sarayı.', 'Müzeler Bölgesi (MQ).'], evening: ['Prater eğlence parkı.'], night: ['Dev Dönme Dolap.'], dinner: { seafood: {name:'Umar Fisch', desc:'Naschmarkt balıkçısı.'}, meat: {name:'Plachutta', desc:'Tafelspitz.'}, snacks: {name:'Naschmarkt Stalls', desc:'Sokak lezzetleri.'} } }
+                        { id: 'vienna-1', title: 'Wien (Österreich)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Hofburg_Vienna.jpg/800px-Hofburg_Vienna.jpg', morning: ['Hofburg Sarayı.', 'Stephansplatz.'], afternoon: ['St. Stephen Katedrali.', 'Cafe Central.'], evening: ['Viyana Devlet Operası.'], night: ['Graben yürüyüşü.'], dinner: { seafood: {name:'Kornat', desc:'Dalmaçya deniz ürünleri.'}, meat: {name:'Figlmüller', desc:'Ünlü şnitzel.'}, snacks: {name:'Palmenhaus', desc:'Kahve und pasta.'} } },
+                        { id: 'vienna-2', title: 'Wien (Österreich)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sch%C3%B6nbrunn_Palace%2C_Vienna.jpg/800px-Sch%C3%B6nbrunn_Palace%2C_Vienna.jpg', morning: ['Schönbrunn Sarayı.', 'Gloriette.'], afternoon: ['Belvedere Sarayı.', 'Müzeler Bölgesi (MQ).'], evening: ['Prater eğlence parkı.'], night: ['Dev Dönme Dolap.'], dinner: { seafood: {name:'Umar Fisch', desc:'Naschmarkt balıkçısı.'}, meat: {name:'Plachutta', desc:'Tafelspitz.'}, snacks: {name:'Naschmarkt Stalls', desc:'Sokak lezzetleri.'} } }
                     ],
                     salzburg: [
-                        { id: 'salzburg-1', title: 'Salzburg (Avusturya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Salzburg_cityscape.jpg/800px-Salzburg_cityscape.jpg', morning: ['Hohensalzburg Kalesi.', 'Mirabell Sarayı.'], afternoon: ['Mozart\'ın Doğum Yeri.', 'Getreidegasse.'], evening: ['Salzach nehri yürüyüşü.'], night: ['Eski şehirde akşam yemeği.'], dinner: { seafood: {name:'Lust & Laune', desc:'Fine dining.'}, meat: {name:'Bärenwirt', desc:'Avusturya tavernası.'}, snacks: {name:'Sternbräu', desc:'Bira ve kraker.'} } }
+                        { id: 'salzburg-1', title: 'Salzburg (Österreich)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Salzburg_cityscape.jpg/800px-Salzburg_cityscape.jpg', morning: ['Hohensalzburg Kalesi.', 'Mirabell Sarayı.'], afternoon: ['Mozart\'ın Doğum Yeri.', 'Getreidegasse.'], evening: ['Salzach nehri yürüyüşü.'], night: ['Eski şehirde akşam yemeği.'], dinner: { seafood: {name:'Lust & Laune', desc:'Fine dining.'}, meat: {name:'Bärenwirt', desc:'Avusturya tavernası.'}, snacks: {name:'Sternbräu', desc:'Bira und kraker.'} } }
                     ],
                     munich: [
-                        { id: 'munich-1', title: 'Münih (Almanya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Marienplatz_Munich.jpg/800px-Marienplatz_Munich.jpg', morning: ['Marienplatz.', 'Glockenspiel.'], afternoon: ['Viktualienmarkt.', 'İngiliz Bahçesi.'], evening: ['Hofbräuhaus.'], night: ['Bavyera bira gecesi.'], dinner: { seafood: {name:'Austernkeller', desc:'İstiridye.'}, meat: {name:'Augustiner-Keller', desc:'Bavyera domuz rostosu.'}, snacks: {name:'Bratwurstherzl', desc:'Sosisler.'} } },
-                        { id: 'munich-2', title: 'Münih (Almanya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Nymphenburg_Palace_Munich.jpg/800px-Nymphenburg_Palace_Munich.jpg', morning: ['Nymphenburg Sarayı.', 'BMW Müzesi.'], afternoon: ['Olympiapark.', 'Residenz.'], evening: ['Schwabing bölgesi.'], night: ['Veda içkileri.'], dinner: { seafood: {name:'Pescheria', desc:'Akdeniz.'}, meat: {name:'Haxnbauer', desc:'Domuz incik.'}, snacks: {name:'Viktualienmarkt Stalls', desc:'Yerel atıştırmalıklar.'} } }
+                        { id: 'munich-1', title: 'München (Deutschland)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Marienplatz_Munich.jpg/800px-Marienplatz_Munich.jpg', morning: ['Marienplatz.', 'Glockenspiel.'], afternoon: ['Viktualienmarkt.', 'İngiliz Bahçesi.'], evening: ['Hofbräuhaus.'], night: ['Bavyera bira gecesi.'], dinner: { seafood: {name:'Austernkeller', desc:'İstiridye.'}, meat: {name:'Augustiner-Keller', desc:'Bavyera domuz rostosu.'}, snacks: {name:'Bratwurstherzl', desc:'Sosisler.'} } },
+                        { id: 'munich-2', title: 'München (Deutschland)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Nymphenburg_Palace_Munich.jpg/800px-Nymphenburg_Palace_Munich.jpg', morning: ['Nymphenburg Sarayı.', 'BMW Müzesi.'], afternoon: ['Olympiapark.', 'Residenz.'], evening: ['Schwabing bölgesi.'], night: ['Veda içkileri.'], dinner: { seafood: {name:'Pescheria', desc:'Akdeniz.'}, meat: {name:'Haxnbauer', desc:'Domuz incik.'}, snacks: {name:'Viktualienmarkt Stalls', desc:'Yerel atıştırmalıklar.'} } }
+                    ]
+                },
+                'central-balkans': {
+                    belgrade: [
+                        { id: 'belgrade-1', title: 'Belgrad (Serbien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Belgrade_Fortress_and_Confluence.jpg/800px-Belgrade_Fortress_and_Confluence.jpg', morning: ['Kalemegdan Festung.'], afternoon: ['Knez Mihailova Straße.'], evening: ['Skadarlija.'], night: ['Belgrad Nachtleben.'], dinner: { seafood: {name: 'Ambar', desc: 'Balkan Tapas.'}, meat: {name: 'Tri Sesira', desc: 'Traditionelles Fleisch.'}, snacks: {name: 'Manufaktura', desc: 'Balkan Meze.'} } },
+                        { id: 'belgrade-2', title: 'Novi Sad (Serbien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Novi_Sad_-_panoramio_%283%29.jpg/800px-Novi_Sad_-_panoramio_%283%29.jpg', morning: ['Fahrt nach Novi Sad.'], afternoon: ['Petrovaradin Festung.'], evening: ['Rückkehr nach Belgrad.'], night: ['Entspannter Abend.'], dinner: { seafood: {name: 'Fish & Zelenis', desc: 'Frische Meeresfrüchte.'}, meat: {name: 'Veliki', desc: 'Fleischgerichte.'}, snacks: {name: 'Project 72', desc: 'Moderne Snacks.'} } }
+                    ],
+                    sarajevo: [
+                        { id: 'sarajevo-1', title: 'Sarajevo (Bosnien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg/800px-Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg', morning: ['Sebilj und Baščaršija.'], afternoon: ['Gazi Husrev-beg Moschee.'], evening: ['Lateinerbrücke.'], night: ['Altstadt Cafés.'], dinner: { seafood: {name: 'Luka Sarajevo', desc: 'Meeresfrüchte.'}, meat: {name: 'Cevabdzinica Zeljo', desc: 'Beste Cevapi.'}, snacks: {name: 'Inat Kuca', desc: 'Traditionelle Snacks.'} } },
+                        { id: 'sarajevo-2', title: 'Sarajevo (Bosnien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Latin_bridge_in_Sarajevo.jpg/800px-Latin_bridge_in_Sarajevo.jpg', morning: ['Tunnel der Hoffnung.'], afternoon: ['Gelbe Festung.'], evening: ['Stadtzentrum.'], night: ['Ferhadija erkunden.'], dinner: { seafood: {name: 'N/A', desc: 'Inland.'}, meat: {name: 'Dveri', desc: 'Fleischeintöpfe.'}, snacks: {name: 'Cajdzinica Dzirlo', desc: 'Tee & Snacks.'} } }
+                    ],
+                    mostar: [
+                        { id: 'mostar-1', title: 'Mostar (Bosnien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Stari_Most_in_Mostar.jpg/800px-Stari_Most_in_Mostar.jpg', morning: ['Stari Most (Alte Brücke).'], afternoon: ['Koski Mehmed Pascha Moschee.'], evening: ['Alter Basar.'], night: ['Flussansicht.'], dinner: { seafood: {name: 'Hindin Han', desc: 'Fisch & Fleisch.'}, meat: {name: 'Sadrvan', desc: 'Traditionelles Fleisch.'}, snacks: {name: 'Cafe de Alma', desc: 'Kaffee & Snacks.'} } }
+                    ],
+                    kotor: [
+                        { id: 'kotor-1', title: 'Kotor (Montenegro)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kotor_bay_from_fortress.jpg/800px-Kotor_bay_from_fortress.jpg', morning: ['Kotor Altstadt.'], afternoon: ['San Giovanni Festung.'], evening: ['Marina Spaziergang.'], night: ['Altstadtplätze.'], dinner: { seafood: {name: 'Galion', desc: 'Feine Meeresfrüchte.'}, meat: {name: 'Tanjga', desc: 'Fleisch vom Grill.'}, snacks: {name: 'Scala Santa', desc: 'Meze.'} } }
+                    ],
+                    budva: [
+                        { id: 'budva-1', title: 'Budva (Montenegro)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budva_old_town.jpg/800px-Budva_old_town.jpg', morning: ['Budva Altstadt.'], afternoon: ['Mogren Strand.'], evening: ['Nachtleben am Meer.'], night: ['Strandbars.'], dinner: { seafood: {name: 'Jadran', desc: 'Berühmte Meeresfrüchte.'}, meat: {name: 'Kuzina', desc: 'Lokales Fleisch.'}, snacks: {name: 'Casper Bar', desc: 'Snacks & Drinks.'} } },
+                        { id: 'budva-2', title: 'Budva (Montenegro)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sveti_Stefan_Montenegro.jpg/800px-Sveti_Stefan_Montenegro.jpg', morning: ['Sveti Stefan.'], afternoon: ['Entspannen an der Küste.'], evening: ['Meeresfrüchte.'], night: ['Promenade.'], dinner: { seafood: {name: 'Porto', desc: 'Meeresfrüchte.'}, meat: {name: 'Zeleni Gaj', desc: 'Bratenfleisch.'}, snacks: {name: 'Astoria', desc: 'Leichte Snacks.'} } }
+                    ],
+                    nis: [
+                        { id: 'nis-1', title: 'Niš (Serbien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ni%C5%A1_Fortress_1.jpg/800px-Ni%C5%A1_Fortress_1.jpg', morning: ['Niš Festung.'], afternoon: ['Schädelturm.'], evening: ['Tinkers Alley.'], night: ['Lokale Kafana.'], dinner: { seafood: {name: 'Mrak', desc: 'Lokale Aromen.'}, meat: {name: 'Kafana Galija', desc: 'Grillfleisch.'}, snacks: {name: 'Pleasure Cafe', desc: 'Moderne Snacks.'} } }
                     ]
                 },
                 'balkans': {
-                    tirana: [ { id: 'tirana-1', title: 'Tiran (Arnavutluk)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Skanderbeg_Square_Tirana_2016.jpg/800px-Skanderbeg_Square_Tirana_2016.jpg', morning: ['Tiran merkez turu.'], afternoon: ['Bunk\'Art 1 veya 2 ziyareti.'], evening: ['Skanderbeg Meydanı.'], night: ['Blloku bölgesinde gece hayatı.'], dinner: { seafood: {name: 'Fishekja', desc: 'Deniz ürünleri.'}, meat: {name: 'Oda', desc: 'Geleneksel Arnavut mutfağı.'}, snacks: {name: 'Komiteti', desc: 'Atıştırmalık ve içecekler.'} } } ],
-                    shkoder: [ { id: 'shkoder-1', title: 'İşkodra (Arnavutluk)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg/800px-Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg', morning: ['Rozafa Kalesi.'], afternoon: ['İşkodra Gölü kıyısı.'], evening: ['Pedonale (Kole Idromeno) caddesi.'], night: ['Kafelerde dinlenme.'], dinner: { seafood: {name: 'Shiroka', desc: 'Göl balığı.'}, meat: {name: 'Peja', desc: 'Et yemekleri.'}, snacks: {name: 'Tradita', desc: 'Meze tabağı.'} } } ],
-                    prizren: [ { id: 'prizren-1', title: 'Prizren (Kosova)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Prizren_City.jpg/800px-Prizren_City.jpg', morning: ['Sinan Paşa Camii ve Taş Köprü.'], afternoon: ['Prizren Kalesi tırmanışı.'], evening: ['Şadırvan meydanı.'], night: ['Nehir kenarı yürüyüş.'], dinner: { seafood: {name: 'N/A', desc: 'Bölgede et ağırlıklı.'}, meat: {name: 'Te Syla', desc: 'Meşhur Prizren köftesi.'}, snacks: {name: 'Ambient', desc: 'Yerel lezzetler.'} } } ],
-                    pristina: [ { id: 'pristina-1', title: 'Priştine (Kosova)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/National_Library_of_Kosovo.jpg/800px-National_Library_of_Kosovo.jpg', morning: ['Kosova Milli Kütüphanesi.'], afternoon: ['Rahibe Teresa Bulvarı.'], evening: ['Newborn Anıtı.'], night: ['Priştine kahve kültürü.'], dinner: { seafood: {name: 'Soma Book Station', desc: 'Modern atıştırmalıklar.'}, meat: {name: 'Pishat', desc: 'Balkan etleri.'}, snacks: {name: 'Dit\' e Nat\'', desc: 'Hafif menü.'} } } ],
-                    skopje: [ { id: 'skopje-1', title: 'Üsküp (K. Makedonya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Skopje_-_Macedonia_Square.jpg/800px-Skopje_-_Macedonia_Square.jpg', morning: ['Makedonya Meydanı ve Heykeller.'], afternoon: ['Eski Çarşı ve Taş Köprü.'], evening: ['Vardar nehri kıyısı.'], night: ['Matka Kanyonu planı.'], dinner: { seafood: {name: 'N/A', desc: 'Et kültürü yaygın.'}, meat: {name: 'Destan', desc: 'Üsküp köftesi (Cevapi).'}, snacks: {name: 'Kaj Serdarot', desc: 'Balkan mezeleri.'} } } ],
-                    ohrid: [ { id: 'ohrid-1', title: 'Ohri (K. Makedonya)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Ohrid_and_lake.jpg/800px-Ohrid_and_lake.jpg', morning: ['Ohri Gölü tekne turu.'], afternoon: ['St. John at Kaneo Kilisesi.'], evening: ['Ohri Eski Şehir sokakları.'], night: ['Göl kenarı akşamı.'], dinner: { seafood: {name: 'Kaneo', desc: 'Ohri alabalığı.'}, meat: {name: 'Gladiator', desc: 'Geleneksel güveç.'}, snacks: {name: 'Liquid', desc: 'Manzaralı atıştırmalıklar.'} } } ],
-                    elbasan: [ { id: 'elbasan-1', title: 'Elbasan (Arnavutluk)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Elbasan_Castle_walls.jpg/800px-Elbasan_Castle_walls.jpg', morning: ['Elbasan Kalesi.'], afternoon: ['Tarihi saat kulesi.'], evening: ['Şehir parkı dinlenme.'], night: ['Yerel kahvehaneler.'], dinner: { seafood: {name: 'N/A', desc: 'Kara şehri.'}, meat: {name: 'Real Scampis', desc: 'Kalenin içinde et.'}, snacks: {name: 'Koku', desc: 'Hafif lezzetler.'} } } ]
+                    tirana: [ { id: 'tirana-1', title: 'Tirana (Albanien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Skanderbeg_Square_Tirana_2016.jpg/800px-Skanderbeg_Square_Tirana_2016.jpg', morning: ['Tirana center tour.'], afternoon: ['Bunk\'Art 1 or 2 visit.'], evening: ['Skanderbeg Square.'], night: ['Blloku district nightlife.'], dinner: { seafood: {name: 'Fishekja', desc: 'Seafood.'}, meat: {name: 'Oda', desc: 'Traditional Albanian cuisine.'}, snacks: {name: 'Komiteti', desc: 'Snacks and drinks.'} } } ],
+                    shkoder: [ { id: 'shkoder-1', title: 'Shkodra (Albanien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg/800px-Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg', morning: ['Rozafa Castle.'], afternoon: ['Lake Shkodër shores.'], evening: ['Pedonale (Kole Idromeno) street.'], night: ['Relaxing in cafes.'], dinner: { seafood: {name: 'Shiroka', desc: 'Lake fish.'}, meat: {name: 'Peja', desc: 'Meat dishes.'}, snacks: {name: 'Tradita', desc: 'Meze plate.'} } } ],
+                    prizren: [ { id: 'prizren-1', title: 'Prizren (Kosovo)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Prizren_City.jpg/800px-Prizren_City.jpg', morning: ['Sinan Pasha Mosque and Stone Bridge.'], afternoon: ['Prizren Fortress climb.'], evening: ['Shatervan square.'], night: ['Riverside walk.'], dinner: { seafood: {name: 'N/A', desc: 'Meat-heavy region.'}, meat: {name: 'Te Syla', desc: 'Famous Prizren meatballs.'}, snacks: {name: 'Ambient', desc: 'Local delicacies.'} } } ],
+                    pristina: [ { id: 'pristina-1', title: 'Pristina (Kosovo)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/National_Library_of_Kosovo.jpg/800px-National_Library_of_Kosovo.jpg', morning: ['National Library of Kosovo.'], afternoon: ['Mother Teresa Boulevard.'], evening: ['Newborn Monument.'], night: ['Pristina coffee culture.'], dinner: { seafood: {name: 'Soma Book Station', desc: 'Modern snacks.'}, meat: {name: 'Pishat', desc: 'Balkan meats.'}, snacks: {name: 'Dit\' e Nat\'', desc: 'Light menu.'} } } ],
+                    skopje: [ { id: 'skopje-1', title: 'Skopje (Nordmazedonien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Skopje_-_Macedonia_Square.jpg/800px-Skopje_-_Macedonia_Square.jpg', morning: ['Macedonia Square and Statues.'], afternoon: ['Old Bazaar and Stone Bridge.'], evening: ['Vardar riverbanks.'], night: ['Matka Canyon plans.'], dinner: { seafood: {name: 'N/A', desc: 'Meat culture is common.'}, meat: {name: 'Destan', desc: 'Skopje meatballs (Cevapi).'}, snacks: {name: 'Kaj Serdarot', desc: 'Balkan meze.'} } } ],
+                    ohrid: [ { id: 'ohrid-1', title: 'Ohrid (Nordmazedonien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Ohrid_and_lake.jpg/800px-Ohrid_and_lake.jpg', morning: ['Lake Ohrid boat tour.'], afternoon: ['Church of St. John at Kaneo.'], evening: ['Ohrid Old Town streets.'], night: ['Lakeside evening.'], dinner: { seafood: {name: 'Kaneo', desc: 'Ohrid trout.'}, meat: {name: 'Gladiator', desc: 'Traditional stew.'}, snacks: {name: 'Liquid', desc: 'Scenic snacks.'} } } ],
+                    elbasan: [ { id: 'elbasan-1', title: 'Elbasan (Albanien)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Elbasan_Castle_walls.jpg/800px-Elbasan_Castle_walls.jpg', morning: ['Elbasan Castle.'], afternoon: ['Historic clock tower.'], evening: ['City park relaxation.'], night: ['Local coffeehouses.'], dinner: { seafood: {name: 'N/A', desc: 'Inland city.'}, meat: {name: 'Real Scampis', desc: 'Meat inside the castle.'}, snacks: {name: 'Koku', desc: 'Light flavors.'} } } ]
                 }
             },
             'RU': {
@@ -915,6 +1012,29 @@
                         { id: 'munich-2', title: 'Мюнхен (Германия)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Nymphenburg_Palace_Munich.jpg/800px-Nymphenburg_Palace_Munich.jpg', morning: ['Дворец Нимфенбург.', 'Музей BMW.'], afternoon: ['Олимпийский парк.', 'Резиденция.'], evening: ['Район Швабинг.'], night: ['Прощальные напитки.'], dinner: { seafood: {name:'Pescheria', desc:'Средиземноморская.'}, meat: {name:'Haxnbauer', desc:'Свиная рулька.'}, snacks: {name:'Viktualienmarkt Stalls', desc:'Местные закуски.'} } }
                     ]
                 },
+                'central-balkans': {
+                    belgrade: [
+                        { id: 'belgrade-1', title: 'Белград (Сербия)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Belgrade_Fortress_and_Confluence.jpg/800px-Belgrade_Fortress_and_Confluence.jpg', morning: ['Крепость Калемегдан.'], afternoon: ['Улица Кнез Михайлова.'], evening: ['Квартал Скадарлия.'], night: ['Ночная жизнь Белграда.'], dinner: { seafood: {name: 'Ambar', desc: 'Балканские мезе.'}, meat: {name: 'Tri Sesira', desc: 'Традиционное мясо.'}, snacks: {name: 'Manufaktura', desc: 'Мезе.'} } },
+                        { id: 'belgrade-2', title: 'Нови-Сад (Сербия)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Novi_Sad_-_panoramio_%283%29.jpg/800px-Novi_Sad_-_panoramio_%283%29.jpg', morning: ['Поездка в Нови-Сад.'], afternoon: ['Петроварадинская крепость.'], evening: ['Возвращение в Белград.'], night: ['Отдых.'], dinner: { seafood: {name: 'Fish & Zelenis', desc: 'Свежая рыба.'}, meat: {name: 'Veliki', desc: 'Мясные блюда.'}, snacks: {name: 'Project 72', desc: 'Современные закуски.'} } }
+                    ],
+                    sarajevo: [
+                        { id: 'sarajevo-1', title: 'Сараево (Босния)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg/800px-Sarajevo_-_Ba%C5%A1%C4%8Dar%C5%A1ija_2.jpg', morning: ['Себиль и Башчаршия.'], afternoon: ['Мечеть Гази Хусрев-бея.'], evening: ['Латинский мост.'], night: ['Кафе в старом городе.'], dinner: { seafood: {name: 'Luka Sarajevo', desc: 'Морепродукты.'}, meat: {name: 'Cevabdzinica Zeljo', desc: 'Лучшие чевапи.'}, snacks: {name: 'Inat Kuca', desc: 'Традиционные закуски.'} } },
+                        { id: 'sarajevo-2', title: 'Сараево (Босния)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Latin_bridge_in_Сараево.jpg/800px-Latin_bridge_in_Sarajevo.jpg', morning: ['Туннель надежды.'], afternoon: ['Желтая крепость.'], evening: ['Ужин в центре.'], night: ['Улица Ферхадия.'], dinner: { seafood: {name: 'N/A', desc: 'Внутри страны.'}, meat: {name: 'Dveri', desc: 'Мясное рагу.'}, snacks: {name: 'Cajdzinica Dzirlo', desc: 'Чай и закуски.'} } }
+                    ],
+                    mostar: [
+                        { id: 'mostar-1', title: 'Мостар (Босния)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Stari_Most_in_Mostar.jpg/800px-Stari_Most_in_Mostar.jpg', morning: ['Старый мост.'], afternoon: ['Мечеть Коски Мехмед-паши.'], evening: ['Старый базар.'], night: ['Вид на реку.'], dinner: { seafood: {name: 'Hindin Han', desc: 'Рыба и мясо.'}, meat: {name: 'Sadrvan', desc: 'Традиционное мясо.'}, snacks: {name: 'Cafe de Alma', desc: 'Кофе.'} } }
+                    ],
+                    kotor: [
+                        { id: 'kotor-1', title: 'Котор (Черногория)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Kotor_bay_from_fortress.jpg/800px-Kotor_bay_from_fortress.jpg', morning: ['Старый город.'], afternoon: ['Крепость Святого Иоанна.'], evening: ['Марина.'], night: ['Площади старого города.'], dinner: { seafood: {name: 'Galion', desc: 'Изысканные морепродукты.'}, meat: {name: 'Tanjga', desc: 'Гриль.'}, snacks: {name: 'Scala Santa', desc: 'Мезе.'} } }
+                    ],
+                    budva: [
+                        { id: 'budva-1', title: 'Будва (Черногория)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Budva_old_town.jpg/800px-Budva_old_town.jpg', morning: ['Старый город Будвы.'], afternoon: ['Пляж Могрен.'], evening: ['Ночная жизнь.'], night: ['Пляжные бары.'], dinner: { seafood: {name: 'Jadran', desc: 'Известные морепродукты.'}, meat: {name: 'Kuzina', desc: 'Местное мясо.'}, snacks: {name: 'Casper Bar', desc: 'Напитки.'} } },
+                        { id: 'budva-2', title: 'Будва (Черногория)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Sveti_Stefan_Montenegro.jpg/800px-Sveti_Stefan_Montenegro.jpg', morning: ['Свети-Стефан.'], afternoon: ['Отдых на побережье.'], evening: ['Морепродукты.'], night: ['Променад.'], dinner: { seafood: {name: 'Porto', desc: 'Морепродукты.'}, meat: {name: 'Zeleni Gaj', desc: 'Жареное мясо.'}, snacks: {name: 'Astoria', desc: 'Легкие закуски.'} } }
+                    ],
+                    nis: [
+                        { id: 'nis-1', title: 'Ниш (Сербия)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ni%C5%A1_Fortress_1.jpg/800px-Ni%C5%A1_Fortress_1.jpg', morning: ['Нишская крепость.'], afternoon: ['Башня черепов (Челе-Кула).'], evening: ['Аллея Тинкерс.'], night: ['Местная кафана.'], dinner: { seafood: {name: 'Mrak', desc: 'Местные вкусы.'}, meat: {name: 'Kafana Galija', desc: 'Гриль.'}, snacks: {name: 'Pleasure Cafe', desc: 'Современные закуски.'} } }
+                    ]
+                },
                 'balkans': {
                     tirana: [ { id: 'tirana-1', title: 'Тирана (Албания)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Skanderbeg_Square_Tirana_2016.jpg/800px-Skanderbeg_Square_Tirana_2016.jpg', morning: ['Центр Тираны.'], afternoon: ['Bunk\'Art.'], evening: ['Площадь Скандербега.'], night: ['Ночная жизнь.'], dinner: { seafood: {name: 'Fishekja', desc: 'Морепродукты.'}, meat: {name: 'Oda', desc: 'Традиционная кухня.'}, snacks: {name: 'Komiteti', desc: 'Закуски и напитки.'} } } ],
                     shkoder: [ { id: 'shkoder-1', title: 'Шкодер (Албания)', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg/800px-Rozafa_Castle%2C_Shkod%C3%ABr%2C_Albania.jpg', morning: ['Замок Розафа.'], afternoon: ['Озеро Шкодер.'], evening: ['Улица Педонале.'], night: ['Отдых в кафе.'], dinner: { seafood: {name: 'Shiroka', desc: 'Озерная рыба.'}, meat: {name: 'Peja', desc: 'Мясные блюда.'}, snacks: {name: 'Tradita', desc: 'Мезе.'} } } ],
@@ -926,6 +1046,7 @@
                 }
             }
         };
+
 
         function hideAll() {
             document.getElementById('region-screen').classList.add('hidden');
@@ -972,7 +1093,7 @@
             if (region === 'greek') {
                 document.getElementById('island-screen').classList.remove('hidden');
                 document.body.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('${backgroundImages['chios']}')`; 
-            } else if (region === 'central-europe' || region === 'balkans' || region === 'adriatic') {
+            } else {
                 selectedIsland = region;
                 document.getElementById('setup-screen').classList.remove('hidden');
                 document.body.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('${backgroundImages[region]}')`;
@@ -987,6 +1108,7 @@
             document.getElementById('setup-screen').classList.remove('hidden');
             renderMap(); 
         }
+
 
         function renderMap() {
             const container = document.getElementById('base-options-container');
@@ -1020,6 +1142,7 @@
                 </div>
             `;
         }
+
 
         function startApp(baseLocation) {
             currentBaseLocation = baseLocation;
@@ -1075,8 +1198,34 @@
                     }
                 });
             }
+            else if (selectedRegion === 'central-balkans') {
+                const cbOrder = ['belgrade', 'sarajevo', 'mostar', 'kotor', 'budva', 'nis'];
+                const podgoricaOrder = ['budva', 'kotor', 'mostar', 'sarajevo', 'belgrade', 'nis'];
+                
+                let orderToUse = cbOrder;
+                let startIndex = 0;
+                
+                if (currentBaseLocation === 'podgorica') {
+                    orderToUse = podgoricaOrder;
+                    startIndex = 0;
+                } else {
+                    startIndex = cbOrder.indexOf(currentBaseLocation);
+                    if(startIndex === -1) startIndex = 0;
+                }
+                
+                let rotatedCities = [];
+                for (let i = 0; i < orderToUse.length; i++) {
+                    rotatedCities.push(orderToUse[(startIndex + i) % orderToUse.length]);
+                }
+                
+                rotatedCities.forEach(city => {
+                    if(regionData[city]) {
+                        finalItinerary.push(...regionData[city]);
+                    }
+                });
+            }
             else if (selectedRegion === 'balkans') {
-                const balkansOrder = ['tirana', 'shkoder', 'prizren', 'prishtina', 'skopje', 'ohrid', 'elbasan'];
+                const balkansOrder = ['tirana', 'shkoder', 'prizren', 'pristina', 'skopje', 'ohrid', 'elbasan'];
                 let startIndex = balkansOrder.indexOf(currentBaseLocation);
                 if(startIndex === -1) startIndex = 0;
                 
@@ -1183,6 +1332,7 @@
             });
         }
 
+
         function toggleTask(taskId) {
             const li = document.getElementById(taskId);
             const checkbox = document.getElementById(`check-${taskId}`);
@@ -1240,7 +1390,7 @@
                 let locationString = '';
                 if(selectedRegion === 'greek') {
                     locationString = i18n['EN'].islands[selectedIsland] + ' Greece';
-                } else if(selectedRegion === 'central-europe' || selectedRegion === 'balkans') {
+                } else if(selectedRegion === 'central-europe' || selectedRegion === 'balkans' || selectedRegion === 'central-balkans') {
                     let match = dayData.title.match(/^(.*?)\s*\((.*?)\)$/);
                     if(match) locationString = match[1] + ' ' + match[2];
                 }
@@ -1254,6 +1404,7 @@
             `;
             displayDiv.classList.remove('hidden');
         }
+
 
         function changeLanguage(lang) {
             currentLang = lang;
