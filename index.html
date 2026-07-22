@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greek Island Itinerary</title>
+    <title>Yunan Adaları Rotası</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -152,14 +152,14 @@
         .map-container {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 320px; /* Shrunk from 400px to prevent bleeding */
             margin: 0 auto 30px auto;
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 15px; /* Slightly reduced padding */
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
@@ -182,14 +182,15 @@
             background: var(--accent-blue);
             color: #000;
             border: 2px solid #fff;
-            padding: 8px 12px;
+            padding: 6px 10px; /* Reduced button padding to fit the smaller map */
             border-radius: 20px;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Scaled down the font so they don't crowd each other */
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: all 0.2s ease;
             z-index: 10;
+            white-space: nowrap; /* Prevents text from breaking into two lines awkwardly */
         }
         
         .map-pin-btn:hover {
@@ -408,7 +409,7 @@
     </main>
 
     <script>
-        let currentLang = 'TR';
+        let currentLang = 'TR'; // Default to Turkish
         let selectedIsland = '';
         let currentBaseLocation = '';
         let taskHistoryStack = []; 
@@ -495,7 +496,6 @@
             }
         };
 
-        // --- Master Database with Safe Ext-Links ---
         const allModules = {
             'EN': {
                 chios: {
@@ -511,7 +511,7 @@
                     arrival: { id: 'arrival', title: 'Arrival & Asklepieion', morning: ["Arrive at Kos Port.", "Pick up car."], afternoon: ["Visit Asklepieion ruins.", "Sunbathe and enjoy the sea at {beach}."], evening: ["Stroll Eleftherias Square."], night: ["Drinks in Old Town."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Fresh fish."}, meat: {name:"Ali Restaurant", desc:"Kebabs."}, snacks: {name:"Broadway Restaurant", desc:"Meze."} } },
                     south: { id: 'south', title: 'Kefalos Beaches', morning: ["Drive south.", "Visit Agios Stefanos basilica."], afternoon: ["Swim at Paradise Beach.", "Water sports."], evening: ["Sunset views over the bay."], night: ["Drive back to base."], dinner: { seafood: {name:"Limionas Taverna", desc:"Seafood."}, meat: {name:"Kastri Restaurant", desc:"Grill."}, snacks: {name:"Stamatia", desc:"Snacks."} } },
                     west: { id: 'west', title: 'Castle & Coast', morning: ["Drive to Antimachia.", "See Venetian Castle."], afternoon: ["Explore Mastichari.", "Swim in the waves."], evening: ["Sunset over Kalymnos."], night: ["Relaxed evening."], dinner: { seafood: {name:"O Pserimos", desc:"Fish."}, meat: {name:"Aplo Taverna", desc:"Meat."}, snacks: {name:"Ammos Beach Bar", desc:"Drinks."} } },
-                    north: { id: 'north', title: 'Salt Lake & Sand', morning: ["Drive to Tigaki.", "Visit Alikes Salt Lake."], afternoon: ["Watch flamingos.", "Long sandy beach swim."], evening: ["Cocktails by the beach."], night: ["Lively resort night."], dinner: { seafood: {name:"Artemis Beach Bar", desc:"Fresh seafood by the water."}, meat: {name:"Sails on Kos", desc:"Highly-rated local meats."}, snacks: {name:"Smiley's Restaurant", desc:"Casual snacks."} } },
+                    north: { id: 'north', title: 'Salt Lake & Sand', morning: ["Drive to Tigaki.", "Visit Alikes Salt Lake."], afternoon: ["Watch flamingos.", "Long sandy beach swim."], evening: ["Cocktails by the beach."], night: ["Lively resort night."], dinner: { seafood: {name:"Artemis Beach Bar & Restaurant", desc:"Fresh seafood by the water."}, meat: {name:"Sails on Kos Taverna", desc:"Highly-rated local meats."}, snacks: {name:"Smiley's Restaurant", desc:"Casual snacks."} } },
                     northeast: { id: 'northeast', title: 'Mountain & Spa', morning: ["Explore Zia village.", "Hike Mount Dikaios."], afternoon: ["Relax at Therma Hot Springs.", "Natural spa soak."], evening: ["Mountain sunset view."], night: ["Buy local honey/syrup."], dinner: { seafood: {name:"Oromedon", desc:"Views."}, meat: {name:"Zia No Stress", desc:"Roast."}, snacks: {name:"Watermill of Zia", desc:"Sweets."} } },
                     east: { id: 'east', title: 'Psalidi Coast', morning: ["Drive to Psalidi.", "Coastal cycling."], afternoon: ["Windsurfing.", "Relaxing by the water."], evening: ["Visit ancient ruins nearby."], night: ["Kos town nightlife."], dinner: { seafood: {name:"Agios Fokas Beach Club", desc:"Seafood."}, meat: {name:"Taverna Romeo", desc:"Grill."}, snacks: {name:"Cavo Paradiso", desc:"Tapas."} } },
                     departure: { id: 'departure', title: 'Departure', morning: ["Pack bags.", "Load car."], afternoon: ["Visit Tree of Hippocrates.", "Drop off car."], evening: ["Final coffee."], night: ["Board ferry."], dinner: { seafood: {name:"N/A", desc:"Ferry"}, meat: {name:"N/A", desc:"Ferry"}, snacks: {name:"Port Cafe", desc:"Pastries."} } }
@@ -567,7 +567,7 @@
                     arrival: { id: 'arrival', title: 'Varış & Asklepieion', morning: ["Limana varış.", "Aracı al."], afternoon: ["Asklepieion'u gez.", "{beach} plajında güneşlenin ve denizin tadını çıkarın."], evening: ["Eleftherias Meydanı."], night: ["Eski Şehir'de içki."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Taze balık."}, meat: {name:"Ali Restaurant", desc:"Kebap."}, snacks: {name:"Broadway Restaurant", desc:"Meze."} } },
                     south: { id: 'south', title: 'Kefalos Plajları', morning: ["Güneye sür.", "Agios Stefanos bazilikası."], afternoon: ["Paradise Beach'te yüz.", "Su sporları."], evening: ["Körfezde gün batımı."], night: ["Merkeze dön."], dinner: { seafood: {name:"Limionas Taverna", desc:"Deniz ürünleri."}, meat: {name:"Kastri Restaurant", desc:"Izgara."}, snacks: {name:"Stamatia", desc:"Atıştırmalık."} } },
                     west: { id: 'west', title: 'Kale & Sahil', morning: ["Antimachia'ya sür.", "Venedik Kalesi."], afternoon: ["Mastichari'yi gez.", "Dalgalarda yüz."], evening: ["Kalimnos'a karşı gün batımı."], night: ["Rahat akşam."], dinner: { seafood: {name:"O Pserimos", desc:"Balık."}, meat: {name:"Aplo Taverna", desc:"Et."}, snacks: {name:"Ammos Beach Bar", desc:"İçecekler."} } },
-                    north: { id: 'north', title: 'Tuz Gölü', morning: ["Tigaki'ye sür.", "Tuz Gölü'nü (Alikes) gör."], afternoon: ["Flamingoları izle.", "Uzun plajda yüz."], evening: ["Sahilde kokteyl."], night: ["Canlı gece hayatı."], dinner: { seafood: {name:"Artemis Beach Bar", desc:"Deniz kenarında taze deniz ürünleri."}, meat: {name:"Sails on Kos", desc:"Yüksek puanlı yerel etler ve geleneksel yemekler."}, snacks: {name:"Smiley's Restaurant", desc:"Rahat atıştırmalıklar ve Yunan tabakları."} } },
+                    north: { id: 'north', title: 'Tuz Gölü', morning: ["Tigaki'ye sür.", "Tuz Gölü'nü (Alikes) gör."], afternoon: ["Flamingoları izle.", "Uzun plajda yüz."], evening: ["Sahilde kokteyl."], night: ["Canlı gece hayatı."], dinner: { seafood: {name:"Artemis Beach Bar & Restaurant", desc:"Deniz kenarında taze deniz ürünleri."}, meat: {name:"Sails on Kos Taverna", desc:"Yüksek puanlı yerel etler ve geleneksel yemekler."}, snacks: {name:"Smiley's Restaurant", desc:"Rahat atıştırmalıklar ve Yunan tabakları."} } },
                     northeast: { id: 'northeast', title: 'Dağ & Spa', morning: ["Zia köyünü gez.", "Dikaios Dağı'na çık."], afternoon: ["Therma Kaplıcaları.", "Doğal spa."], evening: ["Dağ manzarası."], night: ["Yerel bal al."], dinner: { seafood: {name:"Oromedon", desc:"Manzara."}, meat: {name:"Zia No Stress", desc:"Fırın et."}, snacks: {name:"Watermill of Zia", desc:"Tatlı."} } },
                     east: { id: 'east', title: 'Psalidi Sahili', morning: ["Psalidi'ye sür.", "Sahil bisikleti."], afternoon: ["Rüzgar sörfü.", "Dinlenme."], evening: ["Antik kalıntıları gez."], night: ["Kos gece hayatı."], dinner: { seafood: {name:"Agios Fokas Beach Club", desc:"Deniz ürünleri."}, meat: {name:"Taverna Romeo", desc:"Izgara."}, snacks: {name:"Cavo Paradiso", desc:"Tapas."} } },
                     departure: { id: 'departure', title: 'Ayrılış', morning: ["Çantaları topla.", "Aracı yükle."], afternoon: ["Hipokrat Ağacı.", "Aracı teslim et."], evening: ["Son kahve."], night: ["Feribota bin."], dinner: { seafood: {name:"N/A", desc:"Feribot"}, meat: {name:"N/A", desc:"Feribot"}, snacks: {name:"Port Cafe", desc:"Hamur işi."} } }
@@ -623,7 +623,7 @@
                     arrival: { id: 'arrival', title: 'Ankunft & Asklepieion', morning: ["Ankunft Hafen.", "Mietwagen."], afternoon: ["Asklepieion Ruinen.", "Sonnenbaden am {beach}."], evening: ["Eleftherias Platz."], night: ["Drinks in der Altstadt."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Frischer Fisch."}, meat: {name:"Ali Restaurant", desc:"Kebabs."}, snacks: {name:"Broadway Restaurant", desc:"Meze."} } },
                     south: { id: 'south', title: 'Kefalos Strände', morning: ["Fahrt nach Süden.", "Agios Stefanos."], afternoon: ["Paradise Beach.", "Wassersport."], evening: ["Sonnenuntergang."], night: ["Rückfahrt."], dinner: { seafood: {name:"Limionas Taverna", desc:"Meeresfrüchte."}, meat: {name:"Kastri Restaurant", desc:"Grill."}, snacks: {name:"Stamatia", desc:"Snacks."} } },
                     west: { id: 'west', title: 'Burg & Küste', morning: ["Fahrt Antimachia.", "Venezianische Burg."], afternoon: ["Mastichari erkunden.", "Schwimmen."], evening: ["Blick auf Kalymnos."], night: ["Entspannter Abend."], dinner: { seafood: {name:"O Pserimos", desc:"Fisch."}, meat: {name:"Aplo Taverna", desc:"Fleisch."}, snacks: {name:"Ammos Beach Bar", desc:"Drinks."} } },
-                    north: { id: 'north', title: 'Salzsee & Sand', morning: ["Fahrt Tigaki.", "Salzsee Alikes."], afternoon: ["Flamingos sehen.", "Sandstrand."], evening: ["Cocktails am Strand."], night: ["Lebhaftes Resort."], dinner: { seafood: {name:"Artemis Beach Bar", desc:"Frische Meeresfrüchte am Wasser."}, meat: {name:"Sails on Kos", desc:"Erstklassige lokale Fleischgerichte."}, snacks: {name:"Smiley's Restaurant", desc:"Legere Snacks."} } },
+                    north: { id: 'north', title: 'Salzsee & Sand', morning: ["Fahrt Tigaki.", "Salzsee Alikes."], afternoon: ["Flamingos sehen.", "Sandstrand."], evening: ["Cocktails am Strand."], night: ["Lebhaftes Resort."], dinner: { seafood: {name:"Artemis Beach Bar & Restaurant", desc:"Frische Meeresfrüchte am Wasser."}, meat: {name:"Sails on Kos Taverna", desc:"Erstklassige lokale Fleischgerichte."}, snacks: {name:"Smiley's Restaurant", desc:"Legere Snacks."} } },
                     northeast: { id: 'northeast', title: 'Berg & Spa', morning: ["Zia Dorf.", "Wanderung Mount Dikaios."], afternoon: ["Therma Heiße Quellen.", "Natürliches Spa."], evening: ["Bergblick Sonnenuntergang."], night: ["Lokaler Honig."], dinner: { seafood: {name:"Oromedon", desc:"Aussicht."}, meat: {name:"Zia No Stress", desc:"Braten."}, snacks: {name:"Watermill of Zia", desc:"Süßes."} } },
                     east: { id: 'east', title: 'Psalidi Küste', morning: ["Fahrt Psalidi.", "Küstenradweg."], afternoon: ["Windsurfen.", "Entspannen am Wasser."], evening: ["Antike Ruinen."], night: ["Kos Stadt Nachtleben."], dinner: { seafood: {name:"Agios Fokas Beach Club", desc:"Meeresfrüchte."}, meat: {name:"Taverna Romeo", desc:"Grill."}, snacks: {name:"Cavo Paradiso", desc:"Tapas."} } },
                     departure: { id: 'departure', title: 'Abreise', morning: ["Packen.", "Auto beladen."], afternoon: ["Baum des Hippokrates.", "Auto abgeben."], evening: ["Letzter Kaffee."], night: ["Fähre."], dinner: { seafood: {name:"N/A", desc:"Fähre"}, meat: {name:"N/A", desc:"Fähre"}, snacks: {name:"Port Cafe", desc:"Gebäck."} } }
@@ -679,7 +679,7 @@
                     arrival: { id: 'arrival', title: 'Прибытие и Асклепион', morning: ["Прибытие в Кос.", "Аренда авто."], afternoon: ["Асклепион.", "Позагорайте на пляже {beach}."], evening: ["Площадь Элефтериас."], night: ["Старый город."], dinner: { seafood: {name:"Nick the Fisherman", desc:"Свежая рыба."}, meat: {name:"Ali Restaurant", desc:"Кебабы."}, snacks: {name:"Broadway Restaurant", desc:"Мезе."} } },
                     south: { id: 'south', title: 'Пляжи Кефалоса', morning: ["Поездка на юг.", "Агиос Стефанос."], afternoon: ["Paradise Beach.", "Спорт."], evening: ["Закат над заливом."], night: ["Возвращение."], dinner: { seafood: {name:"Limionas Taverna", desc:"Морепродукты."}, meat: {name:"Kastri Restaurant", desc:"Гриль."}, snacks: {name:"Stamatia", desc:"Закуски."} } },
                     west: { id: 'west', title: 'Замок и Берег', morning: ["Антимахия.", "Замок."], afternoon: ["Мастихари.", "Купание."], evening: ["Вид на Калимнос."], night: ["Отдых."], dinner: { seafood: {name:"O Pserimos", desc:"Рыба."}, meat: {name:"Aplo Taverna", desc:"Мясо."}, snacks: {name:"Ammos Beach Bar", desc:"Напитки."} } },
-                    north: { id: 'north', title: 'Соленое Озеро', morning: ["Тигаки.", "Озеро Аликес."], afternoon: ["Фламинго.", "Пляж."], evening: ["Коктейли."], night: ["Курорт."], dinner: { seafood: {name:"Artemis Beach Bar", desc:"Свежие морепродукты у воды."}, meat: {name:"Sails on Kos", desc:"Высоко оцененные местные мясные."}, snacks: {name:"Smiley's Restaurant", desc:"Повседневные закуски."} } },
+                    north: { id: 'north', title: 'Соленое Озеро', morning: ["Тигаки.", "Озеро Аликес."], afternoon: ["Фламинго.", "Пляж."], evening: ["Коктейли."], night: ["Курорт."], dinner: { seafood: {name:"Artemis Beach Bar & Restaurant", desc:"Свежие морепродукты у воды."}, meat: {name:"Sails on Kos Taverna", desc:"Высоко оцененные местные мясные."}, snacks: {name:"Smiley's Restaurant", desc:"Повседневные закуски."} } },
                     northeast: { id: 'northeast', title: 'Горы и Спа', morning: ["Деревня Зия.", "Гора Дикеос."], afternoon: ["Термальные источники.", "Спа."], evening: ["Закат в горах."], night: ["Местный мед."], dinner: { seafood: {name:"Oromedon", desc:"Виды."}, meat: {name:"Zia No Stress", desc:"Мясо."}, snacks: {name:"Watermill of Zia", desc:"Сладости."} } },
                     east: { id: 'east', title: 'Берег Псалиди', morning: ["Псалиди.", "Велосипеды."], afternoon: ["Виндсерфинг.", "Отдых."], evening: ["Руины."], night: ["Ночной Кос."], dinner: { seafood: {name:"Agios Fokas Beach Club", desc:"Морепродукты."}, meat: {name:"Taverna Romeo", desc:"Гриль."}, snacks: {name:"Cavo Paradiso", desc:"Тапас."} } },
                     departure: { id: 'departure', title: 'Отъезд', morning: ["Сбор вещей.", "Погрузка."], afternoon: ["Дерево Гиппократа.", "Сдача авто."], evening: ["Кофе."], night: ["Паром."], dinner: { seafood: {name:"N/A", desc:"Паром"}, meat: {name:"N/A", desc:"Паром"}, snacks: {name:"Port Cafe", desc:"Выпечка."} } }
@@ -723,8 +723,6 @@
             }
         };
 
-        // --- JavaScript Logic ---
-
         function hideAll() {
             document.getElementById('island-screen').classList.add('hidden');
             document.getElementById('setup-screen').classList.add('hidden');
@@ -736,14 +734,12 @@
             document.getElementById(targetId).classList.remove('hidden');
             taskHistoryStack = []; 
             if(targetId === 'island-screen') {
-                // FIXED: Removed the double URL concatenation
                 document.body.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('${islandImages['home']}')`;
             }
         }
 
         function selectIsland(island) {
             selectedIsland = island;
-            // FIXED: Removed the double URL concatenation here as well
             document.body.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.4), rgba(10, 10, 10, 0.7)), url('${islandImages[island]}')`;
             hideAll();
             document.getElementById('setup-screen').classList.remove('hidden');
@@ -757,12 +753,10 @@
             const pins = mapPins[selectedIsland];
             const langData = i18n[currentLang];
             
-            // The app will look for an image named exactly like this in your GitHub repo!
             const mapImageUrl = `https://dogierez.github.io/greek-islands/${selectedIsland}-map.jpg`;
             
             container.innerHTML = `
                 <div class="real-map-wrapper" style="background-image: url('${mapImageUrl}');">
-                    <!-- Subtle dark overlay to ensure buttons pop over any map -->
                     <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.15);"></div>
                     
                     <button class="map-pin-btn" style="top: ${pins.north.top}; left: ${pins.north.left};" onclick="startApp('north')">${langData.north}</button>
@@ -844,8 +838,6 @@
 
                 let dinnerId = `dinner-${selectedIsland}-${day.id}`;
                 
-                // Determine which region's dinner to show. 
-                // Day 1 (index 0) dynamically uses the user's chosen base location.
                 let dinnerSourceId = day.id;
                 if (index === 0) {
                     dinnerSourceId = currentBaseLocation === 'center' ? 'arrival' : currentBaseLocation;
@@ -926,7 +918,6 @@
             const dayData = allModules[currentLang][selectedIsland][dayId];
             const restData = dayData.dinner[type];
 
-            // 1. Extract the raw restaurant name (strips out the broken dummy <a> links)
             let cleanName = restData.name;
             const extractRegex = /<a[^>]*>(.*?)<\/a>/;
             if (extractRegex.test(cleanName)) {
@@ -935,9 +926,8 @@
 
             let displayHtml = cleanName;
             
-            // 2. Dynamically generate a 100% accurate Google Maps link
             if (cleanName !== "N/A" && !cleanName.includes("Ferry") && !cleanName.includes("Feribot")) {
-                const islandEnglishName = i18n['EN'].islands[selectedIsland]; // Ensure search uses standard English island name
+                const islandEnglishName = i18n['EN'].islands[selectedIsland]; 
                 const googleMapsQuery = encodeURIComponent(`${cleanName} restaurant ${islandEnglishName} Greece`);
                 displayHtml = `<a href="https://www.google.com/maps/search/?api=1&query=${googleMapsQuery}" target="_blank" title="View on Google Maps">${cleanName}</a>`;
             }
@@ -969,7 +959,7 @@
             document.getElementById('btn-samos').textContent = "🇬🇷 " + i18n[lang].islands.samos;
 
             if (!document.getElementById('setup-screen').classList.contains('hidden')) {
-                renderMap(); // Refresh the map if we change language while viewing it
+                renderMap(); 
             }
 
             if (!document.getElementById('itinerary-container').classList.contains('hidden')) {
